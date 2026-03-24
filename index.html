@@ -445,7 +445,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);
 var SB_URL = 'https://rguqefwhlzehpzgljbdo.supabase.co';
 var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJndXFlZndobHplaHB6Z2xqYmRvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNzYyMjYsImV4cCI6MjA4OTk1MjIyNn0.N8-BWjyTFMpdoTbKBik8jQdyA7YCPiq7nT_HdfxcMZ8';
 var EDGE = SB_URL + '/functions/v1/notion-sync';
-var AI = 'https://api.anthropic.com/v1/messages';
+var AI = SB_URL + '/functions/v1/notion-sync'; // proxied via Edge Function
 
 // ═══════════════════════════════════
 // STATE
@@ -662,7 +662,7 @@ async function sendM2(userText) {
   if (userText !== null) { m2History.push({ role:'user', content:userText }); addBubble('m2-feed', 'user', userText); saveM2(); }
   m2Busy = true; setTyping('m2-typing', true);
   try {
-    var r = await fetch(AI, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:1000, system:M2_SYSTEM, messages:m2History }) });
+    var r = await fetch(AI, { method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+SB_KEY}, body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:1000, system:M2_SYSTEM, messages:m2History }) });
     var d = await r.json();
     var reply = d.content && d.content[0] ? d.content[0].text : 'Something went wrong — please try again.';
     m2History.push({ role:'assistant', content:reply });
@@ -830,7 +830,7 @@ async function sendM4(userText) {
   if (userText !== null) { m4History.push({ role:'user', content:userText }); addBubble('m4-feed', 'user', userText); saveM4(); }
   m4Busy = true; setTyping('m4-typing', true);
   try {
-    var r = await fetch(AI, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:1000, system:M4_SYSTEM, messages:m4History }) });
+    var r = await fetch(AI, { method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+SB_KEY}, body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:1000, system:M4_SYSTEM, messages:m4History }) });
     var d = await r.json();
     var reply = d.content && d.content[0] ? d.content[0].text : 'Something went wrong — please try again.';
     m4History.push({ role:'assistant', content:reply });
