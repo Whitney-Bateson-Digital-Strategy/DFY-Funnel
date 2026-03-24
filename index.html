@@ -6,553 +6,154 @@
 <title>Whitney Bateson — Done For You Funnel</title>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --teal: #02525d;
-    --teal-dark: #013840;
-    --teal-mid: #3a6068;
-    --coral: #ff7f50;
-    --blush: #ffcdcd;
-    --blush-light: #fff5f5;
-    --lime: #e3f696;
-    --sky: #aed3dd;
-    --sky-light: #c8e6ee;
-    --cream: #efeae3;
-    --white: #ffffff;
-    --text: #013840;
-    --text-mid: #3a6068;
-    --text-light: #7a9499;
-    --border: #d4e4e7;
-    --radius: 12px;
-    --radius-sm: 8px;
-  }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--cream);
-    color: var(--text);
-    min-height: 100vh;
-  }
-
-  /* SCREENS */
-  .screen { display: none; min-height: 100vh; }
-  .screen.active { display: flex; flex-direction: column; }
-
-  /* ── LANDING ── */
-  #screen-landing {
-    align-items: center;
-    justify-content: center;
-    background: var(--teal-dark);
-    padding: 2rem;
-  }
-
-  .landing-card {
-    background: var(--white);
-    border-radius: 20px;
-    padding: 3rem 2.5rem;
-    max-width: 480px;
-    width: 100%;
-    text-align: center;
-  }
-
-  .brand-eyebrow {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--coral);
-    margin-bottom: 0.5rem;
-  }
-
-  .brand-name {
-    font-family: 'Lora', serif;
-    font-size: 28px;
-    font-weight: 600;
-    color: var(--teal);
-    line-height: 1.2;
-    margin-bottom: 0.25rem;
-  }
-
-  .brand-sub {
-    font-size: 13px;
-    color: var(--text-mid);
-    margin-bottom: 2rem;
-    letter-spacing: 0.05em;
-  }
-
-  .landing-divider {
-    width: 40px;
-    height: 2px;
-    background: var(--coral);
-    margin: 0 auto 2rem;
-    border-radius: 2px;
-  }
-
-  .landing-headline {
-    font-family: 'Lora', serif;
-    font-size: 22px;
-    color: var(--teal);
-    margin-bottom: 0.75rem;
-    line-height: 1.4;
-  }
-
-  .landing-body {
-    font-size: 14px;
-    color: var(--text-mid);
-    line-height: 1.7;
-    margin-bottom: 2rem;
-  }
-
-  .email-label {
-    display: block;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-mid);
-    text-align: left;
-    margin-bottom: 0.4rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-
-  .email-input {
-    width: 100%;
-    padding: 0.85rem 1rem;
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-sm);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    color: var(--text);
-    background: var(--white);
-    margin-bottom: 0.75rem;
-    transition: border-color 0.2s;
-    outline: none;
-  }
-
-  .email-input:focus { border-color: var(--teal); }
-
-  .returning-note {
-    font-size: 12px;
-    color: var(--text-light);
-    margin-bottom: 1.25rem;
-    font-style: italic;
-  }
-
-  .btn-primary {
-    width: 100%;
-    padding: 0.9rem 1.5rem;
-    background: var(--coral);
-    color: var(--white);
-    border: none;
-    border-radius: var(--radius-sm);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
-  }
-
-  .btn-primary:hover { background: #e86e3f; }
-  .btn-primary:active { transform: scale(0.99); }
-
-  .welcome-back-msg {
-    background: var(--sky-light);
-    border-radius: var(--radius-sm);
-    padding: 0.75rem 1rem;
-    font-size: 13px;
-    color: var(--teal);
-    margin-bottom: 1rem;
-    display: none;
-    text-align: left;
-  }
-
-  /* ── DASHBOARD ── */
-  #screen-dashboard { background: var(--cream); }
-
-  .dashboard-header {
-    background: var(--teal-dark);
-    padding: 1.5rem 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .dash-brand {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .dash-brand-name {
-    font-family: 'Lora', serif;
-    color: var(--white);
-    font-size: 18px;
-    font-weight: 600;
-  }
-
-  .dash-brand-sub {
-    font-size: 11px;
-    color: var(--sky);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  .dash-client-pill {
-    background: rgba(255,255,255,0.1);
-    border-radius: 20px;
-    padding: 0.4rem 1rem;
-    font-size: 12px;
-    color: var(--sky-light);
-  }
-
-  .dashboard-body {
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 2.5rem 1.5rem;
-  }
-
-  .dash-welcome {
-    margin-bottom: 2rem;
-  }
-
-  .dash-welcome h2 {
-    font-family: 'Lora', serif;
-    font-size: 24px;
-    color: var(--teal);
-    margin-bottom: 0.4rem;
-  }
-
-  .dash-welcome p {
-    font-size: 14px;
-    color: var(--text-mid);
-    line-height: 1.6;
-  }
-
-  .progress-bar-wrap {
-    background: var(--sky-light);
-    border-radius: 20px;
-    height: 6px;
-    margin-bottom: 2rem;
-    overflow: hidden;
-  }
-
-  .progress-bar-fill {
-    height: 100%;
-    background: var(--coral);
-    border-radius: 20px;
-    transition: width 0.5s ease;
-  }
-
-  .progress-label {
-    font-size: 12px;
-    color: var(--text-light);
-    margin-bottom: 0.5rem;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  /* Module cards */
-  .module-list { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; }
-
-  .module-card {
-    background: var(--white);
-    border-radius: var(--radius);
-    padding: 1.25rem 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1.25rem;
-    border: 1.5px solid var(--border);
-    cursor: pointer;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-
-  .module-card:hover:not(.locked) { border-color: var(--teal); box-shadow: 0 2px 12px rgba(2,82,93,0.08); }
-  .module-card.locked { cursor: default; opacity: 0.55; }
-  .module-card.completed { border-color: var(--sky); background: #f7fcfd; }
-
-  .module-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    flex-shrink: 0;
-  }
-
-  .module-icon.teal { background: var(--sky-light); }
-  .module-icon.coral { background: #fff0eb; }
-  .module-icon.lime { background: #f5fcd8; }
-
-  .module-info { flex: 1; }
-
-  .module-number {
-    font-size: 10px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--text-light);
-    margin-bottom: 0.2rem;
-  }
-
-  .module-title {
-    font-family: 'Lora', serif;
-    font-size: 16px;
-    color: var(--teal);
-    margin-bottom: 0.2rem;
-  }
-
-  .module-desc {
-    font-size: 12px;
-    color: var(--text-mid);
-  }
-
-  .module-status {
-    font-size: 12px;
-    font-weight: 500;
-    padding: 0.3rem 0.75rem;
-    border-radius: 20px;
-    flex-shrink: 0;
-  }
-
-  .status-todo { background: var(--cream); color: var(--text-mid); }
-  .status-inprogress { background: #fff7f0; color: var(--coral); }
-  .status-done { background: #edf8f0; color: #2d7a4a; }
-  .status-locked { background: var(--cream); color: var(--text-light); }
-
-  /* Access checklist card */
-  .access-card {
-    background: var(--white);
-    border-radius: var(--radius);
-    padding: 1.25rem 1.5rem;
-    border: 1.5px solid var(--border);
-    margin-bottom: 2rem;
-  }
-
-  .access-card h3 {
-    font-family: 'Lora', serif;
-    font-size: 15px;
-    color: var(--teal);
-    margin-bottom: 0.25rem;
-  }
-
-  .access-card p {
-    font-size: 12px;
-    color: var(--text-mid);
-    margin-bottom: 1rem;
-  }
-
-  .access-items { display: flex; flex-direction: column; gap: 0.6rem; }
-
-  .access-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 13px;
-    color: var(--text);
-  }
-
-  .access-check {
-    width: 18px;
-    height: 18px;
-    border-radius: 4px;
-    border: 1.5px solid var(--border);
-    cursor: pointer;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-  }
-
-  .access-check.checked { background: var(--teal); border-color: var(--teal); color: white; font-size: 11px; }
-
-  /* ── MODULE 1 ── */
-  #screen-module1 { background: var(--cream); }
-
-  .module-header {
-    background: var(--teal-dark);
-    padding: 1.25rem 2rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .back-btn {
-    background: rgba(255,255,255,0.1);
-    border: none;
-    color: var(--sky-light);
-    font-size: 13px;
-    padding: 0.4rem 0.85rem;
-    border-radius: 20px;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: background 0.2s;
-  }
-
-  .back-btn:hover { background: rgba(255,255,255,0.18); }
-
-  .module-header-info { flex: 1; }
-
-  .module-header-eyebrow {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--sky);
-    margin-bottom: 0.2rem;
-  }
-
-  .module-header-title {
-    font-family: 'Lora', serif;
-    font-size: 18px;
-    color: var(--white);
-  }
-
-  .module-body {
-    max-width: 640px;
-    margin: 0 auto;
-    padding: 2rem 1.5rem 4rem;
-  }
-
-  .section-label {
-    font-size: 10px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--coral);
-    margin-bottom: 1.25rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .field-group { margin-bottom: 1.5rem; }
-
-  .field-label {
-    display: block;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 0.4rem;
-  }
-
-  .field-hint {
-    font-size: 12px;
-    color: var(--text-light);
-    margin-bottom: 0.5rem;
-    font-style: italic;
-  }
-
-  .field-input, .field-select, .field-textarea {
-    width: 100%;
-    padding: 0.8rem 1rem;
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-sm);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    color: var(--text);
-    background: var(--white);
-    transition: border-color 0.2s;
-    outline: none;
-  }
-
-  .field-input:focus, .field-select:focus, .field-textarea:focus { border-color: var(--teal); }
-
-  .field-textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
-
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-
-  .radio-group { display: flex; flex-direction: column; gap: 0.5rem; }
-
-  .radio-option {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    padding: 0.75rem 1rem;
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
-    background: var(--white);
-  }
-
-  .radio-option:hover { border-color: var(--teal); }
-  .radio-option.selected { border-color: var(--teal); background: #f0f8fa; }
-
-  .radio-option input { margin-top: 2px; accent-color: var(--teal); }
-
-  .radio-label { font-size: 14px; color: var(--text); }
-  .radio-sublabel { font-size: 12px; color: var(--text-light); margin-top: 2px; }
-
-  .platform-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
-
-  .section-divider {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 2rem 0;
-  }
-
-  .save-bar {
-    position: sticky;
-    bottom: 0;
-    background: var(--white);
-    border-top: 1px solid var(--border);
-    padding: 1rem 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-
-  .save-note { font-size: 12px; color: var(--text-light); }
-
-  .btn-save {
-    padding: 0.75rem 2rem;
-    background: var(--teal);
-    color: var(--white);
-    border: none;
-    border-radius: var(--radius-sm);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-
-  .btn-save:hover { background: var(--teal-mid); }
-
-  .saved-toast {
-    position: fixed;
-    bottom: 80px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--teal);
-    color: white;
-    padding: 0.6rem 1.25rem;
-    border-radius: 20px;
-    font-size: 13px;
-    opacity: 0;
-    transition: opacity 0.3s;
-    pointer-events: none;
-    white-space: nowrap;
-  }
-
-  .saved-toast.show { opacity: 1; }
-
-  @media (max-width: 520px) {
-    .two-col { grid-template-columns: 1fr; }
-    .platform-grid { grid-template-columns: 1fr; }
-    .landing-card { padding: 2rem 1.5rem; }
-    .dashboard-header { padding: 1.25rem; }
-    .module-header { padding: 1rem 1.25rem; }
-  }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#02525d;--teal-dark:#013840;--teal-mid:#3a6068;
+  --coral:#ff7f50;--blush:#ffcdcd;--lime:#e3f696;
+  --sky:#aed3dd;--sky-light:#c8e6ee;--cream:#efeae3;
+  --white:#ffffff;--text:#013840;--text-mid:#3a6068;
+  --text-light:#7a9499;--border:#d4e4e7;
+  --radius:12px;--radius-sm:8px;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);min-height:100vh}
+.screen{display:none;min-height:100vh;flex-direction:column}
+.screen.active{display:flex}
+
+/* LANDING */
+#screen-landing{align-items:center;justify-content:center;background:var(--teal-dark);padding:2rem}
+.landing-card{background:var(--white);border-radius:20px;padding:3rem 2.5rem;max-width:460px;width:100%;text-align:center}
+.brand-eyebrow{font-size:11px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--coral);margin-bottom:.4rem}
+.brand-name{font-family:'Lora',serif;font-size:28px;font-weight:600;color:var(--teal);margin-bottom:.2rem}
+.brand-sub{font-size:13px;color:var(--text-mid);margin-bottom:1.75rem;letter-spacing:.05em}
+.landing-divider{width:40px;height:2px;background:var(--coral);margin:0 auto 1.75rem;border-radius:2px}
+.landing-headline{font-family:'Lora',serif;font-size:21px;color:var(--teal);margin-bottom:.6rem;line-height:1.4}
+.landing-body{font-size:14px;color:var(--text-mid);line-height:1.7;margin-bottom:1.75rem}
+.welcome-back{background:var(--sky-light);border-radius:var(--radius-sm);padding:.6rem 1rem;font-size:13px;color:var(--teal);margin-bottom:.75rem;display:none;text-align:left}
+.email-label{display:block;font-size:11px;font-weight:500;color:var(--text-mid);text-align:left;margin-bottom:.35rem;letter-spacing:.06em;text-transform:uppercase}
+.email-input{width:100%;padding:.8rem 1rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:15px;color:var(--text);background:var(--white);margin-bottom:.6rem;transition:border-color .2s;outline:none}
+.email-input:focus{border-color:var(--teal)}
+.returning-note{font-size:12px;color:var(--text-light);margin-bottom:1.1rem;font-style:italic}
+.btn-primary{width:100%;padding:.85rem 1.5rem;background:var(--coral);color:var(--white);border:none;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;transition:background .2s}
+.btn-primary:hover{background:#e86e3f}
+.btn-primary:disabled{opacity:.6;cursor:not-allowed}
+
+/* DASHBOARD */
+#screen-dashboard{background:var(--cream)}
+.dash-header{background:var(--teal-dark);padding:1.4rem 2rem;display:flex;align-items:center;justify-content:space-between}
+.dash-brand-name{font-family:'Lora',serif;color:var(--white);font-size:18px;font-weight:600}
+.dash-brand-sub{font-size:11px;color:var(--sky);letter-spacing:.1em;text-transform:uppercase}
+.dash-pill{background:rgba(255,255,255,.1);border-radius:20px;padding:.35rem .9rem;font-size:12px;color:var(--sky-light)}
+.dash-body{max-width:660px;margin:0 auto;padding:2.25rem 1.5rem}
+.dash-welcome h2{font-family:'Lora',serif;font-size:23px;color:var(--teal);margin-bottom:.35rem}
+.dash-welcome p{font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:1.75rem}
+.prog-label{font-size:12px;color:var(--text-light);display:flex;justify-content:space-between;margin-bottom:.4rem}
+.prog-bar-wrap{background:var(--sky-light);border-radius:20px;height:6px;margin-bottom:1.75rem;overflow:hidden}
+.prog-bar-fill{height:100%;background:var(--coral);border-radius:20px;transition:width .5s ease}
+.module-list{display:flex;flex-direction:column;gap:.85rem;margin-bottom:1.75rem}
+.module-card{background:var(--white);border-radius:var(--radius);padding:1.2rem 1.4rem;display:flex;align-items:center;gap:1.1rem;border:1.5px solid var(--border);cursor:pointer;transition:border-color .2s,box-shadow .2s}
+.module-card:hover:not(.locked){border-color:var(--teal);box-shadow:0 2px 12px rgba(2,82,93,.08)}
+.module-card.locked{cursor:default;opacity:.5}
+.module-card.done{border-color:var(--sky);background:#f7fcfd}
+.mod-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.mod-icon.teal{background:var(--sky-light)}
+.mod-icon.coral{background:#fff0eb}
+.mod-icon.lime{background:#f5fcd8}
+.mod-num{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.12em;color:var(--text-light);margin-bottom:.15rem}
+.mod-title{font-family:'Lora',serif;font-size:15px;color:var(--teal);margin-bottom:.15rem}
+.mod-desc{font-size:12px;color:var(--text-mid)}
+.mod-status{font-size:12px;font-weight:500;padding:.25rem .7rem;border-radius:20px;flex-shrink:0;white-space:nowrap}
+.s-todo{background:var(--cream);color:var(--text-mid)}
+.s-inprogress{background:#fff7f0;color:var(--coral)}
+.s-done{background:#edf8f0;color:#2d7a4a}
+.s-locked{background:var(--cream);color:var(--text-light)}
+.access-card{background:var(--white);border-radius:var(--radius);padding:1.2rem 1.4rem;border:1.5px solid var(--border)}
+.access-card h3{font-family:'Lora',serif;font-size:15px;color:var(--teal);margin-bottom:.2rem}
+.access-card p{font-size:12px;color:var(--text-mid);margin-bottom:.9rem}
+.access-item{display:flex;align-items:center;gap:.7rem;font-size:13px;color:var(--text);margin-bottom:.5rem}
+.access-check{width:18px;height:18px;border-radius:4px;border:1.5px solid var(--border);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;font-size:11px}
+.access-check.checked{background:var(--teal);border-color:var(--teal);color:white}
+
+/* MODULE HEADER */
+.mod-header{background:var(--teal-dark);padding:1.2rem 1.75rem;display:flex;align-items:center;gap:1rem;flex-shrink:0}
+.back-btn{background:rgba(255,255,255,.1);border:none;color:var(--sky-light);font-size:13px;padding:.35rem .8rem;border-radius:20px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s}
+.back-btn:hover{background:rgba(255,255,255,.18)}
+.mod-header-eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--sky);margin-bottom:.15rem}
+.mod-header-title{font-family:'Lora',serif;font-size:17px;color:var(--white)}
+
+/* MODULE BODY */
+.mod-body{max-width:620px;margin:0 auto;padding:2rem 1.5rem 5rem;width:100%}
+.sec-label{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.15em;color:var(--coral);margin-bottom:1.1rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}
+.field-group{margin-bottom:1.4rem}
+.field-label{display:block;font-size:13px;font-weight:500;color:var(--text);margin-bottom:.35rem}
+.field-hint{font-size:12px;color:var(--text-light);margin-bottom:.45rem;font-style:italic}
+.field-input,.field-select,.field-textarea{width:100%;padding:.75rem 1rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:var(--white);transition:border-color .2s;outline:none}
+.field-input:focus,.field-select:focus,.field-textarea:focus{border-color:var(--teal)}
+.field-textarea{resize:vertical;min-height:85px;line-height:1.6}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.radio-group{display:flex;flex-direction:column;gap:.45rem}
+.radio-option{display:flex;align-items:flex-start;gap:.7rem;padding:.7rem .9rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;transition:border-color .2s,background .2s;background:var(--white)}
+.radio-option:hover{border-color:var(--teal)}
+.radio-option.selected{border-color:var(--teal);background:#f0f8fa}
+.radio-option input{margin-top:2px;accent-color:var(--teal);flex-shrink:0}
+.radio-label{font-size:14px;color:var(--text)}
+.radio-sub{font-size:12px;color:var(--text-light);margin-top:2px}
+.sec-divider{border:none;border-top:1px solid var(--border);margin:1.75rem 0}
+.save-bar{position:sticky;bottom:0;background:var(--white);border-top:1px solid var(--border);padding:.9rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.save-note{font-size:12px;color:var(--text-light)}
+.btn-save{padding:.7rem 1.75rem;background:var(--teal);color:var(--white);border:none;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:background .2s}
+.btn-save:hover{background:var(--teal-mid)}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--teal);color:white;padding:.55rem 1.2rem;border-radius:20px;font-size:13px;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;z-index:999}
+.toast.show{opacity:1}
+
+/* MODULE 3 BRANCH CARDS */
+.branch-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.3rem;cursor:pointer;transition:border-color .2s,box-shadow .2s;margin-bottom:.6rem}
+.branch-card:hover{border-color:var(--teal);box-shadow:0 2px 10px rgba(2,82,93,.07)}
+.branch-card.selected{border-color:var(--coral);background:#fff8f5}
+.branch-card-title{font-family:'Lora',serif;font-size:15px;color:var(--teal);margin-bottom:.2rem}
+.branch-card-desc{font-size:12px;color:var(--text-mid)}
+.m3-step{display:none}.m3-step.visible{display:block}
+.step-dots{display:flex;align-items:center;gap:.45rem;margin-bottom:1.4rem}
+.step-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:background .2s}
+.step-dot.active{background:var(--coral)}.step-dot.done{background:var(--teal)}
+.step-lbl{font-size:12px;color:var(--text-light);margin-left:.2rem}
+
+/* CHAT MODULES */
+.chat-layout{display:flex;flex-direction:column;height:calc(100vh - 64px);max-width:660px;margin:0 auto;width:100%;padding:0 1rem}
+.chat-intro{background:var(--sky-light);border-radius:var(--radius);padding:.9rem 1.2rem;margin:1.1rem 0 .6rem;font-size:13px;color:var(--teal);line-height:1.6;border:1px solid var(--sky);flex-shrink:0}
+.chat-feed{flex:1;overflow-y:auto;padding:.6rem 0 .8rem;display:flex;flex-direction:column;gap:.65rem}
+.bubble-wrap{display:flex}
+.bubble-wrap.user{justify-content:flex-end}
+.bubble-wrap.assistant{justify-content:flex-start}
+.bubble{max-width:82%;padding:.7rem .95rem;border-radius:16px;font-size:14px;line-height:1.65}
+.bubble.assistant{background:var(--white);color:var(--text);border:1px solid var(--border);border-bottom-left-radius:4px}
+.bubble.user{background:var(--teal);color:var(--white);border-bottom-right-radius:4px}
+.typing-indicator{display:none;align-items:center;gap:4px;padding:.7rem .95rem;background:var(--white);border:1px solid var(--border);border-radius:16px;border-bottom-left-radius:4px;width:fit-content}
+.typing-dot{width:7px;height:7px;background:var(--teal-mid);border-radius:50%;animation:typePulse 1.2s ease-in-out infinite}
+.typing-dot:nth-child(2){animation-delay:.2s}
+.typing-dot:nth-child(3){animation-delay:.4s}
+@keyframes typePulse{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+.summary-box{display:none;background:var(--white);border:1.5px solid var(--sky);border-radius:var(--radius);padding:1.1rem 1.4rem;margin:.4rem 0}
+.summary-badge{background:var(--lime);color:var(--teal-dark);font-size:11px;font-weight:500;padding:.2rem .55rem;border-radius:20px;letter-spacing:.05em;text-transform:uppercase}
+.summary-title{font-family:'Lora',serif;font-size:15px;color:var(--teal);margin-left:.45rem}
+.summary-header{display:flex;align-items:center;margin-bottom:.7rem}
+.summary-content{font-size:13px;color:var(--text-mid);line-height:1.8}
+.chat-input-area{flex-shrink:0;padding:.65rem 0 .85rem;display:flex;gap:.55rem;align-items:flex-end}
+.chat-input{flex:1;padding:.7rem .95rem;border:1.5px solid var(--border);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:var(--white);resize:none;outline:none;min-height:46px;max-height:120px;line-height:1.5;transition:border-color .2s}
+.chat-input:focus{border-color:var(--teal)}
+.send-btn{width:42px;height:42px;background:var(--coral);border:none;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0}
+.send-btn:hover{background:#e86e3f}
+.send-btn svg{width:17px;height:17px;fill:white}
+.complete-btn{display:none;width:100%;padding:.85rem;background:var(--teal);color:white;border:none;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;margin:.65rem 0 1.25rem;transition:background .2s}
+.complete-btn:hover{background:var(--teal-mid)}
+
+@media(max-width:520px){.two-col{grid-template-columns:1fr}.landing-card{padding:2rem 1.25rem}.dash-header{padding:1.1rem 1.25rem}}
 </style>
 </head>
 <body>
 
-<!-- ══════════════════════════════════════════
-     SCREEN 1: LANDING / EMAIL ENTRY
-══════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════
+     LANDING
+═══════════════════════════════════ -->
 <div id="screen-landing" class="screen active">
   <div class="landing-card">
     <div class="brand-eyebrow">Done For You Funnel</div>
@@ -560,1701 +161,757 @@
     <div class="brand-sub">Digital Strategy</div>
     <div class="landing-divider"></div>
     <div class="landing-headline">Let's build your lead gen funnel.</div>
-    <p class="landing-body">This is your onboarding hub. Complete each module at your own pace — your progress saves automatically so you can always pick up right where you left off.</p>
-
-    <div id="welcome-back-msg" class="welcome-back-msg">
-      ✓ Welcome back! We found your saved progress.
-    </div>
-
+    <p class="landing-body">Complete each module at your own pace — your progress saves automatically so you can always pick up right where you left off.</p>
+    <div class="welcome-back" id="welcome-back">✓ Welcome back! We found your saved progress.</div>
     <label class="email-label" for="email-input">Your email address</label>
-    <input class="email-input" id="email-input" type="email" placeholder="you@yourpractice.com" />
+    <input class="email-input" id="email-input" type="email" placeholder="you@yourpractice.com">
     <p class="returning-note">Returning? Use the same email to pick up where you left off.</p>
-    <button class="btn-primary" onclick="handleEmailSubmit()">Continue →</button>
+    <button class="btn-primary" id="continue-btn">Continue →</button>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     SCREEN 2: DASHBOARD
-══════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════
+     DASHBOARD
+═══════════════════════════════════ -->
 <div id="screen-dashboard" class="screen">
-  <div class="dashboard-header">
-    <div class="dash-brand">
+  <div class="dash-header">
+    <div>
       <div class="dash-brand-name">Whitney Bateson</div>
       <div class="dash-brand-sub">Done For You Funnel</div>
     </div>
-    <div class="dash-client-pill" id="dash-client-email">—</div>
+    <div class="dash-pill" id="dash-email">—</div>
   </div>
-
-  <div class="dashboard-body">
+  <div class="dash-body">
     <div class="dash-welcome">
       <h2 id="dash-greeting">Welcome! Let's get started.</h2>
-      <p>Complete each module below — you can do them in order, or come back to finish one later. We'll use everything you share here to build your funnel.</p>
+      <p>Complete each module below. You can do them in order or come back to finish one later. We'll use everything you share to build your funnel.</p>
     </div>
-
-    <div class="progress-label">
-      <span>Your progress</span>
-      <span id="progress-text">0 of 4 complete</span>
-    </div>
-    <div class="progress-bar-wrap">
-      <div class="progress-bar-fill" id="progress-bar" style="width: 0%"></div>
-    </div>
-
+    <div class="prog-label"><span>Your progress</span><span id="prog-text">0 of 4 complete</span></div>
+    <div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-bar" style="width:0%"></div></div>
     <div class="module-list">
-
-      <div class="module-card" id="card-m1" onclick="goToModule1()">
-        <div class="module-icon teal">🏢</div>
-        <div class="module-info">
-          <div class="module-number">Module 1</div>
-          <div class="module-title">Business + Funnel Basics</div>
-          <div class="module-desc">Your practice, offer, platforms, and funnel goal</div>
-        </div>
-        <div class="module-status status-todo" id="status-m1">Start</div>
+      <div class="module-card" id="card-m1">
+        <div class="mod-icon teal">🏢</div>
+        <div style="flex:1"><div class="mod-num">Module 1</div><div class="mod-title">Business + Funnel Basics</div><div class="mod-desc">Your practice, offer, platforms, and funnel goal</div></div>
+        <div class="mod-status s-todo" id="status-m1">Start</div>
       </div>
-
       <div class="module-card locked" id="card-m2">
-        <div class="module-icon teal">👤</div>
-        <div class="module-info">
-          <div class="module-number">Module 2</div>
-          <div class="module-title">Your Ideal Client</div>
-          <div class="module-desc">A guided conversation about who you help and how</div>
-        </div>
-        <div class="module-status status-locked" id="status-m2">Locked</div>
+        <div class="mod-icon teal">👤</div>
+        <div style="flex:1"><div class="mod-num">Module 2</div><div class="mod-title">Your Ideal Client</div><div class="mod-desc">A guided conversation about who you help and how</div></div>
+        <div class="mod-status s-locked" id="status-m2">Locked</div>
       </div>
-
       <div class="module-card locked" id="card-m3">
-        <div class="module-icon coral">🧲</div>
-        <div class="module-info">
-          <div class="module-number">Module 3</div>
-          <div class="module-title">Your Lead Magnet</div>
-          <div class="module-desc">Create new, use existing, or improve what you have</div>
-        </div>
-        <div class="module-status status-locked" id="status-m3">Locked</div>
+        <div class="mod-icon coral">🧲</div>
+        <div style="flex:1"><div class="mod-num">Module 3</div><div class="mod-title">Your Lead Magnet</div><div class="mod-desc">Create new, use existing, or improve what you have</div></div>
+        <div class="mod-status s-locked" id="status-m3">Locked</div>
       </div>
-
       <div class="module-card locked" id="card-m4">
-        <div class="module-icon lime">✍️</div>
-        <div class="module-info">
-          <div class="module-number">Module 4</div>
-          <div class="module-title">Voice + Email Intel</div>
-          <div class="module-desc">Your tone, writing samples, and email content details</div>
-        </div>
-        <div class="module-status status-locked" id="status-m4">Locked</div>
+        <div class="mod-icon lime">✍️</div>
+        <div style="flex:1"><div class="mod-num">Module 4</div><div class="mod-title">Voice + Email Intel</div><div class="mod-desc">Your tone, writing samples, and email content details</div></div>
+        <div class="mod-status s-locked" id="status-m4">Locked</div>
       </div>
-
     </div>
-
-    <!-- Access checklist -->
     <div class="access-card">
       <h3>📋 Platform Access Checklist</h3>
-      <p>We'll need access to a few things to set everything up. Check each off once you've shared access with our team.</p>
-      <div class="access-items">
-        <div class="access-item">
-          <div class="access-check" id="chk-website" onclick="toggleCheck('website')"></div>
-          <span>Website admin access shared</span>
-        </div>
-        <div class="access-item">
-          <div class="access-check" id="chk-email" onclick="toggleCheck('email')"></div>
-          <span>Email platform access shared</span>
-        </div>
-        <div class="access-item">
-          <div class="access-check" id="chk-fb" onclick="toggleCheck('fb')"></div>
-          <span>Facebook Page + Ads Manager access shared</span>
-        </div>
-      </div>
+      <p>Check each off once you've shared access with our team.</p>
+      <div class="access-item"><div class="access-check" id="chk-website" onclick="toggleAccess('website')"></div><span>Website admin access shared</span></div>
+      <div class="access-item"><div class="access-check" id="chk-email" onclick="toggleAccess('email')"></div><span>Email platform access shared</span></div>
+      <div class="access-item"><div class="access-check" id="chk-fb" onclick="toggleAccess('fb')"></div><span>Facebook Page + Ads Manager access shared</span></div>
     </div>
-
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     SCREEN 3: MODULE 1
-══════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════
+     MODULE 1
+═══════════════════════════════════ -->
 <div id="screen-module1" class="screen">
-  <div class="module-header">
-    <button class="back-btn" onclick="goToDashboard()">← Dashboard</button>
-    <div class="module-header-info">
-      <div class="module-header-eyebrow">Module 1</div>
-      <div class="module-header-title">Business + Funnel Basics</div>
-    </div>
+  <div class="mod-header">
+    <button class="back-btn" onclick="goTo('dashboard')">← Dashboard</button>
+    <div><div class="mod-header-eyebrow">Module 1</div><div class="mod-header-title">Business + Funnel Basics</div></div>
   </div>
-
-  <div class="module-body">
-
-    <!-- Section A: About Your Practice -->
-    <div class="section-label">About Your Practice</div>
-
+  <div class="mod-body">
+    <div class="sec-label">About Your Practice</div>
     <div class="two-col">
-      <div class="field-group">
-        <label class="field-label" for="f-firstname">Your first name</label>
-        <input class="field-input" id="f-firstname" type="text" placeholder="e.g. Sarah" />
-      </div>
-      <div class="field-group">
-        <label class="field-label" for="f-lastname">Your last name</label>
-        <input class="field-input" id="f-lastname" type="text" placeholder="e.g. Johnson" />
-      </div>
+      <div class="field-group"><label class="field-label">First name</label><input class="field-input" id="f-firstname" type="text" placeholder="Sarah"></div>
+      <div class="field-group"><label class="field-label">Last name</label><input class="field-input" id="f-lastname" type="text" placeholder="Johnson"></div>
     </div>
-
+    <div class="field-group"><label class="field-label">Business name</label><input class="field-input" id="f-bizname" type="text" placeholder="Nourished Life Nutrition"></div>
+    <div class="field-group"><label class="field-label">Website URL</label><input class="field-input" id="f-website" type="url" placeholder="https://yourwebsite.com"></div>
     <div class="field-group">
-      <label class="field-label" for="f-bizname">Business name</label>
-      <input class="field-input" id="f-bizname" type="text" placeholder="e.g. Nourished Life Nutrition" />
-    </div>
-
-    <div class="field-group">
-      <label class="field-label" for="f-website">Website URL</label>
-      <input class="field-input" id="f-website" type="url" placeholder="https://yourwebsite.com" />
-    </div>
-
-    <div class="field-group">
-      <label class="field-label">What type of practice do you have?</label>
+      <label class="field-label">Type of practice</label>
       <div class="radio-group">
-        <label class="radio-option" id="r-type-rd">
-          <input type="radio" name="practype" value="Registered Dietitian / Nutritionist" onchange="selectRadio('r-type', this)" />
-          <div><div class="radio-label">Registered Dietitian / Nutritionist</div></div>
-        </label>
-        <label class="radio-option" id="r-type-th">
-          <input type="radio" name="practype" value="Therapist / Counselor" onchange="selectRadio('r-type', this)" />
-          <div><div class="radio-label">Therapist / Counselor</div></div>
-        </label>
-        <label class="radio-option" id="r-type-hc">
-          <input type="radio" name="practype" value="Health / Wellness Coach" onchange="selectRadio('r-type', this)" />
-          <div><div class="radio-label">Health / Wellness Coach</div></div>
-        </label>
-        <label class="radio-option" id="r-type-ot">
-          <input type="radio" name="practype" value="Other" onchange="selectRadio('r-type', this)" />
-          <div><div class="radio-label">Other health or wellness professional</div></div>
-        </label>
+        <label class="radio-option"><input type="radio" name="practype" value="Registered Dietitian / Nutritionist"><div><div class="radio-label">Registered Dietitian / Nutritionist</div></div></label>
+        <label class="radio-option"><input type="radio" name="practype" value="Therapist / Counselor"><div><div class="radio-label">Therapist / Counselor</div></div></label>
+        <label class="radio-option"><input type="radio" name="practype" value="Health / Wellness Coach"><div><div class="radio-label">Health / Wellness Coach</div></div></label>
+        <label class="radio-option"><input type="radio" name="practype" value="Other"><div><div class="radio-label">Other health or wellness professional</div></div></label>
       </div>
     </div>
-
-    <div class="field-group">
-      <label class="field-label" for="f-years">How long have you been in business?</label>
-      <select class="field-select" id="f-years">
-        <option value="">Select one...</option>
-        <option>Less than 1 year</option>
-        <option>1–2 years</option>
-        <option>3–5 years</option>
-        <option>6–10 years</option>
-        <option>10+ years</option>
-      </select>
+    <div class="field-group"><label class="field-label">Years in business</label>
+      <select class="field-select" id="f-years"><option value="">Select one...</option><option>Less than 1 year</option><option>1–2 years</option><option>3–5 years</option><option>6–10 years</option><option>10+ years</option></select>
     </div>
-
-    <hr class="section-divider" />
-
-    <!-- Section B: Your Offer -->
-    <div class="section-label">Your Offer + Funnel Goal</div>
-
-    <div class="field-group">
-      <label class="field-label" for="f-offer">What's the primary offer this funnel should drive people toward?</label>
-      <p class="field-hint">This is what a new subscriber should eventually say yes to — your 1:1 service, a group program, a course, etc.</p>
-      <input class="field-input" id="f-offer" type="text" placeholder="e.g. 3-month private nutrition coaching program" />
-    </div>
-
-    <div class="field-group">
-      <label class="field-label">What's the next step for that offer?</label>
+    <hr class="sec-divider">
+    <div class="sec-label">Your Offer + Funnel Goal</div>
+    <div class="field-group"><label class="field-label">What's the primary offer this funnel should drive people toward?</label><p class="field-hint">Your 1:1 service, group program, course, etc.</p><input class="field-input" id="f-offer" type="text" placeholder="3-month private nutrition coaching program"></div>
+    <div class="field-group"><label class="field-label">What's the next step for that offer?</label>
       <div class="radio-group">
-        <label class="radio-option" id="r-cta-call">
-          <input type="radio" name="offercta" value="Book a free discovery call" onchange="selectRadio('r-cta', this)" />
-          <div><div class="radio-label">Book a free discovery call</div></div>
-        </label>
-        <label class="radio-option" id="r-cta-buy">
-          <input type="radio" name="offercta" value="Purchase directly" onchange="selectRadio('r-cta', this)" />
-          <div><div class="radio-label">Purchase directly</div></div>
-        </label>
-        <label class="radio-option" id="r-cta-wait">
-          <input type="radio" name="offercta" value="Join a waitlist" onchange="selectRadio('r-cta', this)" />
-          <div><div class="radio-label">Join a waitlist</div></div>
-        </label>
+        <label class="radio-option"><input type="radio" name="offercta" value="Book a free discovery call"><div><div class="radio-label">Book a free discovery call</div></div></label>
+        <label class="radio-option"><input type="radio" name="offercta" value="Purchase directly"><div><div class="radio-label">Purchase directly</div></div></label>
+        <label class="radio-option"><input type="radio" name="offercta" value="Join a waitlist"><div><div class="radio-label">Join a waitlist</div></div></label>
       </div>
     </div>
-
-    <div class="field-group">
-      <label class="field-label" for="f-offerurl">Link to your offer page <span style="font-weight:400;color:var(--text-light)">(if you have one)</span></label>
-      <input class="field-input" id="f-offerurl" type="url" placeholder="https://yourwebsite.com/work-with-me" />
-    </div>
-
-    <hr class="section-divider" />
-
-    <!-- Section C: Thank You Page -->
-    <div class="section-label">Thank You Page</div>
-
-    <div class="field-group">
-      <label class="field-label">After someone opts in, what should happen on your Thank You page?</label>
-      <p class="field-hint">This is the page they land on right after entering their email. What do you want them to do next?</p>
+    <div class="field-group"><label class="field-label">Link to your offer page <span style="font-weight:400;color:var(--text-light)">(if you have one)</span></label><input class="field-input" id="f-offerurl" type="url" placeholder="https://yourwebsite.com/work-with-me"></div>
+    <hr class="sec-divider">
+    <div class="sec-label">Thank You Page</div>
+    <div class="field-group"><label class="field-label">After someone opts in, what should happen on your Thank You page?</label><p class="field-hint">What do you want them to do next?</p>
       <div class="radio-group">
-        <label class="radio-option" id="r-ty-call">
-          <input type="radio" name="typage" value="Invite them to book a discovery call" onchange="selectRadio('r-ty', this)" />
-          <div>
-            <div class="radio-label">Invite them to book a discovery call</div>
-            <div class="radio-sublabel">Best if your main CTA is a consultation</div>
-          </div>
-        </label>
-        <label class="radio-option" id="r-ty-offer">
-          <input type="radio" name="typage" value="Promote a low-ticket offer" onchange="selectRadio('r-ty', this); toggleTyOfferField(true)" />
-          <div>
-            <div class="radio-label">Promote a low-ticket offer</div>
-            <div class="radio-sublabel">A paid product priced to convert on the spot</div>
-          </div>
-        </label>
-        <label class="radio-option" id="r-ty-resource">
-          <input type="radio" name="typage" value="Share a bonus free resource" onchange="selectRadio('r-ty', this); toggleTyOfferField(false)" />
-          <div>
-            <div class="radio-label">Share a bonus free resource</div>
-            <div class="radio-sublabel">A related freebie that adds more value</div>
-          </div>
-        </label>
-        <label class="radio-option" id="r-ty-confirm">
-          <input type="radio" name="typage" value="Just confirm the resource is on its way" onchange="selectRadio('r-ty', this); toggleTyOfferField(false)" />
-          <div>
-            <div class="radio-label">Just confirm the resource is on its way</div>
-            <div class="radio-sublabel">Simple confirmation, no extra CTA</div>
-          </div>
-        </label>
+        <label class="radio-option"><input type="radio" name="typage" value="Invite them to book a discovery call"><div><div class="radio-label">Invite them to book a discovery call</div><div class="radio-sub">Best if your main CTA is a consultation</div></div></label>
+        <label class="radio-option"><input type="radio" name="typage" value="Promote a low-ticket offer" onclick="document.getElementById('ty-offer-wrap').style.display='block'"><div><div class="radio-label">Promote a low-ticket offer</div><div class="radio-sub">A paid product priced to convert on the spot</div></div></label>
+        <label class="radio-option"><input type="radio" name="typage" value="Share a bonus free resource" onclick="document.getElementById('ty-offer-wrap').style.display='none'"><div><div class="radio-label">Share a bonus free resource</div></div></label>
+        <label class="radio-option"><input type="radio" name="typage" value="Just confirm the resource is on its way" onclick="document.getElementById('ty-offer-wrap').style.display='none'"><div><div class="radio-label">Just confirm the resource is on its way</div></div></label>
       </div>
     </div>
-
-    <div class="field-group" id="ty-offer-detail" style="display:none">
-      <label class="field-label" for="f-ty-offer-name">What's the offer? Include the name, price, and link.</label>
-      <input class="field-input" id="f-ty-offer-name" type="text" placeholder="e.g. Meal Planning Starter Kit — $27 — yoursite.com/kit" />
-    </div>
-
-    <hr class="section-divider" />
-
-    <!-- Section D: Platforms -->
-    <div class="section-label">Your Platforms</div>
-
-    <div class="field-group">
-      <label class="field-label">Which email marketing platform are you on?</label>
-      <p class="field-hint">If you're not sure or don't have one yet, select "Not sure / don't have one" and we'll help you figure it out.</p>
+    <div id="ty-offer-wrap" style="display:none" class="field-group"><label class="field-label">Offer name, price, and link</label><input class="field-input" id="f-ty-offer" type="text" placeholder="Meal Planning Starter Kit — $27 — yoursite.com/kit"></div>
+    <hr class="sec-divider">
+    <div class="sec-label">Your Platforms</div>
+    <div class="field-group"><label class="field-label">Email marketing platform</label>
       <div class="radio-group">
-        <label class="radio-option" id="r-esp-kit">
-          <input type="radio" name="esp" value="Kit (formerly ConvertKit)" onchange="selectRadio('r-esp', this)" />
-          <div><div class="radio-label">Kit <span style="color:var(--text-light);font-size:12px">(formerly ConvertKit)</span></div></div>
-        </label>
-        <label class="radio-option" id="r-esp-ac">
-          <input type="radio" name="esp" value="ActiveCampaign" onchange="selectRadio('r-esp', this)" />
-          <div><div class="radio-label">ActiveCampaign</div></div>
-        </label>
-        <label class="radio-option" id="r-esp-ml">
-          <input type="radio" name="esp" value="MailerLite" onchange="selectRadio('r-esp', this)" />
-          <div><div class="radio-label">MailerLite</div></div>
-        </label>
-        <label class="radio-option" id="r-esp-mc">
-          <input type="radio" name="esp" value="Mailchimp" onchange="selectRadio('r-esp', this)" />
-          <div><div class="radio-label">Mailchimp</div></div>
-        </label>
-        <label class="radio-option" id="r-esp-fl">
-          <input type="radio" name="esp" value="Flodesk" onchange="selectRadio('r-esp', this)" />
-          <div><div class="radio-label">Flodesk</div></div>
-        </label>
-        <label class="radio-option" id="r-esp-ot">
-          <input type="radio" name="esp" value="Other" onchange="selectRadio('r-esp', this)" />
-          <div><div class="radio-label">Other</div></div>
-        </label>
-        <label class="radio-option" id="r-esp-no">
-          <input type="radio" name="esp" value="Not sure / don't have one" onchange="selectRadio('r-esp', this)" />
-          <div><div class="radio-label">Not sure / don't have one yet</div></div>
-        </label>
+        <label class="radio-option"><input type="radio" name="esp" value="Kit (ConvertKit)"><div><div class="radio-label">Kit (ConvertKit)</div></div></label>
+        <label class="radio-option"><input type="radio" name="esp" value="ActiveCampaign"><div><div class="radio-label">ActiveCampaign</div></div></label>
+        <label class="radio-option"><input type="radio" name="esp" value="MailerLite"><div><div class="radio-label">MailerLite</div></div></label>
+        <label class="radio-option"><input type="radio" name="esp" value="Mailchimp"><div><div class="radio-label">Mailchimp</div></div></label>
+        <label class="radio-option"><input type="radio" name="esp" value="Flodesk"><div><div class="radio-label">Flodesk</div></div></label>
+        <label class="radio-option"><input type="radio" name="esp" value="Other"><div><div class="radio-label">Other</div></div></label>
+        <label class="radio-option"><input type="radio" name="esp" value="Not sure / don't have one"><div><div class="radio-label">Not sure / don't have one yet</div></div></label>
       </div>
     </div>
-
-    <div class="field-group">
-      <label class="field-label">What platform is your website on?</label>
+    <div class="field-group"><label class="field-label">Website platform</label>
       <div class="radio-group">
-        <label class="radio-option" id="r-web-wp">
-          <input type="radio" name="webplatform" value="WordPress" onchange="selectRadio('r-web', this)" />
-          <div><div class="radio-label">WordPress</div></div>
-        </label>
-        <label class="radio-option" id="r-web-sq">
-          <input type="radio" name="webplatform" value="Squarespace" onchange="selectRadio('r-web', this)" />
-          <div><div class="radio-label">Squarespace</div></div>
-        </label>
-        <label class="radio-option" id="r-web-wix">
-          <input type="radio" name="webplatform" value="Wix" onchange="selectRadio('r-web', this)" />
-          <div><div class="radio-label">Wix</div></div>
-        </label>
-        <label class="radio-option" id="r-web-sf">
-          <input type="radio" name="webplatform" value="Showit" onchange="selectRadio('r-web', this)" />
-          <div><div class="radio-label">Showit</div></div>
-        </label>
-        <label class="radio-option" id="r-web-ot">
-          <input type="radio" name="webplatform" value="Other" onchange="selectRadio('r-web', this)" />
-          <div><div class="radio-label">Other</div></div>
-        </label>
-        <label class="radio-option" id="r-web-no">
-          <input type="radio" name="webplatform" value="No website yet" onchange="selectRadio('r-web', this)" />
-          <div><div class="radio-label">I don't have a website yet</div></div>
-        </label>
+        <label class="radio-option"><input type="radio" name="webplatform" value="WordPress"><div><div class="radio-label">WordPress</div></div></label>
+        <label class="radio-option"><input type="radio" name="webplatform" value="Squarespace"><div><div class="radio-label">Squarespace</div></div></label>
+        <label class="radio-option"><input type="radio" name="webplatform" value="Wix"><div><div class="radio-label">Wix</div></div></label>
+        <label class="radio-option"><input type="radio" name="webplatform" value="Showit"><div><div class="radio-label">Showit</div></div></label>
+        <label class="radio-option"><input type="radio" name="webplatform" value="Other"><div><div class="radio-label">Other</div></div></label>
+        <label class="radio-option"><input type="radio" name="webplatform" value="No website yet"><div><div class="radio-label">I don't have a website yet</div></div></label>
       </div>
     </div>
-
-    <div class="field-group">
-      <label class="field-label" for="f-listsize">How big is your current email list? <span style="font-weight:400;color:var(--text-light)">(approximate)</span></label>
-      <select class="field-select" id="f-listsize">
-        <option value="">Select one...</option>
-        <option>I don't have a list yet</option>
-        <option>Under 100</option>
-        <option>100–500</option>
-        <option>500–1,000</option>
-        <option>1,000–5,000</option>
-        <option>5,000+</option>
-      </select>
+    <div class="field-group"><label class="field-label">Current email list size (approximate)</label>
+      <select class="field-select" id="f-listsize"><option value="">Select one...</option><option>I don't have a list yet</option><option>Under 100</option><option>100–500</option><option>500–1,000</option><option>1,000–5,000</option><option>5,000+</option></select>
     </div>
-
-    <div class="field-group">
-      <label class="field-label" for="f-anything-else">Anything else we should know before we get started?</label>
-      <textarea class="field-textarea" id="f-anything-else" placeholder="Any context, goals, concerns, or things that feel important to share upfront..."></textarea>
-    </div>
-
+    <div class="field-group"><label class="field-label">Anything else we should know?</label><textarea class="field-textarea" id="f-notes" placeholder="Goals, concerns, context..."></textarea></div>
   </div>
-
-  <!-- Sticky save bar -->
-  <div class="save-bar">
-    <span class="save-note">Your answers save to your progress record.</span>
-    <button class="btn-save" onclick="saveModule1()">Save + Continue →</button>
-  </div>
-
-  <div class="saved-toast" id="saved-toast">✓ Progress saved</div>
+  <div class="save-bar"><span class="save-note">Your answers save to your progress record.</span><button class="btn-save" onclick="saveM1()">Save + Continue →</button></div>
+  <div class="toast" id="toast-m1">✓ Saved!</div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     JAVASCRIPT
-══════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════
+     MODULE 2 — ICA CHAT
+═══════════════════════════════════ -->
+<div id="screen-module2" class="screen">
+  <div class="mod-header">
+    <button class="back-btn" onclick="goTo('dashboard')">← Dashboard</button>
+    <div><div class="mod-header-eyebrow">Module 2</div><div class="mod-header-title">Your Ideal Client</div></div>
+  </div>
+  <div class="chat-layout">
+    <div class="chat-intro"><strong>This is a conversation, not a form.</strong> I'll ask you questions one at a time about who you help and what they're going through. Just answer naturally — there are no wrong answers. At the end I'll put together your complete Ideal Client summary.</div>
+    <div class="chat-feed" id="m2-feed">
+      <div class="typing-indicator" id="m2-typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>
+    </div>
+    <div class="summary-box" id="m2-summary"><div class="summary-header"><span class="summary-badge">✓ Complete</span><span class="summary-title">Your Ideal Client Avatar</span></div><div class="summary-content" id="m2-summary-content"></div></div>
+    <div class="chat-input-area" id="m2-input-area">
+      <textarea class="chat-input" id="m2-input" placeholder="Type your answer here... (Enter to send)" rows="1"></textarea>
+      <button class="send-btn" id="m2-send"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
+    </div>
+    <button class="complete-btn" id="m2-complete" onclick="completeM2()">Save My ICA + Continue to Module 3 →</button>
+  </div>
+  <div class="toast" id="toast-m2">✓ ICA saved — Module 3 unlocked!</div>
+</div>
+
+<!-- ═══════════════════════════════════
+     MODULE 3 — LEAD MAGNET
+═══════════════════════════════════ -->
+<div id="screen-module3" class="screen">
+  <div class="mod-header">
+    <button class="back-btn" onclick="goTo('dashboard')">← Dashboard</button>
+    <div><div class="mod-header-eyebrow">Module 3</div><div class="mod-header-title">Your Lead Magnet</div></div>
+  </div>
+  <div class="mod-body">
+    <div class="step-dots"><div class="step-dot active" id="m3-dot1"></div><div class="step-dot" id="m3-dot2"></div><div class="step-dot" id="m3-dot3"></div><span class="step-lbl" id="m3-step-lbl">Step 1 of 3</span></div>
+
+    <!-- Step 1 -->
+    <div class="m3-step visible" id="m3-s1">
+      <div class="sec-label">Lead Magnet History</div>
+      <div class="field-group"><label class="field-label">Have you ever created a lead magnet before — even if it's no longer active?</label><p class="field-hint">A freebie, guide, checklist, quiz, workshop — anything you've offered for an email.</p>
+        <div class="radio-group" id="rg-hadlm">
+          <label class="radio-option"><input type="radio" name="hadlm" value="yes"><div><div class="radio-label">Yes — I've had at least one before</div></div></label>
+          <label class="radio-option"><input type="radio" name="hadlm" value="no"><div><div class="radio-label">No — this would be my first one</div></div></label>
+        </div>
+      </div>
+      <div id="past-lm-detail" style="display:none">
+        <div class="field-group"><label class="field-label">Tell us about it — what was it and what happened with it?</label><textarea class="field-textarea" id="f-past-lm" placeholder="e.g. I had a 3-day meal plan PDF — people downloaded it but it didn't lead to many bookings..."></textarea></div>
+        <div class="field-group"><label class="field-label">What do you think didn't work about it?</label><textarea class="field-textarea" id="f-past-lm-why" placeholder="e.g. It attracted the wrong people, or didn't connect to my offer clearly..."></textarea></div>
+      </div>
+      <button class="btn-save" onclick="m3Next1()">Next →</button>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="m3-step" id="m3-s2">
+      <div class="sec-label">For This Campaign</div>
+      <div class="field-group"><label class="field-label">Do you want to use an existing lead magnet for this campaign, or create something new?</label><p class="field-hint">You might have something that's working great — or want something fresh. Either is fine.</p><div id="m3-branch-cards"></div></div>
+      <button class="btn-save" onclick="m3Next2()">Next →</button>
+    </div>
+
+    <!-- Step 3A: Create new -->
+    <div class="m3-step" id="m3-s3-new">
+      <div class="sec-label">Building Your Lead Magnet</div>
+      <div id="why-not-existing-wrap" style="display:none" class="field-group"><label class="field-label">Why not use an existing one for this campaign?</label><textarea class="field-textarea" id="f-why-not-existing" placeholder="e.g. It doesn't connect to this offer, or I want something fresher..."></textarea></div>
+      <div class="field-group"><label class="field-label">What topic feels most relevant to your ideal client right now?</label><p class="field-hint">Think about what they're Googling, what questions they ask you most, what keeps them up at night.</p><textarea class="field-textarea" id="f-lm-topic" placeholder="e.g. How to stop yo-yo dieting without giving up the foods you love..."></textarea></div>
+      <div class="field-group"><label class="field-label">After downloading, what's the ONE thing you want them to do next?</label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="lmcta" value="Book a free discovery call"><div><div class="radio-label">Book a free discovery call</div></div></label>
+          <label class="radio-option"><input type="radio" name="lmcta" value="Purchase an offer"><div><div class="radio-label">Purchase an offer</div></div></label>
+          <label class="radio-option"><input type="radio" name="lmcta" value="Join a waitlist"><div><div class="radio-label">Join a waitlist</div></div></label>
+          <label class="radio-option"><input type="radio" name="lmcta" value="Just nurture them"><div><div class="radio-label">Just nurture them — no immediate CTA</div></div></label>
+        </div>
+      </div>
+      <div class="field-group"><label class="field-label">Do you want them to take action or gain knowledge?</label><p class="field-hint">This helps us decide between a workbook vs. guide. We'll make the final call — just share your instinct.</p>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="lmformat" value="Take action — workbook style"><div><div class="radio-label">Take action — I want them to DO something</div><div class="radio-sub">Points toward a workbook format</div></div></label>
+          <label class="radio-option"><input type="radio" name="lmformat" value="Gain knowledge — guide style"><div><div class="radio-label">Gain knowledge — I want to EDUCATE them</div><div class="radio-sub">Points toward a guide format</div></div></label>
+          <label class="radio-option"><input type="radio" name="lmformat" value="Not sure — you decide"><div><div class="radio-label">Not sure — you decide!</div></div></label>
+        </div>
+      </div>
+      <div class="field-group"><label class="field-label">What should someone be able to do, feel, or understand after going through your lead magnet?</label><textarea class="field-textarea" id="f-lm-transformation" placeholder="e.g. Feel confident they can improve their relationship with food without another restrictive diet..."></textarea></div>
+      <button class="btn-save" onclick="saveM3()">Save + Continue →</button>
+    </div>
+
+    <!-- Step 3B: Use existing -->
+    <div class="m3-step" id="m3-s3-existing">
+      <div class="sec-label">Your Existing Lead Magnet</div>
+      <div class="field-group"><label class="field-label">What's it called and what's it about?</label><input class="field-input" id="f-existing-name" type="text" placeholder="5-Day Anti-Inflammatory Meal Plan"></div>
+      <div class="field-group"><label class="field-label">Link to it (if you have one)</label><input class="field-input" id="f-existing-link" type="url" placeholder="https://..."></div>
+      <div class="field-group"><label class="field-label">What's working well about it?</label><textarea class="field-textarea" id="f-existing-working" placeholder="e.g. People always say the recipes are super practical..."></textarea></div>
+      <div class="field-group"><label class="field-label">Anything you'd like to freshen up?</label><textarea class="field-textarea" id="f-existing-freshen" placeholder="e.g. The design feels dated, or I'd like a stronger CTA at the end..."></textarea></div>
+      <div class="field-group"><label class="field-label">After downloading, what's the ONE thing you want them to do next?</label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="elmcta" value="Book a free discovery call"><div><div class="radio-label">Book a free discovery call</div></div></label>
+          <label class="radio-option"><input type="radio" name="elmcta" value="Purchase an offer"><div><div class="radio-label">Purchase an offer</div></div></label>
+          <label class="radio-option"><input type="radio" name="elmcta" value="Join a waitlist"><div><div class="radio-label">Join a waitlist</div></div></label>
+          <label class="radio-option"><input type="radio" name="elmcta" value="Just nurture them"><div><div class="radio-label">Just nurture them — no immediate CTA</div></div></label>
+        </div>
+      </div>
+      <button class="btn-save" onclick="saveM3()">Save + Continue →</button>
+    </div>
+
+    <!-- Step 3C: Improve existing -->
+    <div class="m3-step" id="m3-s3-improve">
+      <div class="sec-label">Improving Your Lead Magnet</div>
+      <div class="field-group"><label class="field-label">Which lead magnet do you want to improve?</label><input class="field-input" id="f-improve-name" type="text" placeholder="7-Day Gut Health Reset Guide"></div>
+      <div class="field-group"><label class="field-label">Link to it (if you have one)</label><input class="field-input" id="f-improve-link" type="url" placeholder="https://..."></div>
+      <div class="field-group"><label class="field-label">What's not working about it right now?</label><textarea class="field-textarea" id="f-improve-issues" placeholder="e.g. People download it but never book a call — no clear next step..."></textarea></div>
+      <div class="field-group"><label class="field-label">What's the new goal for it after we improve it?</label><textarea class="field-textarea" id="f-improve-goal" placeholder="e.g. I want it to clearly lead people toward booking a discovery call..."></textarea></div>
+      <div class="field-group"><label class="field-label">Anything you definitely want to keep?</label><textarea class="field-textarea" id="f-improve-keep" placeholder="e.g. The core content is solid — just needs a redesign and stronger CTA..."></textarea></div>
+      <button class="btn-save" onclick="saveM3()">Save + Continue →</button>
+    </div>
+  </div>
+  <div class="toast" id="toast-m3">✓ Lead magnet info saved — Module 4 unlocked!</div>
+</div>
+
+<!-- ═══════════════════════════════════
+     MODULE 4 — VOICE CHAT
+═══════════════════════════════════ -->
+<div id="screen-module4" class="screen">
+  <div class="mod-header">
+    <button class="back-btn" onclick="goTo('dashboard')">← Dashboard</button>
+    <div><div class="mod-header-eyebrow">Module 4</div><div class="mod-header-title">Voice + Email Intel</div></div>
+  </div>
+  <div class="chat-layout">
+    <div class="chat-intro"><strong>Last one — and it's a conversation.</strong> I'll ask you about your voice, your story, and the specific details we need to write your welcome emails. The more you share, the better your emails will sound like <em>you</em>.</div>
+    <div class="chat-feed" id="m4-feed">
+      <div class="typing-indicator" id="m4-typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>
+    </div>
+    <div class="summary-box" id="m4-summary"><div class="summary-header"><span class="summary-badge">✓ Complete</span><span class="summary-title">Voice + Email Intel Summary</span></div><div class="summary-content" id="m4-summary-content"></div></div>
+    <div class="chat-input-area" id="m4-input-area">
+      <textarea class="chat-input" id="m4-input" placeholder="Type your answer here... (Enter to send)" rows="1"></textarea>
+      <button class="send-btn" id="m4-send"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
+    </div>
+    <button class="complete-btn" id="m4-complete" onclick="completeM4()">Save + Submit All Modules →</button>
+  </div>
+  <div class="toast" id="toast-m4">✓ All done! Your team has been notified.</div>
+</div>
+
 <script>
-  // ── Supabase Config ──
-  const SUPABASE_URL = 'https://rguqefwhlzehpzgljbdo.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJndXFlZndobHplaHB6Z2xqYmRvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNzYyMjYsImV4cCI6MjA4OTk1MjIyNn0.N8-BWjyTFMpdoTbKBik8jQdyA7YCPiq7nT_HdfxcMZ8';
-  const SB = `${SUPABASE_URL}/rest/v1`;
+// ═══════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════
+var SB_URL = 'https://rguqefwhlzehpzgljbdo.supabase.co';
+var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJndXFlZndobHplaHB6Z2xqYmRvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNzYyMjYsImV4cCI6MjA4OTk1MjIyNn0.N8-BWjyTFMpdoTbKBik8jQdyA7YCPiq7nT_HdfxcMZ8';
+var EDGE = SB_URL + '/functions/v1/notion-sync';
+var AI = 'https://api.anthropic.com/v1/messages';
 
-  async function sbGet(email) {
-    const res = await fetch(`${SB}/clients?email=eq.${encodeURIComponent(email)}&limit=1`, {
-      headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` }
-    });
-    const rows = await res.json();
-    return rows && rows.length > 0 ? rows[0] : null;
-  }
+// ═══════════════════════════════════
+// STATE
+// ═══════════════════════════════════
+var email = '';
+var client = {};
+var m2History = [], m2Summary = '', m2Busy = false;
+var m4History = [], m4Summary = '', m4Busy = false;
+var m3HadLm = null, m3Choice = null;
 
-  async function sbUpsert(record) {
-    await fetch(`${SB}/clients?on_conflict=email`, {
-      method: 'POST',
-      headers: {
-        'apikey': SUPABASE_ANON_KEY,
-        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-        'Content-Type': 'application/json',
-        'Prefer': 'resolution=merge-duplicates'
-      },
-      body: JSON.stringify(record)
-    });
-  }
+// ═══════════════════════════════════
+// SUPABASE
+// ═══════════════════════════════════
+function sbHeaders() {
+  return { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'resolution=merge-duplicates' };
+}
+async function sbGet(e) {
+  try {
+    var r = await fetch(SB_URL + '/rest/v1/clients?email=eq.' + encodeURIComponent(e) + '&limit=1', { headers: sbHeaders() });
+    var d = await r.json();
+    return d && d.length ? d[0] : null;
+  } catch(ex) { return null; }
+}
+async function sbSave(data) {
+  try { localStorage.setItem('wb_' + email, JSON.stringify(data)); } catch(ex) {}
+  try {
+    await fetch(SB_URL + '/rest/v1/clients?on_conflict=email', { method: 'POST', headers: sbHeaders(), body: JSON.stringify(toDb(data)) });
+    fetch(EDGE, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + SB_KEY }, body: JSON.stringify(toDb(data)) }).catch(function(){});
+  } catch(ex) {}
+}
+function toDb(d) {
+  return {
+    email: d.email,
+    module_1_status: d.mods.m1, module_2_status: d.mods.m2, module_3_status: d.mods.m3, module_4_status: d.mods.m4,
+    access_website: d.access.website, access_email: d.access.email, access_fb: d.access.fb,
+    m1_data: d.m1 || {}, m2_data: d.m2 || {}, m3_data: d.m3 || {}, m4_data: d.m4 || {}
+  };
+}
+function fromDb(r) {
+  return {
+    email: r.email,
+    mods: { m1: r.module_1_status||'todo', m2: r.module_2_status||'locked', m3: r.module_3_status||'locked', m4: r.module_4_status||'locked' },
+    access: { website: r.access_website||false, email: r.access_email||false, fb: r.access_fb||false },
+    m1: r.m1_data||{}, m2: r.m2_data||{}, m3: r.m3_data||{}, m4: r.m4_data||{}
+  };
+}
 
-  function dbToClient(row) {
-    return {
-      email: row.email,
-      createdAt: row.created_at,
-      modules: {
-        m1: row.module_1_status || 'todo',
-        m2: row.module_2_status || 'locked',
-        m3: row.module_3_status || 'locked',
-        m4: row.module_4_status || 'locked'
-      },
-      access: {
-        website: row.access_website || false,
-        email: row.access_email || false,
-        fb: row.access_fb || false
-      },
-      m1data: row.m1_data || {},
-      m2data: row.m2_data || {},
-      m3data: row.m3_data || {},
-      m4data: row.m4_data || {}
-    };
-  }
+// ═══════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════
+function goTo(screen) {
+  document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+  document.getElementById('screen-' + screen).classList.add('active');
+  window.scrollTo(0, 0);
+}
+function showToast(id) {
+  var t = document.getElementById(id);
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 1600);
+}
 
-  function clientToDb(data) {
-    return {
-      email: data.email,
-      module_1_status: data.modules.m1,
-      module_2_status: data.modules.m2,
-      module_3_status: data.modules.m3,
-      module_4_status: data.modules.m4,
-      access_website: data.access.website,
-      access_email: data.access.email,
-      access_fb: data.access.fb,
-      m1_data: data.m1data || {},
-      m2_data: data.m2data || {},
-      m3_data: data.m3data || {},
-      m4_data: data.m4data || {}
-    };
-  }
-
-  const EDGE_FN = 'https://rguqefwhlzehpzgljbdo.supabase.co/functions/v1/notion-sync';
-
-  async function saveClient(email, data) {
-    // 1. localStorage backup
-    try { localStorage.setItem('wbdyf_' + email, JSON.stringify(data)); } catch(e) {}
-    // 2. Supabase
-    try { await sbUpsert(clientToDb(data)); } catch(e) { console.warn('Supabase save failed:', e); }
-    // 3. Notion sync (non-blocking — fires and doesn't wait)
-    try {
-      fetch(EDGE_FN, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
-        },
-        body: JSON.stringify(clientToDb(data))
-      }).catch(e => console.warn('Notion sync failed:', e));
-    } catch(e) {}
-  }
-
-  // ── State ──
-  let currentEmail = '';
-  let clientData = {};
-
-  // ── Screen navigation ──
-  function showScreen(id) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    window.scrollTo(0, 0);
-  }
-
-  function setLandingLoading(loading) {
-    const btn = document.querySelector('#screen-landing .btn-primary');
-    btn.textContent = loading ? 'Loading...' : 'Continue →';
-    btn.disabled = loading;
-  }
-
-  // ── Landing ──
-  async function handleEmailSubmit() {
-    const emailInput = document.getElementById('email-input');
-    const email = emailInput.value.trim().toLowerCase();
-
-    if (!email || !email.includes('@')) {
-      emailInput.style.borderColor = 'var(--coral)';
-      emailInput.focus();
-      return;
+// ═══════════════════════════════════
+// LANDING
+// ═══════════════════════════════════
+function handleContinue() {
+  var inp = document.getElementById('email-input');
+  var val = inp.value.trim().toLowerCase();
+  if (!val || !val.includes('@')) { inp.style.borderColor = 'var(--coral)'; inp.focus(); return; }
+  inp.style.borderColor = '';
+  email = val;
+  var btn = document.getElementById('continue-btn');
+  btn.textContent = 'Loading...';
+  btn.disabled = true;
+  sbGet(email).then(function(existing) {
+    if (existing) {
+      client = fromDb(existing);
+      document.getElementById('welcome-back').style.display = 'block';
+      setTimeout(function(){ btn.textContent = 'Continue →'; btn.disabled = false; renderDashboard(); goTo('dashboard'); }, 600);
+    } else {
+      client = { email: email, mods: { m1:'todo', m2:'locked', m3:'locked', m4:'locked' }, access: { website:false, email:false, fb:false }, m1:{}, m2:{}, m3:{}, m4:{} };
+      sbSave(client).then(function(){ btn.textContent = 'Continue →'; btn.disabled = false; renderDashboard(); goTo('dashboard'); });
     }
-
-    emailInput.style.borderColor = '';
-    currentEmail = email;
-    setLandingLoading(true);
-
-    try {
-      const existing = await sbGet(email);
-      if (existing) {
-        clientData = dbToClient(existing);
-        document.getElementById('welcome-back-msg').style.display = 'block';
-        setTimeout(() => { setLandingLoading(false); goToDashboard(); }, 700);
-      } else {
-        clientData = {
-          email: email,
-          createdAt: new Date().toISOString(),
-          modules: { m1: 'todo', m2: 'locked', m3: 'locked', m4: 'locked' },
-          access: { website: false, email: false, fb: false },
-          m1data: {}, m2data: {}, m3data: {}, m4data: {}
-        };
-        await saveClient(email, clientData);
-        setLandingLoading(false);
-        goToDashboard();
-      }
-    } catch(err) {
-      console.warn('Supabase unavailable, using localStorage:', err);
-      try {
-        const raw = localStorage.getItem('wbdyf_' + email);
-        if (raw) {
-          clientData = JSON.parse(raw);
-          document.getElementById('welcome-back-msg').style.display = 'block';
-          setTimeout(() => { setLandingLoading(false); goToDashboard(); }, 700);
-        } else {
-          clientData = {
-            email: email,
-            createdAt: new Date().toISOString(),
-            modules: { m1: 'todo', m2: 'locked', m3: 'locked', m4: 'locked' },
-            access: { website: false, email: false, fb: false },
-            m1data: {}, m2data: {}, m3data: {}, m4data: {}
-          };
-          setLandingLoading(false);
-          goToDashboard();
-        }
-      } catch(e2) { setLandingLoading(false); }
-    }
-  }
-
-  // ── Dashboard ──
-  function goToDashboard() {
-    renderDashboard();
-    showScreen('screen-dashboard');
-  }
-
-  function renderDashboard() {
-    // Client pill
-    document.getElementById('dash-client-email').textContent = currentEmail;
-
-    // Greeting
-    const name = clientData.m1data && clientData.m1data.firstname;
-    document.getElementById('dash-greeting').textContent = name
-      ? `Welcome back, ${name}!`
-      : 'Welcome! Let\'s get started.';
-
-    // Module statuses
-    const modules = clientData.modules || {};
-    const statusMap = {
-      todo: { label: 'Start', cls: 'status-todo' },
-      inprogress: { label: 'In Progress', cls: 'status-inprogress' },
-      done: { label: '✓ Complete', cls: 'status-done' },
-      locked: { label: 'Locked', cls: 'status-locked' }
-    };
-
-    ['m1','m2','m3','m4'].forEach(m => {
-      const s = modules[m] || 'locked';
-      const el = document.getElementById(`status-${m}`);
-      const card = document.getElementById(`card-${m}`);
-      const info = statusMap[s] || statusMap.locked;
-      el.textContent = info.label;
-      el.className = `module-status ${info.cls}`;
-      if (s === 'locked') {
-        card.classList.add('locked');
-        card.onclick = null;
-      } else {
-        card.classList.remove('locked');
-        if (m === 'm1') card.onclick = () => goToModule1();
-      }
-    });
-
-    // Progress bar
-    const completed = ['m1','m2','m3','m4'].filter(m => modules[m] === 'done').length;
-    document.getElementById('progress-bar').style.width = `${(completed/4)*100}%`;
-    document.getElementById('progress-text').textContent = `${completed} of 4 complete`;
-
-    // Access checkboxes
-    const access = clientData.access || {};
-    ['website','email','fb'].forEach(k => {
-      const el = document.getElementById(`chk-${k}`);
-      if (access[k]) {
-        el.classList.add('checked');
-        el.textContent = '✓';
-      } else {
-        el.classList.remove('checked');
-        el.textContent = '';
-      }
-    });
-  }
-
-  function toggleCheck(key) {
-    if (!clientData.access) clientData.access = {};
-    clientData.access[key] = !clientData.access[key];
-    saveClient(currentEmail, clientData);
-    renderDashboard();
-  }
-
-  // ── Module 1 ──
-  function goToModule1() {
-    // Pre-fill saved data
-    const d = clientData.m1data || {};
-    setField('f-firstname', d.firstname);
-    setField('f-lastname', d.lastname);
-    setField('f-bizname', d.bizname);
-    setField('f-website', d.website);
-    setField('f-years', d.years);
-    setField('f-offer', d.offer);
-    setField('f-offerurl', d.offerurl);
-    setField('f-listsize', d.listsize);
-    setField('f-anything-else', d.anythingelse);
-    if (d.practype) setRadioValue('practype', d.practype);
-    if (d.offercta) setRadioValue('offercta', d.offercta);
-    if (d.typage) {
-      setRadioValue('typage', d.typage);
-      if (d.typage === 'Promote a low-ticket offer') toggleTyOfferField(true);
-    }
-    if (d.tyofferdetail) setField('f-ty-offer-name', d.tyofferdetail);
-    if (d.esp) setRadioValue('esp', d.esp);
-    if (d.webplatform) setRadioValue('webplatform', d.webplatform);
-
-    if (clientData.modules.m1 === 'todo') {
-      clientData.modules.m1 = 'inprogress';
-      saveClient(currentEmail, clientData);
-    }
-
-    showScreen('screen-module1');
-  }
-
-  function setField(id, val) {
-    const el = document.getElementById(id);
-    if (el && val !== undefined && val !== null) el.value = val;
-  }
-
-  function setRadioValue(name, value) {
-    const radios = document.querySelectorAll(`input[name="${name}"]`);
-    radios.forEach(r => {
-      if (r.value === value) {
-        r.checked = true;
-        r.closest('.radio-option').classList.add('selected');
-      }
-    });
-  }
-
-  function selectRadio(groupPrefix, input) {
-    document.querySelectorAll(`[id^="${groupPrefix}-"]`).forEach(el => el.classList.remove('selected'));
-    input.closest('.radio-option').classList.add('selected');
-  }
-
-  function toggleTyOfferField(show) {
-    document.getElementById('ty-offer-detail').style.display = show ? 'block' : 'none';
-  }
-
-  function saveModule1() {
-    const getVal = id => (document.getElementById(id) || {}).value || '';
-    const getRadio = name => {
-      const checked = document.querySelector(`input[name="${name}"]:checked`);
-      return checked ? checked.value : '';
-    };
-
-    clientData.m1data = {
-      firstname: getVal('f-firstname'),
-      lastname: getVal('f-lastname'),
-      bizname: getVal('f-bizname'),
-      website: getVal('f-website'),
-      years: getVal('f-years'),
-      practype: getRadio('practype'),
-      offer: getVal('f-offer'),
-      offercta: getRadio('offercta'),
-      offerurl: getVal('f-offerurl'),
-      typage: getRadio('typage'),
-      tyofferdetail: getVal('f-ty-offer-name'),
-      esp: getRadio('esp'),
-      webplatform: getRadio('webplatform'),
-      listsize: getVal('f-listsize'),
-      anythingelse: getVal('f-anything-else'),
-      savedAt: new Date().toISOString()
-    };
-
-    clientData.modules.m1 = 'done';
-    clientData.modules.m2 = 'todo';
-    saveClient(currentEmail, clientData);
-
-    const toast = document.getElementById('saved-toast');
-    toast.classList.add('show');
-    setTimeout(() => {
-      toast.classList.remove('show');
-      goToDashboard();
-    }, 1200);
-  }
-
-  // ── Module 2 ──
-  function goToModule2() {
-    if (clientData.modules.m2 === 'locked') return;
-    if (clientData.modules.m2 === 'todo') {
-      clientData.modules.m2 = 'inprogress';
-      saveClient(currentEmail, clientData);
-    }
-    // Restore conversation if exists
-    m2History = (clientData.m2data && clientData.m2data.history) ? clientData.m2data.history : [];
-    m2Summary = (clientData.m2data && clientData.m2data.summary) ? clientData.m2data.summary : '';
-    renderM2Chat();
-    if (m2Summary) showM2Summary(m2Summary);
-    showScreen('screen-module2');
-    if (m2History.length === 0) startM2Conversation();
-  }
-
-  let m2History = [];
-  let m2Summary = '';
-  let m2IsTyping = false;
-
-  const M2_SYSTEM = `You are a warm, expert onboarding guide for Whitney Bateson Digital Strategy — a done-for-you lead gen funnel service for health and wellness professionals (dietitians, therapists, health coaches).
-
-Your job is to guide the client through a friendly conversation to deeply understand their ideal customer. You are NOT a form — you are a conversation. Ask one focused question at a time. Listen carefully and follow up when something is vague or interesting.
-
-Your tone: warm, encouraging, conversational — like a sharp colleague friend. Use the client's name if you know it. Never use jargon. Never be preachy or lecture-y. No bullet lists in your questions — just natural, flowing sentences.
-
-Topics to cover across the conversation (weave these in naturally, don't ask them in order like a list):
-1. Who their ideal client is — demographics, life stage, what their day looks like
-2. What transformation their ideal client is looking for — the ultimate outcome they want
-3. How their ideal client will feel once they achieve that
-4. The main problem or struggle their ideal client is dealing with right now
-5. What's gotten in the way — mental barriers, past attempts, external factors
-6. What they've already tried and why it didn't work
-7. What's happening in their life RIGHT NOW making this feel more urgent
-8. What makes their ideal client trust a provider — what do they value most
-9. Where their ideal client goes to find help — Google, Instagram, referrals, podcasts, etc.
-
-After you've covered all topics (usually 10-14 exchanges), tell the client you have everything you need and that you're going to put together their Ideal Client summary. Then output a clean ICA summary using EXACTLY this format — no extra commentary before or after it:
-
----ICA_SUMMARY_START---
-**Name:** [a made-up first name that represents this client avatar]
-**Who They Are:** [2-3 sentences about demographics, life stage, day-to-day]
-**What They Want:** [the transformation they're seeking and how they'll feel when they get it]
-**What's In Their Way:** [their main struggles, barriers, what they've tried]
-**What's Happening Now:** [the life trigger making this urgent]
-**How They Decide:** [what makes them trust a provider, where they look for help]
-**In Their Own Words:** [1-2 sentences written as if the ideal client is speaking — capturing their voice and emotional state]
----ICA_SUMMARY_END---`;
-
-  async function startM2Conversation() {
-    const name = clientData.m1data && clientData.m1data.firstname ? clientData.m1data.firstname : null;
-    const practype = clientData.m1data && clientData.m1data.practype ? clientData.m1data.practype : 'health professional';
-    const offer = clientData.m1data && clientData.m1data.offer ? clientData.m1data.offer : null;
-
-    let openingContext = `The client's name is ${name || 'unknown'}. They are a ${practype}.${offer ? ` Their main offer is: ${offer}.` : ''} Start the conversation warmly and ask your first question about their ideal client.`;
-
-    m2History = [{ role: 'user', content: openingContext }];
-    await sendM2Message(null);
-  }
-
-  async function sendM2Message(userText) {
-    if (m2IsTyping) return;
-
-    if (userText !== null) {
-      m2History.push({ role: 'user', content: userText });
-      appendM2Bubble('user', userText);
-      saveM2Progress();
-    }
-
-    m2IsTyping = true;
-    showM2Typing(true);
-    scrollM2Bottom();
-
-    try {
-      const messagesForAPI = userText === null ? m2History : m2History;
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1000,
-          system: M2_SYSTEM,
-          messages: messagesForAPI
-        })
-      });
-
-      const data = await res.json();
-      const reply = data.content && data.content[0] ? data.content[0].text : 'Something went wrong — please try again.';
-
-      m2History.push({ role: 'assistant', content: reply });
-      showM2Typing(false);
-
-      // Check if this is the ICA summary
-      if (reply.includes('---ICA_SUMMARY_START---')) {
-        const summaryMatch = reply.match(/---ICA_SUMMARY_START---([\s\S]*?)---ICA_SUMMARY_END---/);
-        const preText = reply.split('---ICA_SUMMARY_START---')[0].trim();
-        if (preText) appendM2Bubble('assistant', preText);
-        if (summaryMatch) {
-          m2Summary = summaryMatch[1].trim();
-          saveM2Progress();
-          showM2Summary(m2Summary);
-        }
-      } else {
-        appendM2Bubble('assistant', reply);
-      }
-
-      saveM2Progress();
-    } catch(e) {
-      showM2Typing(false);
-      appendM2Bubble('assistant', 'Something went wrong connecting to the AI. Please check your connection and try again.');
-    }
-
-    m2IsTyping = false;
-    scrollM2Bottom();
-  }
-
-  function appendM2Bubble(role, text) {
-    const feed = document.getElementById('m2-chat-feed');
-    const wrap = document.createElement('div');
-    wrap.className = `m2-bubble-wrap ${role}`;
-    const bubble = document.createElement('div');
-    bubble.className = `m2-bubble ${role}`;
-    bubble.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
-    wrap.appendChild(bubble);
-    feed.appendChild(wrap);
-    scrollM2Bottom();
-  }
-
-  function showM2Typing(show) {
-    document.getElementById('m2-typing').style.display = show ? 'flex' : 'none';
-    scrollM2Bottom();
-  }
-
-  function scrollM2Bottom() {
-    const feed = document.getElementById('m2-chat-feed');
-    setTimeout(() => { feed.scrollTop = feed.scrollHeight; }, 50);
-  }
-
-  function renderM2Chat() {
-    const feed = document.getElementById('m2-chat-feed');
-    feed.innerHTML = '';
-    // Skip the first system-context message
-    const displayHistory = m2History.filter((m,i) => !(i === 0 && m.role === 'user' && m.content.includes('The client\'s name is')));
-    displayHistory.forEach(m => appendM2Bubble(m.role, m.content));
-  }
-
-  function submitM2Message() {
-    const input = document.getElementById('m2-input');
-    const text = input.value.trim();
-    if (!text || m2IsTyping) return;
-    input.value = '';
-    input.style.height = 'auto';
-    sendM2Message(text);
-  }
-
-  // Wire up M2 input after DOM ready
-  document.addEventListener('DOMContentLoaded', function() {
-    const m2input = document.getElementById('m2-input');
-    const m2btn = document.getElementById('m2-send-btn');
-    if (m2input) {
-      m2input.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' && !e.shiftKey) {
-          e.preventDefault();
-          submitM2Message();
-        }
-      });
-    }
-    if (m2btn) m2btn.addEventListener('click', submitM2Message);
+  }).catch(function() {
+    var raw = null;
+    try { raw = localStorage.getItem('wb_' + email); } catch(ex){}
+    if (raw) { client = JSON.parse(raw); document.getElementById('welcome-back').style.display = 'block'; }
+    else { client = { email: email, mods: { m1:'todo', m2:'locked', m3:'locked', m4:'locked' }, access: { website:false, email:false, fb:false }, m1:{}, m2:{}, m3:{}, m4:{} }; }
+    btn.textContent = 'Continue →'; btn.disabled = false; renderDashboard(); goTo('dashboard');
   });
+}
 
-  function showM2Summary(summaryText) {
-    const container = document.getElementById('m2-summary-container');
-    container.style.display = 'block';
-    // Parse markdown bold
-    const formatted = summaryText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
-    document.getElementById('m2-summary-content').innerHTML = formatted;
-    document.getElementById('m2-input-area').style.display = 'none';
-    document.getElementById('m2-complete-btn').style.display = 'block';
-    scrollM2Bottom();
-  }
-
-  function saveM2Progress() {
-    clientData.m2data = {
-      history: m2History,
-      summary: m2Summary,
-      savedAt: new Date().toISOString()
-    };
-    saveClient(currentEmail, clientData);
-  }
-
-  function completeModule2() {
-    clientData.modules.m2 = 'done';
-    clientData.modules.m3 = 'todo';
-    saveClient(currentEmail, clientData);
-    const toast = document.getElementById('saved-toast-m2');
-    toast.classList.add('show');
-    setTimeout(() => {
-      toast.classList.remove('show');
-      goToDashboard();
-    }, 1200);
-  }
-
-  // Unlock Module 2 click on dashboard
-  document.getElementById('card-m2').addEventListener('click', function() {
-    if (!this.classList.contains('locked')) goToModule2();
+// ═══════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════
+function renderDashboard() {
+  document.getElementById('dash-email').textContent = email;
+  var name = client.m1 && client.m1.firstname;
+  document.getElementById('dash-greeting').textContent = name ? 'Welcome back, ' + name + '!' : "Welcome! Let's get started.";
+  var map = { todo:['Start','s-todo'], inprogress:['In Progress','s-inprogress'], done:['✓ Complete','s-done'], locked:['Locked','s-locked'] };
+  ['m1','m2','m3','m4'].forEach(function(m) {
+    var s = client.mods[m] || 'locked';
+    var info = map[s] || map.locked;
+    var el = document.getElementById('status-' + m);
+    el.textContent = info[0];
+    el.className = 'mod-status ' + info[1];
+    var card = document.getElementById('card-' + m);
+    if (s === 'locked') { card.classList.add('locked'); card.classList.remove('done'); }
+    else { card.classList.remove('locked'); if (s === 'done') card.classList.add('done'); else card.classList.remove('done'); }
   });
-
-  // ── Module 4 ──
-  let m4History = [];
-  let m4Summary = '';
-  let m4IsTyping = false;
-
-  const M4_SYSTEM = `You are a warm, expert onboarding guide for Whitney Bateson Digital Strategy — a done-for-you lead gen funnel service for health and wellness professionals.
-
-Your job is to have a friendly conversation to pull out everything needed to write the client's 4-email welcome sequence in their voice. Ask one question at a time. Be warm, encouraging, specific. Use their name if you know it.
-
-Topics to cover naturally across the conversation:
-1. Their tone and voice — how do they communicate? 2-3 words that capture it.
-2. Words or phrases they always use — and any to avoid
-3. Their origin story — why did they get into this work?
-4. Their specialty framed for clients — what do they specifically help clients achieve?
-5. 2-3 personal facts (location, hobbies, pets/kids)
-6. 3 existing resources to point new subscribers to (blog, podcast, freebies)
-7. A common question or roadblock clients hit early on (feeds Email 3)
-8. One insight or reframe they wish more people knew (also Email 3)
-9. Their main offer name, what it includes, who it's for (feeds Email 4)
-10. Any discount or special offer for new subscribers (feeds Email 4)
-11. A writing sample — ask them to paste something they've written
-
-After covering all topics (12-16 exchanges), say you have everything needed. Then output EXACTLY this format:
-
----VOICE_SUMMARY_START---
-**Tone and voice:** [3-5 descriptive words]
-**Phrases they use:** [key phrases]
-**Phrases to avoid:** [anything flagged]
-**Their story:** [2-3 sentences on origin and passion]
-**Their specialty:** [what they help clients achieve]
-**Personal facts:** [2-3 humanizing details]
-**Resources to share:** [up to 3 with brief descriptions]
-**Email 3 - Roadblock:** [common early challenge]
-**Email 3 - Quick win:** [their key insight or reframe]
-**Email 4 - Offer:** [offer name, what it includes, who it's for]
-**Email 4 - CTA:** [next step and any new subscriber discount]
-**Writing sample notes:** [what their sample reveals about their voice]
----VOICE_SUMMARY_END---`;
-
-  async function startM4Conversation() {
-    const name = clientData.m1data && clientData.m1data.firstname ? clientData.m1data.firstname : null;
-    const practype = clientData.m1data && clientData.m1data.practype ? clientData.m1data.practype : 'health professional';
-    const offer = clientData.m1data && clientData.m1data.offer ? clientData.m1data.offer : null;
-    const lmTopic = clientData.m3data && clientData.m3data.lmTopic ? clientData.m3data.lmTopic : null;
-    const icaSummary = clientData.m2data && clientData.m2data.summary ? clientData.m2data.summary : null;
-
-    let context = `The client's name is ${name || 'unknown'}. They are a ${practype}.`;
-    if (offer) context += ` Their main offer is: ${offer}.`;
-    if (lmTopic) context += ` Their lead magnet topic is: ${lmTopic}.`;
-    if (icaSummary) context += ` ICA summary for context: ${icaSummary}`;
-    context += ` Start warmly, acknowledge this is the last module, and ask your first question about their voice and communication style.`;
-
-    m4History = [{ role: 'user', content: context }];
-    await sendM4Message(null);
-  }
-
-  async function sendM4Message(userText) {
-    if (m4IsTyping) return;
-    if (userText !== null) {
-      m4History.push({ role: 'user', content: userText });
-      appendM4Bubble('user', userText);
-      saveM4Progress();
-    }
-    m4IsTyping = true;
-    showM4Typing(true);
-    scrollM4Bottom();
-    try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1000,
-          system: M4_SYSTEM,
-          messages: m4History
-        })
-      });
-      const data = await res.json();
-      const reply = data.content && data.content[0] ? data.content[0].text : 'Something went wrong — please try again.';
-      m4History.push({ role: 'assistant', content: reply });
-      showM4Typing(false);
-      if (reply.includes('---VOICE_SUMMARY_START---')) {
-        const summaryMatch = reply.match(/---VOICE_SUMMARY_START---([\s\S]*?)---VOICE_SUMMARY_END---/);
-        const preText = reply.split('---VOICE_SUMMARY_START---')[0].trim();
-        if (preText) appendM4Bubble('assistant', preText);
-        if (summaryMatch) {
-          m4Summary = summaryMatch[1].trim();
-          saveM4Progress();
-          showM4Summary(m4Summary);
-        }
-      } else {
-        appendM4Bubble('assistant', reply);
-      }
-      saveM4Progress();
-    } catch(e) {
-      showM4Typing(false);
-      appendM4Bubble('assistant', 'Something went wrong connecting. Please check your connection and try again.');
-    }
-    m4IsTyping = false;
-    scrollM4Bottom();
-  }
-
-  function appendM4Bubble(role, text) {
-    const feed = document.getElementById('m4-chat-feed');
-    const wrap = document.createElement('div');
-    wrap.className = `m2-bubble-wrap ${role}`;
-    const bubble = document.createElement('div');
-    bubble.className = `m2-bubble ${role}`;
-    bubble.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
-    wrap.appendChild(bubble);
-    feed.appendChild(wrap);
-    scrollM4Bottom();
-  }
-
-  function showM4Typing(show) {
-    document.getElementById('m4-typing').style.display = show ? 'flex' : 'none';
-    scrollM4Bottom();
-  }
-
-  function scrollM4Bottom() {
-    const feed = document.getElementById('m4-chat-feed');
-    setTimeout(() => { feed.scrollTop = feed.scrollHeight; }, 50);
-  }
-
-  function renderM4Chat() {
-    const feed = document.getElementById('m4-chat-feed');
-    feed.innerHTML = '';
-    const displayHistory = m4History.filter((m,i) => !(i === 0 && m.role === 'user' && m.content.includes("The client's name is")));
-    displayHistory.forEach(m => appendM4Bubble(m.role, m.content));
-  }
-
-  function submitM4Message() {
-    const input = document.getElementById('m4-input');
-    const text = input.value.trim();
-    if (!text || m4IsTyping) return;
-    input.value = '';
-    input.style.height = 'auto';
-    sendM4Message(text);
-  }
-
-  function showM4Summary(summaryText) {
-    const container = document.getElementById('m4-summary-container');
-    container.style.display = 'block';
-    const formatted = summaryText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(//g, '<br>');
-    document.getElementById('m4-summary-content').innerHTML = formatted;
-    document.getElementById('m4-input-area').style.display = 'none';
-    document.getElementById('m4-complete-btn').style.display = 'block';
-    scrollM4Bottom();
-  }
-
-  function saveM4Progress() {
-    clientData.m4data = { history: m4History, summary: m4Summary, savedAt: new Date().toISOString() };
-    saveClient(currentEmail, clientData);
-  }
-
-  async function completeModule4() {
-    clientData.modules.m4 = 'done';
-    await saveClient(currentEmail, clientData);
-    const toast = document.getElementById('saved-toast-m4');
-    toast.classList.add('show');
-    setTimeout(() => { toast.classList.remove('show'); goToDashboard(); }, 2000);
-  }
-
-  function goToModule4() {
-    if (clientData.modules.m4 === 'locked') return;
-    if (clientData.modules.m4 === 'todo') {
-      clientData.modules.m4 = 'inprogress';
-      saveClient(currentEmail, clientData);
-    }
-    m4History = (clientData.m4data && clientData.m4data.history) ? clientData.m4data.history : [];
-    m4Summary = (clientData.m4data && clientData.m4data.summary) ? clientData.m4data.summary : '';
-    renderM4Chat();
-    if (m4Summary) showM4Summary(m4Summary);
-    showScreen('screen-module4');
-    if (m4History.length === 0) startM4Conversation();
-  }
-
-  // Wire up module cards
-  document.getElementById('card-m3').addEventListener('click', function() {
-    if (!this.classList.contains('locked')) goToModule3();
+  var done = ['m1','m2','m3','m4'].filter(function(m){ return client.mods[m] === 'done'; }).length;
+  document.getElementById('prog-bar').style.width = (done / 4 * 100) + '%';
+  document.getElementById('prog-text').textContent = done + ' of 4 complete';
+  ['website','email','fb'].forEach(function(k) {
+    var el = document.getElementById('chk-' + k);
+    if (client.access[k]) { el.classList.add('checked'); el.textContent = '✓'; }
+    else { el.classList.remove('checked'); el.textContent = ''; }
   });
-  document.getElementById('card-m4').addEventListener('click', function() {
-    if (!this.classList.contains('locked')) goToModule4();
+}
+function toggleAccess(key) {
+  client.access[key] = !client.access[key];
+  sbSave(client);
+  renderDashboard();
+}
+
+// ═══════════════════════════════════
+// MODULE 1
+// ═══════════════════════════════════
+function openM1() {
+  var d = client.m1 || {};
+  function setf(id, v) { var el = document.getElementById(id); if (el && v) el.value = v; }
+  setf('f-firstname', d.firstname); setf('f-lastname', d.lastname); setf('f-bizname', d.bizname);
+  setf('f-website', d.website); setf('f-years', d.years); setf('f-offer', d.offer);
+  setf('f-offerurl', d.offerurl); setf('f-ty-offer', d.tyoffer); setf('f-listsize', d.listsize); setf('f-notes', d.notes);
+  if (d.practype) setRadio('practype', d.practype);
+  if (d.offercta) setRadio('offercta', d.offercta);
+  if (d.typage) { setRadio('typage', d.typage); if (d.typage === 'Promote a low-ticket offer') document.getElementById('ty-offer-wrap').style.display = 'block'; }
+  if (d.esp) setRadio('esp', d.esp);
+  if (d.webplatform) setRadio('webplatform', d.webplatform);
+  if (client.mods.m1 === 'todo') { client.mods.m1 = 'inprogress'; sbSave(client); }
+  goTo('module1');
+}
+function setRadio(name, val) {
+  document.querySelectorAll('input[name="' + name + '"]').forEach(function(r) {
+    if (r.value === val) { r.checked = true; r.closest('.radio-option').classList.add('selected'); }
   });
+}
+function getRadio(name) { var r = document.querySelector('input[name="' + name + '"]:checked'); return r ? r.value : ''; }
+function getf(id) { var el = document.getElementById(id); return el ? el.value : ''; }
+function saveM1() {
+  client.m1 = {
+    firstname: getf('f-firstname'), lastname: getf('f-lastname'), bizname: getf('f-bizname'),
+    website: getf('f-website'), years: getf('f-years'), practype: getRadio('practype'),
+    offer: getf('f-offer'), offercta: getRadio('offercta'), offerurl: getf('f-offerurl'),
+    typage: getRadio('typage'), tyoffer: getf('f-ty-offer'),
+    esp: getRadio('esp'), webplatform: getRadio('webplatform'),
+    listsize: getf('f-listsize'), notes: getf('f-notes')
+  };
+  client.mods.m1 = 'done';
+  client.mods.m2 = 'todo';
+  sbSave(client);
+  showToast('toast-m1');
+  setTimeout(function(){ renderDashboard(); goTo('dashboard'); }, 1400);
+}
 
-  // Wire up all inputs — runs immediately since script is at end of body
-  function wireInputs() {
-    const emailInput = document.getElementById('email-input');
-    if (emailInput) {
-      emailInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') { e.preventDefault(); handleEmailSubmit(); }
-      });
-    }
-    const m2input = document.getElementById('m2-input');
-    const m2btn = document.getElementById('m2-send-btn');
-    if (m2input) m2input.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submitM2Message(); }
-    });
-    if (m2btn) m2btn.addEventListener('click', function() { submitM2Message(); });
+// ═══════════════════════════════════
+// CHAT HELPERS
+// ═══════════════════════════════════
+function addBubble(feedId, role, text) {
+  var feed = document.getElementById(feedId);
+  var wrap = document.createElement('div');
+  wrap.className = 'bubble-wrap ' + role;
+  var b = document.createElement('div');
+  b.className = 'bubble ' + role;
+  b.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+  wrap.appendChild(b);
+  feed.appendChild(wrap);
+  setTimeout(function(){ feed.scrollTop = feed.scrollHeight; }, 50);
+}
+function setTyping(id, show) {
+  var el = document.getElementById(id);
+  el.style.display = show ? 'flex' : 'none';
+  var feed = el.parentNode;
+  setTimeout(function(){ feed.scrollTop = feed.scrollHeight; }, 50);
+}
 
-    const m4input = document.getElementById('m4-input');
-    const m4btn = document.getElementById('m4-send-btn');
-    if (m4input) m4input.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submitM4Message(); }
-    });
-    if (m4btn) m4btn.addEventListener('click', function() { submitM4Message(); });
+// ═══════════════════════════════════
+// MODULE 2 — ICA CHAT
+// ═══════════════════════════════════
+var M2_SYSTEM = 'You are a warm, expert onboarding guide for Whitney Bateson Digital Strategy — a done-for-you lead gen funnel service for health and wellness professionals (dietitians, therapists, health coaches).\n\nGuide a friendly conversation to deeply understand the client\'s ideal customer. Ask ONE question at a time. Listen and follow up when vague. Tone: warm, encouraging, conversational — like a sharp colleague friend. Never lecture or use jargon.\n\nTopics to cover naturally:\n1. Who their ideal client is — demographics, life stage, day-to-day\n2. The transformation their ideal client is looking for\n3. How their ideal client will feel once they achieve that\n4. The main problem or struggle their ideal client is dealing with\n5. What has gotten in the way — mental barriers, past attempts\n6. What they\'ve already tried and why it didn\'t work\n7. What\'s happening in their life RIGHT NOW making this more urgent\n8. What makes their ideal client trust a provider\n9. Where their ideal client goes to find help\n\nAfter covering all topics (10-14 exchanges), say you have everything needed and output EXACTLY this:\n\n---ICA_SUMMARY_START---\n**Name:** [a made-up first name for the avatar]\n**Who They Are:** [2-3 sentences on demographics and day-to-day]\n**What They Want:** [the transformation and how they\'ll feel]\n**What\'s In Their Way:** [struggles, barriers, what they\'ve tried]\n**What\'s Happening Now:** [the life trigger making this urgent]\n**How They Decide:** [trust signals and where they look for help]\n**In Their Own Words:** [1-2 sentences as if the ideal client is speaking]\n---ICA_SUMMARY_END---';
+
+function openM2() {
+  if (client.mods.m2 === 'locked') return;
+  if (client.mods.m2 === 'todo') { client.mods.m2 = 'inprogress'; sbSave(client); }
+  m2History = (client.m2 && client.m2.history) ? client.m2.history : [];
+  m2Summary = (client.m2 && client.m2.summary) ? client.m2.summary : '';
+  var feed = document.getElementById('m2-feed');
+  feed.innerHTML = '<div class="typing-indicator" id="m2-typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+  m2History.filter(function(m,i){ return !(i===0 && m.role==='user' && m.content.indexOf("client's name is") > -1); })
+    .forEach(function(m){ addBubble('m2-feed', m.role, m.content); });
+  if (m2Summary) showM2Summary(m2Summary);
+  goTo('module2');
+  if (m2History.length === 0) startM2();
+}
+function startM2() {
+  var n = client.m1 && client.m1.firstname;
+  var p = client.m1 && client.m1.practype || 'health professional';
+  var o = client.m1 && client.m1.offer;
+  var ctx = "The client's name is " + (n||'unknown') + ". They are a " + p + "." + (o ? " Their main offer is: " + o + "." : "") + " Start the conversation warmly and ask your first question about their ideal client.";
+  m2History = [{ role:'user', content: ctx }];
+  sendM2(null);
+}
+async function sendM2(userText) {
+  if (m2Busy) return;
+  if (userText !== null) { m2History.push({ role:'user', content:userText }); addBubble('m2-feed', 'user', userText); saveM2(); }
+  m2Busy = true; setTyping('m2-typing', true);
+  try {
+    var r = await fetch(AI, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:1000, system:M2_SYSTEM, messages:m2History }) });
+    var d = await r.json();
+    var reply = d.content && d.content[0] ? d.content[0].text : 'Something went wrong — please try again.';
+    m2History.push({ role:'assistant', content:reply });
+    setTyping('m2-typing', false);
+    if (reply.indexOf('---ICA_SUMMARY_START---') > -1) {
+      var pre = reply.split('---ICA_SUMMARY_START---')[0].trim();
+      if (pre) addBubble('m2-feed', 'assistant', pre);
+      var match = reply.match(/---ICA_SUMMARY_START---([\s\S]*?)---ICA_SUMMARY_END---/);
+      if (match) { m2Summary = match[1].trim(); showM2Summary(m2Summary); }
+    } else { addBubble('m2-feed', 'assistant', reply); }
+    saveM2();
+  } catch(ex) { setTyping('m2-typing', false); addBubble('m2-feed', 'assistant', 'Something went wrong. Please check your connection and try again.'); }
+  m2Busy = false;
+}
+function saveM2() { client.m2 = { history: m2History, summary: m2Summary }; sbSave(client); }
+function showM2Summary(text) {
+  var box = document.getElementById('m2-summary');
+  box.style.display = 'block';
+  document.getElementById('m2-summary-content').innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+  document.getElementById('m2-input-area').style.display = 'none';
+  document.getElementById('m2-complete').style.display = 'block';
+}
+function completeM2() {
+  client.mods.m2 = 'done'; client.mods.m3 = 'todo';
+  sbSave(client); showToast('toast-m2');
+  setTimeout(function(){ renderDashboard(); goTo('dashboard'); }, 1600);
+}
+
+// ═══════════════════════════════════
+// MODULE 3 — LEAD MAGNET
+// ═══════════════════════════════════
+function openM3() {
+  if (client.mods.m3 === 'locked') return;
+  if (client.mods.m3 === 'todo') { client.mods.m3 = 'inprogress'; sbSave(client); }
+  m3HadLm = null; m3Choice = null;
+  document.querySelectorAll('.m3-step').forEach(function(s){ s.classList.remove('visible'); });
+  document.getElementById('m3-s1').classList.add('visible');
+  setM3Dots(1);
+  var d = client.m3 || {};
+  if (d.hadLm) {
+    m3HadLm = d.hadLm;
+    setRadio('hadlm', d.hadLm);
+    if (d.hadLm === 'yes') document.getElementById('past-lm-detail').style.display = 'block';
   }
-
-  // Run on DOMContentLoaded and also immediately as fallback
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', wireInputs);
+  if (d.pastLm) { var el = document.getElementById('f-past-lm'); if(el) el.value = d.pastLm; }
+  if (d.pastLmWhy) { var el2 = document.getElementById('f-past-lm-why'); if(el2) el2.value = d.pastLmWhy; }
+  goTo('module3');
+}
+function setM3Dots(step) {
+  for (var i=1;i<=3;i++) {
+    var d = document.getElementById('m3-dot' + i);
+    d.classList.remove('active','done');
+    if (i < step) d.classList.add('done');
+    else if (i === step) d.classList.add('active');
+  }
+  document.getElementById('m3-step-lbl').textContent = 'Step ' + step + ' of 3';
+}
+function m3Next1() {
+  var r = document.querySelector('input[name="hadlm"]:checked');
+  if (!r) { alert("Please tell us if you've had a lead magnet before."); return; }
+  m3HadLm = r.value;
+  if (m3HadLm === 'yes') document.getElementById('past-lm-detail').style.display = 'block';
+  client.m3 = client.m3 || {};
+  client.m3.hadLm = m3HadLm;
+  client.m3.pastLm = getf('f-past-lm');
+  client.m3.pastLmWhy = getf('f-past-lm-why');
+  sbSave(client);
+  var cards = '';
+  if (m3HadLm === 'yes') {
+    cards = '<div class="branch-card" id="bc-use"><div class="branch-card-title">Yes — use an existing one</div><div class="branch-card-desc">It\'s already built and I want to use it for this campaign</div></div>' +
+            '<div class="branch-card" id="bc-improve"><div class="branch-card-title">Yes — but it needs some work first</div><div class="branch-card-desc">I have one but want to improve it before using it</div></div>' +
+            '<div class="branch-card" id="bc-new"><div class="branch-card-title">No — I want to create something new</div><div class="branch-card-desc">I\'d rather start fresh for this campaign</div></div>';
   } else {
-    wireInputs();
+    cards = '<div class="branch-card selected" id="bc-new"><div class="branch-card-title">Create a brand new lead magnet</div><div class="branch-card-desc">We\'ll build one from scratch together</div></div>';
+    m3Choice = 'new';
   }
+  document.getElementById('m3-branch-cards').innerHTML = cards;
+  if (m3HadLm === 'yes') {
+    ['bc-use','bc-improve','bc-new'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.onclick = function() { document.querySelectorAll('.branch-card').forEach(function(c){ c.classList.remove('selected'); }); el.classList.add('selected'); m3Choice = id.replace('bc-',''); };
+    });
+    if (client.m3 && client.m3.choice) {
+      m3Choice = client.m3.choice;
+      var bc = document.getElementById('bc-' + m3Choice);
+      if (bc) bc.classList.add('selected');
+    }
+  }
+  document.getElementById('m3-s1').classList.remove('visible');
+  document.getElementById('m3-s2').classList.add('visible');
+  setM3Dots(2); window.scrollTo(0,0);
+}
+function m3Next2() {
+  if (!m3Choice) { alert('Please select an option.'); return; }
+  client.m3 = client.m3 || {}; client.m3.choice = m3Choice; sbSave(client);
+  document.getElementById('m3-s2').classList.remove('visible');
+  var restoreFields = function(d) {
+    var fields = { 'f-lm-topic':'lmTopic','f-lm-transformation':'lmTransformation','f-why-not-existing':'whyNotExisting','f-existing-name':'existingName','f-existing-link':'existingLink','f-existing-working':'existingWorking','f-existing-freshen':'existingFreshen','f-improve-name':'improveName','f-improve-link':'improveLink','f-improve-issues':'improveIssues','f-improve-goal':'improveGoal','f-improve-keep':'improveKeep' };
+    Object.keys(fields).forEach(function(fid) { var el = document.getElementById(fid); if (el && d[fields[fid]]) el.value = d[fields[fid]]; });
+    if (d.lmCta) setRadio('lmcta', d.lmCta);
+    if (d.lmFormat) setRadio('lmformat', d.lmFormat);
+    if (d.elmCta) setRadio('elmcta', d.elmCta);
+  };
+  if (m3Choice === 'new') {
+    if (m3HadLm === 'yes') document.getElementById('why-not-existing-wrap').style.display = 'block';
+    document.getElementById('m3-s3-new').classList.add('visible');
+  } else if (m3Choice === 'use') {
+    document.getElementById('m3-s3-existing').classList.add('visible');
+  } else {
+    document.getElementById('m3-s3-improve').classList.add('visible');
+  }
+  restoreFields(client.m3 || {});
+  setM3Dots(3); window.scrollTo(0,0);
+}
+function saveM3() {
+  var d = client.m3 || {};
+  if (m3Choice === 'new') {
+    d.lmPath = 'create'; d.whyNotExisting = getf('f-why-not-existing');
+    d.lmTopic = getf('f-lm-topic'); d.lmCta = getRadio('lmcta');
+    d.lmFormat = getRadio('lmformat'); d.lmTransformation = getf('f-lm-transformation');
+  } else if (m3Choice === 'use') {
+    d.lmPath = 'existing'; d.existingName = getf('f-existing-name');
+    d.existingLink = getf('f-existing-link'); d.existingWorking = getf('f-existing-working');
+    d.existingFreshen = getf('f-existing-freshen'); d.elmCta = getRadio('elmcta');
+  } else {
+    d.lmPath = 'improve'; d.improveName = getf('f-improve-name');
+    d.improveLink = getf('f-improve-link'); d.improveIssues = getf('f-improve-issues');
+    d.improveGoal = getf('f-improve-goal'); d.improveKeep = getf('f-improve-keep');
+  }
+  client.m3 = d; client.mods.m3 = 'done'; client.mods.m4 = 'todo';
+  sbSave(client); showToast('toast-m3');
+  setTimeout(function(){ renderDashboard(); goTo('dashboard'); }, 1600);
+}
+
+// ═══════════════════════════════════
+// MODULE 4 — VOICE CHAT
+// ═══════════════════════════════════
+var M4_SYSTEM = 'You are a warm, expert onboarding guide for Whitney Bateson Digital Strategy — a done-for-you lead gen funnel service for health and wellness professionals.\n\nHave a friendly conversation to pull out everything needed to write the client\'s 4-email welcome sequence in their voice. Ask ONE question at a time. Be warm, encouraging, specific.\n\nTopics to cover naturally:\n1. Their tone and voice — how do they communicate? 2-3 words that capture it\n2. Words or phrases they always use — and any to avoid\n3. Their origin story — why did they get into this work?\n4. Their specialty framed for clients — what do they specifically help clients achieve?\n5. 2-3 personal facts (location, hobbies, pets/kids)\n6. 3 existing resources to point new subscribers to\n7. A common question or roadblock clients hit early on (feeds Email 3)\n8. One insight or reframe they wish more people knew (also Email 3)\n9. Their main offer name, what it includes, who it\'s for (feeds Email 4)\n10. Any discount or special offer for new subscribers\n11. A writing sample — ask them to paste something they\'ve written\n\nAfter covering all topics (12-16 exchanges), say you have everything needed. Then output EXACTLY this:\n\n---VOICE_SUMMARY_START---\n**Tone and voice:** [3-5 descriptive words]\n**Phrases they use:** [key phrases]\n**Phrases to avoid:** [anything flagged]\n**Their story:** [2-3 sentences on origin and passion]\n**Their specialty:** [what they help clients achieve]\n**Personal facts:** [2-3 humanizing details]\n**Resources to share:** [up to 3 with brief descriptions]\n**Email 3 - Roadblock:** [common early challenge]\n**Email 3 - Quick win:** [their key insight or reframe]\n**Email 4 - Offer:** [offer name, what it includes, who it\'s for]\n**Email 4 - CTA:** [next step and any new subscriber discount]\n**Writing sample notes:** [what their sample reveals about their voice]\n---VOICE_SUMMARY_END---';
+
+function openM4() {
+  if (client.mods.m4 === 'locked') return;
+  if (client.mods.m4 === 'todo') { client.mods.m4 = 'inprogress'; sbSave(client); }
+  m4History = (client.m4 && client.m4.history) ? client.m4.history : [];
+  m4Summary = (client.m4 && client.m4.summary) ? client.m4.summary : '';
+  var feed = document.getElementById('m4-feed');
+  feed.innerHTML = '<div class="typing-indicator" id="m4-typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+  m4History.filter(function(m,i){ return !(i===0 && m.role==='user' && m.content.indexOf("client's name is") > -1); })
+    .forEach(function(m){ addBubble('m4-feed', m.role, m.content); });
+  if (m4Summary) showM4Summary(m4Summary);
+  goTo('module4');
+  if (m4History.length === 0) startM4();
+}
+function startM4() {
+  var n = client.m1 && client.m1.firstname;
+  var p = client.m1 && client.m1.practype || 'health professional';
+  var o = client.m1 && client.m1.offer;
+  var lm = client.m3 && client.m3.lmTopic;
+  var ica = client.m2 && client.m2.summary;
+  var ctx = "The client's name is " + (n||'unknown') + ". They are a " + p + "." + (o ? " Their main offer is: " + o + "." : "") + (lm ? " Lead magnet topic: " + lm + "." : "") + (ica ? " ICA summary: " + ica : "") + " Start warmly, acknowledge this is the last module, and ask your first question about their voice and communication style.";
+  m4History = [{ role:'user', content: ctx }];
+  sendM4(null);
+}
+async function sendM4(userText) {
+  if (m4Busy) return;
+  if (userText !== null) { m4History.push({ role:'user', content:userText }); addBubble('m4-feed', 'user', userText); saveM4(); }
+  m4Busy = true; setTyping('m4-typing', true);
+  try {
+    var r = await fetch(AI, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:1000, system:M4_SYSTEM, messages:m4History }) });
+    var d = await r.json();
+    var reply = d.content && d.content[0] ? d.content[0].text : 'Something went wrong — please try again.';
+    m4History.push({ role:'assistant', content:reply });
+    setTyping('m4-typing', false);
+    if (reply.indexOf('---VOICE_SUMMARY_START---') > -1) {
+      var pre = reply.split('---VOICE_SUMMARY_START---')[0].trim();
+      if (pre) addBubble('m4-feed', 'assistant', pre);
+      var match = reply.match(/---VOICE_SUMMARY_START---([\s\S]*?)---VOICE_SUMMARY_END---/);
+      if (match) { m4Summary = match[1].trim(); showM4Summary(m4Summary); }
+    } else { addBubble('m4-feed', 'assistant', reply); }
+    saveM4();
+  } catch(ex) { setTyping('m4-typing', false); addBubble('m4-feed', 'assistant', 'Something went wrong. Please check your connection and try again.'); }
+  m4Busy = false;
+}
+function saveM4() { client.m4 = { history: m4History, summary: m4Summary }; sbSave(client); }
+function showM4Summary(text) {
+  var box = document.getElementById('m4-summary');
+  box.style.display = 'block';
+  document.getElementById('m4-summary-content').innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+  document.getElementById('m4-input-area').style.display = 'none';
+  document.getElementById('m4-complete').style.display = 'block';
+}
+function completeM4() {
+  client.mods.m4 = 'done';
+  sbSave(client); showToast('toast-m4');
+  setTimeout(function(){ renderDashboard(); goTo('dashboard'); }, 2000);
+}
+
+// ═══════════════════════════════════
+// RADIO HIGHLIGHT ON CLICK
+// ═══════════════════════════════════
+document.querySelectorAll('.radio-option').forEach(function(opt) {
+  opt.addEventListener('click', function() {
+    var name = opt.querySelector('input') && opt.querySelector('input').name;
+    if (!name) return;
+    document.querySelectorAll('input[name="' + name + '"]').forEach(function(r) {
+      r.closest('.radio-option').classList.remove('selected');
+    });
+    opt.classList.add('selected');
+  });
+});
+
+// ═══════════════════════════════════
+// HADLM TOGGLE
+// ═══════════════════════════════════
+document.querySelectorAll('input[name="hadlm"]').forEach(function(r) {
+  r.addEventListener('change', function() {
+    document.getElementById('past-lm-detail').style.display = r.value === 'yes' ? 'block' : 'none';
+  });
+});
+
+// ═══════════════════════════════════
+// MODULE CARD CLICKS
+// ═══════════════════════════════════
+document.getElementById('card-m1').addEventListener('click', function() { if (!this.classList.contains('locked')) openM1(); });
+document.getElementById('card-m2').addEventListener('click', function() { if (!this.classList.contains('locked')) openM2(); });
+document.getElementById('card-m3').addEventListener('click', function() { if (!this.classList.contains('locked')) openM3(); });
+document.getElementById('card-m4').addEventListener('click', function() { if (!this.classList.contains('locked')) openM4(); });
+
+// ═══════════════════════════════════
+// CHAT INPUT WIRING
+// ═══════════════════════════════════
+document.getElementById('m2-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); var t = this.value.trim(); if (t) { this.value = ''; this.style.height = 'auto'; sendM2(t); } }
+});
+document.getElementById('m2-input').addEventListener('input', function() { this.style.height = 'auto'; this.style.height = Math.min(this.scrollHeight, 120) + 'px'; });
+document.getElementById('m2-send').addEventListener('click', function() { var inp = document.getElementById('m2-input'); var t = inp.value.trim(); if (t) { inp.value = ''; inp.style.height = 'auto'; sendM2(t); } });
+
+document.getElementById('m4-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); var t = this.value.trim(); if (t) { this.value = ''; this.style.height = 'auto'; sendM4(t); } }
+});
+document.getElementById('m4-input').addEventListener('input', function() { this.style.height = 'auto'; this.style.height = Math.min(this.scrollHeight, 120) + 'px'; });
+document.getElementById('m4-send').addEventListener('click', function() { var inp = document.getElementById('m4-input'); var t = inp.value.trim(); if (t) { inp.value = ''; inp.style.height = 'auto'; sendM4(t); } });
+
+// ═══════════════════════════════════
+// LANDING INPUT WIRING
+// ═══════════════════════════════════
+document.getElementById('continue-btn').addEventListener('click', handleContinue);
+document.getElementById('email-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') { e.preventDefault(); handleContinue(); }
+});
 </script>
-
-<!-- ══════════════════════════════════════════
-     SCREEN 4: MODULE 2 — ICA CONVERSATION
-══════════════════════════════════════════ -->
-<div id="screen-module2" class="screen" style="flex-direction:column;background:var(--cream);">
-
-  <style>
-    #screen-module2 { display:none; flex-direction:column; }
-    #screen-module2.active { display:flex; }
-
-    .m2-layout {
-      display: flex;
-      flex-direction: column;
-      height: calc(100vh - 64px);
-      max-width: 680px;
-      margin: 0 auto;
-      width: 100%;
-      padding: 0 1rem;
-    }
-
-    .m2-intro {
-      background: var(--sky-light);
-      border-radius: var(--radius);
-      padding: 1rem 1.25rem;
-      margin: 1.25rem 0 0.75rem;
-      font-size: 13px;
-      color: var(--teal);
-      line-height: 1.6;
-      border: 1px solid var(--sky);
-      flex-shrink: 0;
-    }
-
-    .m2-intro strong { font-weight: 500; }
-
-    .m2-chat-feed {
-      flex: 1;
-      overflow-y: auto;
-      padding: 0.75rem 0 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-
-    .m2-bubble-wrap {
-      display: flex;
-    }
-
-    .m2-bubble-wrap.user { justify-content: flex-end; }
-    .m2-bubble-wrap.assistant { justify-content: flex-start; }
-
-    .m2-bubble {
-      max-width: 82%;
-      padding: 0.75rem 1rem;
-      border-radius: 16px;
-      font-size: 14px;
-      line-height: 1.65;
-    }
-
-    .m2-bubble.assistant {
-      background: var(--white);
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-bottom-left-radius: 4px;
-    }
-
-    .m2-bubble.user {
-      background: var(--teal);
-      color: var(--white);
-      border-bottom-right-radius: 4px;
-    }
-
-    .m2-typing {
-      display: none;
-      align-items: center;
-      gap: 4px;
-      padding: 0.75rem 1rem;
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      border-bottom-left-radius: 4px;
-      width: fit-content;
-    }
-
-    .m2-typing-dot {
-      width: 7px;
-      height: 7px;
-      background: var(--teal-mid);
-      border-radius: 50%;
-      animation: typingPulse 1.2s ease-in-out infinite;
-    }
-
-    .m2-typing-dot:nth-child(2) { animation-delay: 0.2s; }
-    .m2-typing-dot:nth-child(3) { animation-delay: 0.4s; }
-
-    @keyframes typingPulse {
-      0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
-      30% { opacity: 1; transform: translateY(-3px); }
-    }
-
-    .m2-summary-container {
-      display: none;
-      background: var(--white);
-      border: 1.5px solid var(--sky);
-      border-radius: var(--radius);
-      padding: 1.25rem 1.5rem;
-      margin: 0.5rem 0;
-    }
-
-    .m2-summary-header {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .m2-summary-badge {
-      background: var(--lime);
-      color: var(--teal-dark);
-      font-size: 11px;
-      font-weight: 500;
-      padding: 0.25rem 0.6rem;
-      border-radius: 20px;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-
-    .m2-summary-title {
-      font-family: 'Lora', serif;
-      font-size: 15px;
-      color: var(--teal);
-    }
-
-    .m2-summary-content {
-      font-size: 13px;
-      color: var(--text-mid);
-      line-height: 1.8;
-    }
-
-    .m2-input-area {
-      flex-shrink: 0;
-      padding: 0.75rem 0 1rem;
-      display: flex;
-      gap: 0.6rem;
-      align-items: flex-end;
-    }
-
-    .m2-input {
-      flex: 1;
-      padding: 0.75rem 1rem;
-      border: 1.5px solid var(--border);
-      border-radius: 12px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      color: var(--text);
-      background: var(--white);
-      resize: none;
-      outline: none;
-      min-height: 48px;
-      max-height: 120px;
-      line-height: 1.5;
-      transition: border-color 0.2s;
-    }
-
-    .m2-input:focus { border-color: var(--teal); }
-
-    .m2-send-btn {
-      width: 44px;
-      height: 44px;
-      background: var(--coral);
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.2s;
-      flex-shrink: 0;
-    }
-
-    .m2-send-btn:hover { background: #e86e3f; }
-
-    .m2-send-btn svg { width: 18px; height: 18px; fill: white; }
-
-    .m2-complete-btn {
-      display: none;
-      width: 100%;
-      padding: 0.9rem;
-      background: var(--teal);
-      color: white;
-      border: none;
-      border-radius: var(--radius-sm);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 15px;
-      font-weight: 500;
-      cursor: pointer;
-      margin: 0.75rem 0 1.5rem;
-      transition: background 0.2s;
-    }
-
-    .m2-complete-btn:hover { background: var(--teal-mid); }
-  </style>
-
-  <div class="module-header">
-    <button class="back-btn" onclick="goToDashboard()">← Dashboard</button>
-    <div class="module-header-info">
-      <div class="module-header-eyebrow">Module 2</div>
-      <div class="module-header-title">Your Ideal Client</div>
-    </div>
-  </div>
-
-  <div class="m2-layout">
-
-    <div class="m2-intro">
-      <strong>This is a conversation, not a form.</strong> I'll ask you questions one at a time about who you help and what they're going through. Just answer naturally — there are no wrong answers. At the end, I'll put together a complete Ideal Client summary for your funnel.
-    </div>
-
-    <div class="m2-chat-feed" id="m2-chat-feed">
-      <div class="m2-typing" id="m2-typing">
-        <div class="m2-typing-dot"></div>
-        <div class="m2-typing-dot"></div>
-        <div class="m2-typing-dot"></div>
-      </div>
-    </div>
-
-    <div id="m2-summary-container" class="m2-summary-container">
-      <div class="m2-summary-header">
-        <span class="m2-summary-badge">✓ Complete</span>
-        <span class="m2-summary-title">Your Ideal Client Avatar</span>
-      </div>
-      <div class="m2-summary-content" id="m2-summary-content"></div>
-    </div>
-
-    <div class="m2-input-area" id="m2-input-area">
-      <textarea
-        class="m2-input"
-        id="m2-input"
-        placeholder="Type your answer here... (press Enter to send)"
-        rows="1"
-        oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"
-      ></textarea>
-      <button class="m2-send-btn" id="m2-send-btn">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-        </svg>
-      </button>
-    </div>
-
-    <button class="m2-complete-btn" id="m2-complete-btn" onclick="completeModule2()">
-      Save My ICA + Continue to Module 3 →
-    </button>
-
-  </div>
-
-  <div class="saved-toast" id="saved-toast-m2">✓ ICA saved — Module 3 unlocked!</div>
-
-</div>
-
-
-<!-- ══════════════════════════════════════════
-     SCREEN 5: MODULE 3 — LEAD MAGNET
-══════════════════════════════════════════ -->
-<div id="screen-module3" class="screen" style="background:var(--cream);">
-
-  <style>
-    .branch-card {
-      background: var(--white);
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem 1.5rem;
-      cursor: pointer;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      margin-bottom: 0.75rem;
-    }
-    .branch-card:hover { border-color: var(--teal); box-shadow: 0 2px 12px rgba(2,82,93,0.08); }
-    .branch-card.selected { border-color: var(--coral); background: #fff8f5; }
-    .branch-card-title { font-family: "Lora", serif; font-size: 16px; color: var(--teal); margin-bottom: 0.25rem; }
-    .branch-card-desc { font-size: 13px; color: var(--text-mid); }
-
-    .m3-section { display: none; }
-    .m3-section.visible { display: block; }
-
-    .step-indicator {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 1.5rem;
-    }
-    .step-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--border);
-      transition: background 0.2s;
-    }
-    .step-dot.active { background: var(--coral); }
-    .step-dot.done { background: var(--teal); }
-    .step-label { font-size: 12px; color: var(--text-light); margin-left: 0.25rem; }
-
-    .past-lm-item {
-      background: var(--cream);
-      border-radius: var(--radius-sm);
-      padding: 0.75rem 1rem;
-      margin-bottom: 0.5rem;
-      font-size: 13px;
-      color: var(--text-mid);
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-  </style>
-
-  <div class="module-header">
-    <button class="back-btn" onclick="goToDashboard()">← Dashboard</button>
-    <div class="module-header-info">
-      <div class="module-header-eyebrow">Module 3</div>
-      <div class="module-header-title">Your Lead Magnet</div>
-    </div>
-  </div>
-
-  <div class="module-body">
-
-    <!-- Step indicator -->
-    <div class="step-indicator" id="m3-steps">
-      <div class="step-dot active" id="m3-dot-1"></div>
-      <div class="step-dot" id="m3-dot-2"></div>
-      <div class="step-dot" id="m3-dot-3"></div>
-      <span class="step-label" id="m3-step-label">Step 1 of 3</span>
-    </div>
-
-    <!-- ── STEP 1: Have you had a lead magnet before? ── -->
-    <div class="m3-section visible" id="m3-step1">
-      <div class="section-label">Lead Magnet History</div>
-
-      <div class="field-group">
-        <label class="field-label">Have you ever created a lead magnet before — even if it's no longer active?</label>
-        <p class="field-hint">A freebie, guide, checklist, quiz, workshop — anything you've offered in exchange for an email.</p>
-        <div class="radio-group">
-          <label class="radio-option" id="r-hadlm-yes" onclick="selectBranchRadio('hadlm', 'yes', this)">
-            <input type="radio" name="hadlm" value="yes" />
-            <div><div class="radio-label">Yes — I've had at least one before</div></div>
-          </label>
-          <label class="radio-option" id="r-hadlm-no" onclick="selectBranchRadio('hadlm', 'no', this)">
-            <input type="radio" name="hadlm" value="no" />
-            <div><div class="radio-label">No — this would be my first one</div></div>
-          </label>
-        </div>
-      </div>
-
-      <!-- If they had one before — what was it -->
-      <div class="field-group m3-section" id="m3-pastlm-detail">
-        <label class="field-label" for="f-past-lm">Tell us about it — what was it, and what happened with it?</label>
-        <p class="field-hint">What was the topic? Did people download it? Why aren't you using it now?</p>
-        <textarea class="field-textarea" id="f-past-lm" placeholder="e.g. I had a 3-day meal plan PDF — people downloaded it but it didn't lead to many bookings. I think the topic was too broad..."></textarea>
-      </div>
-
-      <div class="field-group m3-section" id="m3-pastlm-why">
-        <label class="field-label" for="f-past-lm-why">What do you think didn't work about it?</label>
-        <textarea class="field-textarea" id="f-past-lm-why" placeholder="e.g. It attracted the wrong people, or it didn't connect to my offer clearly enough..."></textarea>
-      </div>
-
-      <button class="btn-save" style="margin-top:0.5rem" onclick="m3GoToStep2()">Next →</button>
-    </div>
-
-    <!-- ── STEP 2: For THIS campaign — what do you want to do? ── -->
-    <div class="m3-section" id="m3-step2">
-      <div class="section-label">For This Campaign</div>
-
-      <div class="field-group">
-        <label class="field-label">Do you currently have a lead magnet you want to use for this campaign?</label>
-        <p class="field-hint">You might have something that's working great — or you might want something fresh. Either is completely fine.</p>
-
-        <div id="m3-branch-options">
-          <!-- Options injected by JS based on step 1 answer -->
-        </div>
-      </div>
-
-      <button class="btn-save" style="margin-top:0.5rem" onclick="m3GoToStep3()">Next →</button>
-    </div>
-
-    <!-- ── STEP 3A: CREATE NEW ── -->
-    <div class="m3-section" id="m3-step3-new">
-      <div class="section-label">Building Your Lead Magnet</div>
-
-      <div class="field-group" id="m3-why-not-existing" style="display:none">
-        <label class="field-label" for="f-why-not-existing">Why not use an existing one for this campaign?</label>
-        <textarea class="field-textarea" id="f-why-not-existing" placeholder="e.g. My existing one doesn't connect to this offer, or I want something fresher..."></textarea>
-      </div>
-
-      <div class="field-group">
-        <label class="field-label" for="f-lm-topic">What topic feels most relevant to your ideal client right now?</label>
-        <p class="field-hint">Think about what they're Googling, what questions they ask you most, what keeps them up at night.</p>
-        <textarea class="field-textarea" id="f-lm-topic" placeholder="e.g. How to stop yo-yo dieting without giving up the foods you love..."></textarea>
-      </div>
-
-      <div class="field-group">
-        <label class="field-label">After downloading, what's the ONE thing you want them to do next?</label>
-        <div class="radio-group">
-          <label class="radio-option" id="r-lmcta-call" onclick="selectBranchRadio('lmcta', 'call', this)">
-            <input type="radio" name="lmcta" value="Book a free discovery call" />
-            <div><div class="radio-label">Book a free discovery call</div></div>
-          </label>
-          <label class="radio-option" id="r-lmcta-buy" onclick="selectBranchRadio('lmcta', 'buy', this)">
-            <input type="radio" name="lmcta" value="Purchase an offer" />
-            <div><div class="radio-label">Purchase an offer</div></div>
-          </label>
-          <label class="radio-option" id="r-lmcta-wait" onclick="selectBranchRadio('lmcta', 'wait', this)">
-            <input type="radio" name="lmcta" value="Join a waitlist" />
-            <div><div class="radio-label">Join a waitlist</div></div>
-          </label>
-          <label class="radio-option" id="r-lmcta-nurture" onclick="selectBranchRadio('lmcta', 'nurture', this)">
-            <input type="radio" name="lmcta" value="Just nurture them — no immediate CTA" />
-            <div><div class="radio-label">Just nurture them — no immediate CTA</div></div>
-          </label>
-        </div>
-      </div>
-
-      <div class="field-group">
-        <label class="field-label">Do you want them to take action or gain knowledge?</label>
-        <p class="field-hint">This helps us decide between a workbook (action-oriented) and a guide (educational). We'll make the final call — just share your instinct.</p>
-        <div class="radio-group">
-          <label class="radio-option" id="r-lmformat-action" onclick="selectBranchRadio('lmformat', 'action', this)">
-            <input type="radio" name="lmformat" value="Take action — I want them to do something" />
-            <div>
-              <div class="radio-label">Take action — I want them to DO something</div>
-              <div class="radio-sublabel">Points toward a workbook format</div>
-            </div>
-          </label>
-          <label class="radio-option" id="r-lmformat-learn" onclick="selectBranchRadio('lmformat', 'learn', this)">
-            <input type="radio" name="lmformat" value="Gain knowledge — I want to educate them" />
-            <div>
-              <div class="radio-label">Gain knowledge — I want to EDUCATE them</div>
-              <div class="radio-sublabel">Points toward a guide format</div>
-            </div>
-          </label>
-          <label class="radio-option" id="r-lmformat-unsure" onclick="selectBranchRadio('lmformat', 'unsure', this)">
-            <input type="radio" name="lmformat" value="Not sure — you decide!" />
-            <div><div class="radio-label">Not sure — you decide!</div></div>
-          </label>
-        </div>
-      </div>
-
-      <div class="field-group">
-        <label class="field-label" for="f-lm-transformation">What should someone be able to do, feel, or understand after going through your lead magnet?</label>
-        <textarea class="field-textarea" id="f-lm-transformation" placeholder="e.g. Feel confident that they can improve their relationship with food without another restrictive diet..."></textarea>
-      </div>
-
-      <button class="btn-save" onclick="saveModule3()">Save + Continue →</button>
-    </div>
-
-    <!-- ── STEP 3B: USE EXISTING ── -->
-    <div class="m3-section" id="m3-step3-existing">
-      <div class="section-label">Your Existing Lead Magnet</div>
-
-      <div class="field-group">
-        <label class="field-label" for="f-existing-name">What's it called and what's it about?</label>
-        <input class="field-input" id="f-existing-name" type="text" placeholder="e.g. 5-Day Anti-Inflammatory Meal Plan" />
-      </div>
-
-      <div class="field-group">
-        <label class="field-label" for="f-existing-link">Do you have a link to it we can review?</label>
-        <input class="field-input" id="f-existing-link" type="url" placeholder="https://..." />
-      </div>
-
-      <div class="field-group">
-        <label class="field-label" for="f-existing-working">What's working well about it?</label>
-        <p class="field-hint">Good download rate? Great feedback? Strong connection to your offer? Tell us what to preserve.</p>
-        <textarea class="field-textarea" id="f-existing-working" placeholder="e.g. People always say the recipes are super practical and easy to follow..."></textarea>
-      </div>
-
-      <div class="field-group">
-        <label class="field-label" for="f-existing-freshen">Is there anything you'd like to freshen up or update?</label>
-        <textarea class="field-textarea" id="f-existing-freshen" placeholder="e.g. The design feels dated, or I'd like to add a stronger CTA at the end..."></textarea>
-      </div>
-
-      <div class="field-group">
-        <label class="field-label">After downloading, what's the ONE thing you want them to do next?</label>
-        <div class="radio-group">
-          <label class="radio-option" id="r-elmcta-call" onclick="selectBranchRadio('elmcta', 'call', this)">
-            <input type="radio" name="elmcta" value="Book a free discovery call" />
-            <div><div class="radio-label">Book a free discovery call</div></div>
-          </label>
-          <label class="radio-option" id="r-elmcta-buy" onclick="selectBranchRadio('elmcta', 'buy', this)">
-            <input type="radio" name="elmcta" value="Purchase an offer" />
-            <div><div class="radio-label">Purchase an offer</div></div>
-          </label>
-          <label class="radio-option" id="r-elmcta-wait" onclick="selectBranchRadio('elmcta', 'wait', this)">
-            <input type="radio" name="elmcta" value="Join a waitlist" />
-            <div><div class="radio-label">Join a waitlist</div></div>
-          </label>
-          <label class="radio-option" id="r-elmcta-nurture" onclick="selectBranchRadio('elmcta', 'nurture', this)">
-            <input type="radio" name="elmcta" value="Just nurture them" />
-            <div><div class="radio-label">Just nurture them — no immediate CTA</div></div>
-          </label>
-        </div>
-      </div>
-
-      <button class="btn-save" onclick="saveModule3()">Save + Continue →</button>
-    </div>
-
-    <!-- ── STEP 3C: IMPROVE EXISTING ── -->
-    <div class="m3-section" id="m3-step3-improve">
-      <div class="section-label">Improving Your Lead Magnet</div>
-
-      <div class="field-group">
-        <label class="field-label" for="f-improve-name">Which lead magnet do you want to improve?</label>
-        <input class="field-input" id="f-improve-name" type="text" placeholder="e.g. 7-Day Gut Health Reset Guide" />
-      </div>
-
-      <div class="field-group">
-        <label class="field-label" for="f-improve-link">Link to it if you have one</label>
-        <input class="field-input" id="f-improve-link" type="url" placeholder="https://..." />
-      </div>
-
-      <div class="field-group">
-        <label class="field-label" for="f-improve-issues">What's not working about it right now?</label>
-        <p class="field-hint">Low downloads? Not connecting to your offer? Outdated content? Be as specific as you can.</p>
-        <textarea class="field-textarea" id="f-improve-issues" placeholder="e.g. People download it but never book a call — there's no clear next step..."></textarea>
-      </div>
-
-      <div class="field-group">
-        <label class="field-label" for="f-improve-goal">What's the new goal for it after we improve it?</label>
-        <textarea class="field-textarea" id="f-improve-goal" placeholder="e.g. I want it to clearly lead people toward booking a discovery call..."></textarea>
-      </div>
-
-      <div class="field-group">
-        <label class="field-label" for="f-improve-keep">Is there anything you definitely want to keep?</label>
-        <textarea class="field-textarea" id="f-improve-keep" placeholder="e.g. The core content is solid — just needs a redesign and a stronger CTA..."></textarea>
-      </div>
-
-      <button class="btn-save" onclick="saveModule3()">Save + Continue →</button>
-    </div>
-
-  </div>
-
-  <div class="saved-toast" id="saved-toast-m3">✓ Lead magnet info saved — Module 4 unlocked!</div>
-</div>
-
-
-<!-- ══════════════════════════════════════════
-     SCREEN 6: MODULE 4 — VOICE + EMAIL INTEL
-══════════════════════════════════════════ -->
-<div id="screen-module4" class="screen" style="background:var(--cream);">
-
-  <div class="module-header">
-    <button class="back-btn" onclick="goToDashboard()">← Dashboard</button>
-    <div class="module-header-info">
-      <div class="module-header-eyebrow">Module 4</div>
-      <div class="module-header-title">Voice + Email Intel</div>
-    </div>
-  </div>
-
-  <div class="m2-layout">
-
-    <div class="m2-intro">
-      <strong>Last one — and it's a conversation.</strong> I'll ask you about your voice, your story, and the specific details we need to write your welcome emails. Just answer naturally — the more you share, the better your emails will sound like <em>you</em>.
-    </div>
-
-    <div class="m2-chat-feed" id="m4-chat-feed">
-      <div class="m2-typing" id="m4-typing">
-        <div class="m2-typing-dot"></div>
-        <div class="m2-typing-dot"></div>
-        <div class="m2-typing-dot"></div>
-      </div>
-    </div>
-
-    <div id="m4-summary-container" class="m2-summary-container">
-      <div class="m2-summary-header">
-        <span class="m2-summary-badge">✓ Complete</span>
-        <span class="m2-summary-title">Voice + Email Intel Summary</span>
-      </div>
-      <div class="m2-summary-content" id="m4-summary-content"></div>
-    </div>
-
-    <div class="m2-input-area" id="m4-input-area">
-      <textarea
-        class="m2-input"
-        id="m4-input"
-        placeholder="Type your answer here... (press Enter to send)"
-        rows="1"
-        oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"
-      ></textarea>
-      <button class="m2-send-btn" id="m4-send-btn">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-        </svg>
-      </button>
-    </div>
-
-    <button class="m2-complete-btn" id="m4-complete-btn" onclick="completeModule4()">
-      Save + Submit All Modules →
-    </button>
-
-  </div>
-
-  <div class="saved-toast" id="saved-toast-m4">✓ All done! Your team has been notified.</div>
-</div>
-
 </body>
 </html>
