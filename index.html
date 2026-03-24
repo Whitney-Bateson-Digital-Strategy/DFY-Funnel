@@ -1389,20 +1389,29 @@ After you've covered all topics (usually 10-14 exchanges), tell the client you h
     displayHistory.forEach(m => appendM2Bubble(m.role, m.content));
   }
 
-  function handleM2Input(e) {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      submitM2Message();
-    }
-  }
-
   function submitM2Message() {
     const input = document.getElementById('m2-input');
     const text = input.value.trim();
     if (!text || m2IsTyping) return;
     input.value = '';
+    input.style.height = 'auto';
     sendM2Message(text);
   }
+
+  // Wire up M2 input after DOM ready
+  document.addEventListener('DOMContentLoaded', function() {
+    const m2input = document.getElementById('m2-input');
+    const m2btn = document.getElementById('m2-send-btn');
+    if (m2input) {
+      m2input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          submitM2Message();
+        }
+      });
+    }
+    if (m2btn) m2btn.addEventListener('click', submitM2Message);
+  });
 
   function showM2Summary(summaryText) {
     const container = document.getElementById('m2-summary-container');
@@ -1439,6 +1448,210 @@ After you've covered all topics (usually 10-14 exchanges), tell the client you h
   // Unlock Module 2 click on dashboard
   document.getElementById('card-m2').addEventListener('click', function() {
     if (!this.classList.contains('locked')) goToModule2();
+  });
+
+  // ── Module 4 ──
+  let m4History = [];
+  let m4Summary = '';
+  let m4IsTyping = false;
+
+  const M4_SYSTEM = `You are a warm, expert onboarding guide for Whitney Bateson Digital Strategy — a done-for-you lead gen funnel service for health and wellness professionals.
+
+Your job is to have a friendly conversation to pull out everything needed to write the client's 4-email welcome sequence in their voice. Ask one question at a time. Be warm, encouraging, specific. Use their name if you know it.
+
+Topics to cover naturally across the conversation:
+1. Their tone and voice — how do they communicate? 2-3 words that capture it.
+2. Words or phrases they always use — and any to avoid
+3. Their origin story — why did they get into this work?
+4. Their specialty framed for clients — what do they specifically help clients achieve?
+5. 2-3 personal facts (location, hobbies, pets/kids)
+6. 3 existing resources to point new subscribers to (blog, podcast, freebies)
+7. A common question or roadblock clients hit early on (feeds Email 3)
+8. One insight or reframe they wish more people knew (also Email 3)
+9. Their main offer name, what it includes, who it's for (feeds Email 4)
+10. Any discount or special offer for new subscribers (feeds Email 4)
+11. A writing sample — ask them to paste something they've written
+
+After covering all topics (12-16 exchanges), say you have everything needed. Then output EXACTLY this format:
+
+---VOICE_SUMMARY_START---
+**Tone and voice:** [3-5 descriptive words]
+**Phrases they use:** [key phrases]
+**Phrases to avoid:** [anything flagged]
+**Their story:** [2-3 sentences on origin and passion]
+**Their specialty:** [what they help clients achieve]
+**Personal facts:** [2-3 humanizing details]
+**Resources to share:** [up to 3 with brief descriptions]
+**Email 3 - Roadblock:** [common early challenge]
+**Email 3 - Quick win:** [their key insight or reframe]
+**Email 4 - Offer:** [offer name, what it includes, who it's for]
+**Email 4 - CTA:** [next step and any new subscriber discount]
+**Writing sample notes:** [what their sample reveals about their voice]
+---VOICE_SUMMARY_END---`;
+
+  async function startM4Conversation() {
+    const name = clientData.m1data && clientData.m1data.firstname ? clientData.m1data.firstname : null;
+    const practype = clientData.m1data && clientData.m1data.practype ? clientData.m1data.practype : 'health professional';
+    const offer = clientData.m1data && clientData.m1data.offer ? clientData.m1data.offer : null;
+    const lmTopic = clientData.m3data && clientData.m3data.lmTopic ? clientData.m3data.lmTopic : null;
+    const icaSummary = clientData.m2data && clientData.m2data.summary ? clientData.m2data.summary : null;
+
+    let context = `The client's name is ${name || 'unknown'}. They are a ${practype}.`;
+    if (offer) context += ` Their main offer is: ${offer}.`;
+    if (lmTopic) context += ` Their lead magnet topic is: ${lmTopic}.`;
+    if (icaSummary) context += ` ICA summary for context: ${icaSummary}`;
+    context += ` Start warmly, acknowledge this is the last module, and ask your first question about their voice and communication style.`;
+
+    m4History = [{ role: 'user', content: context }];
+    await sendM4Message(null);
+  }
+
+  async function sendM4Message(userText) {
+    if (m4IsTyping) return;
+    if (userText !== null) {
+      m4History.push({ role: 'user', content: userText });
+      appendM4Bubble('user', userText);
+      saveM4Progress();
+    }
+    m4IsTyping = true;
+    showM4Typing(true);
+    scrollM4Bottom();
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          system: M4_SYSTEM,
+          messages: m4History
+        })
+      });
+      const data = await res.json();
+      const reply = data.content && data.content[0] ? data.content[0].text : 'Something went wrong — please try again.';
+      m4History.push({ role: 'assistant', content: reply });
+      showM4Typing(false);
+      if (reply.includes('---VOICE_SUMMARY_START---')) {
+        const summaryMatch = reply.match(/---VOICE_SUMMARY_START---([\s\S]*?)---VOICE_SUMMARY_END---/);
+        const preText = reply.split('---VOICE_SUMMARY_START---')[0].trim();
+        if (preText) appendM4Bubble('assistant', preText);
+        if (summaryMatch) {
+          m4Summary = summaryMatch[1].trim();
+          saveM4Progress();
+          showM4Summary(m4Summary);
+        }
+      } else {
+        appendM4Bubble('assistant', reply);
+      }
+      saveM4Progress();
+    } catch(e) {
+      showM4Typing(false);
+      appendM4Bubble('assistant', 'Something went wrong connecting. Please check your connection and try again.');
+    }
+    m4IsTyping = false;
+    scrollM4Bottom();
+  }
+
+  function appendM4Bubble(role, text) {
+    const feed = document.getElementById('m4-chat-feed');
+    const wrap = document.createElement('div');
+    wrap.className = `m2-bubble-wrap ${role}`;
+    const bubble = document.createElement('div');
+    bubble.className = `m2-bubble ${role}`;
+    bubble.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/
+/g, '<br>');
+    wrap.appendChild(bubble);
+    feed.appendChild(wrap);
+    scrollM4Bottom();
+  }
+
+  function showM4Typing(show) {
+    document.getElementById('m4-typing').style.display = show ? 'flex' : 'none';
+    scrollM4Bottom();
+  }
+
+  function scrollM4Bottom() {
+    const feed = document.getElementById('m4-chat-feed');
+    setTimeout(() => { feed.scrollTop = feed.scrollHeight; }, 50);
+  }
+
+  function renderM4Chat() {
+    const feed = document.getElementById('m4-chat-feed');
+    feed.innerHTML = '';
+    const displayHistory = m4History.filter((m,i) => !(i === 0 && m.role === 'user' && m.content.includes("The client's name is")));
+    displayHistory.forEach(m => appendM4Bubble(m.role, m.content));
+  }
+
+  function submitM4Message() {
+    const input = document.getElementById('m4-input');
+    const text = input.value.trim();
+    if (!text || m4IsTyping) return;
+    input.value = '';
+    input.style.height = 'auto';
+    sendM4Message(text);
+  }
+
+  function showM4Summary(summaryText) {
+    const container = document.getElementById('m4-summary-container');
+    container.style.display = 'block';
+    const formatted = summaryText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/
+/g, '<br>');
+    document.getElementById('m4-summary-content').innerHTML = formatted;
+    document.getElementById('m4-input-area').style.display = 'none';
+    document.getElementById('m4-complete-btn').style.display = 'block';
+    scrollM4Bottom();
+  }
+
+  function saveM4Progress() {
+    clientData.m4data = { history: m4History, summary: m4Summary, savedAt: new Date().toISOString() };
+    saveClient(currentEmail, clientData);
+  }
+
+  async function completeModule4() {
+    clientData.modules.m4 = 'done';
+    await saveClient(currentEmail, clientData);
+    const toast = document.getElementById('saved-toast-m4');
+    toast.classList.add('show');
+    setTimeout(() => { toast.classList.remove('show'); goToDashboard(); }, 2000);
+  }
+
+  function goToModule4() {
+    if (clientData.modules.m4 === 'locked') return;
+    if (clientData.modules.m4 === 'todo') {
+      clientData.modules.m4 = 'inprogress';
+      saveClient(currentEmail, clientData);
+    }
+    m4History = (clientData.m4data && clientData.m4data.history) ? clientData.m4data.history : [];
+    m4Summary = (clientData.m4data && clientData.m4data.summary) ? clientData.m4data.summary : '';
+    renderM4Chat();
+    if (m4Summary) showM4Summary(m4Summary);
+    showScreen('screen-module4');
+    if (m4History.length === 0) startM4Conversation();
+  }
+
+  // Wire up module cards
+  document.getElementById('card-m3').addEventListener('click', function() {
+    if (!this.classList.contains('locked')) goToModule3();
+  });
+  document.getElementById('card-m4').addEventListener('click', function() {
+    if (!this.classList.contains('locked')) goToModule4();
+  });
+
+  // Wire up chat inputs after DOM ready
+  document.addEventListener('DOMContentLoaded', function() {
+    const m2input = document.getElementById('m2-input');
+    const m2btn = document.getElementById('m2-send-btn');
+    if (m2input) m2input.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submitM2Message(); }
+    });
+    if (m2btn) m2btn.addEventListener('click', submitM2Message);
+
+    const m4input = document.getElementById('m4-input');
+    const m4btn = document.getElementById('m4-send-btn');
+    if (m4input) m4input.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submitM4Message(); }
+    });
+    if (m4btn) m4btn.addEventListener('click', submitM4Message);
   });
 </script>
 
@@ -1677,12 +1890,11 @@ After you've covered all topics (usually 10-14 exchanges), tell the client you h
       <textarea
         class="m2-input"
         id="m2-input"
-        placeholder="Type your answer here..."
+        placeholder="Type your answer here... (press Enter to send)"
         rows="1"
-        onkeydown="handleM2Input(event)"
         oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"
       ></textarea>
-      <button class="m2-send-btn" onclick="submitM2Message()">
+      <button class="m2-send-btn" id="m2-send-btn">
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
         </svg>
@@ -2018,12 +2230,11 @@ After you've covered all topics (usually 10-14 exchanges), tell the client you h
       <textarea
         class="m2-input"
         id="m4-input"
-        placeholder="Type your answer here..."
+        placeholder="Type your answer here... (press Enter to send)"
         rows="1"
-        onkeydown="handleM4Input(event)"
         oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"
       ></textarea>
-      <button class="m2-send-btn" onclick="submitM4Message()">
+      <button class="m2-send-btn" id="m4-send-btn">
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
         </svg>
