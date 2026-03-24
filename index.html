@@ -1553,8 +1553,7 @@ After covering all topics (12-16 exchanges), say you have everything needed. The
     wrap.className = `m2-bubble-wrap ${role}`;
     const bubble = document.createElement('div');
     bubble.className = `m2-bubble ${role}`;
-    bubble.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/
-/g, '<br>');
+    bubble.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
     wrap.appendChild(bubble);
     feed.appendChild(wrap);
     scrollM4Bottom();
@@ -1589,8 +1588,7 @@ After covering all topics (12-16 exchanges), say you have everything needed. The
   function showM4Summary(summaryText) {
     const container = document.getElementById('m4-summary-container');
     container.style.display = 'block';
-    const formatted = summaryText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/
-/g, '<br>');
+    const formatted = summaryText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(//g, '<br>');
     document.getElementById('m4-summary-content').innerHTML = formatted;
     document.getElementById('m4-input-area').style.display = 'none';
     document.getElementById('m4-complete-btn').style.display = 'block';
