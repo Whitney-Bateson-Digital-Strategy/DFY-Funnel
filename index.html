@@ -1632,30 +1632,35 @@ After covering all topics (12-16 exchanges), say you have everything needed. The
     if (!this.classList.contains('locked')) goToModule4();
   });
 
-  // Wire up all inputs after DOM ready
-  document.addEventListener('DOMContentLoaded', function() {
-    // Landing screen — Enter to submit email
+  // Wire up all inputs — runs immediately since script is at end of body
+  function wireInputs() {
     const emailInput = document.getElementById('email-input');
-    if (emailInput) emailInput.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') handleEmailSubmit();
-    });
-
-    // Module 2 chat
+    if (emailInput) {
+      emailInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') { e.preventDefault(); handleEmailSubmit(); }
+      });
+    }
     const m2input = document.getElementById('m2-input');
     const m2btn = document.getElementById('m2-send-btn');
     if (m2input) m2input.addEventListener('keydown', function(e) {
       if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submitM2Message(); }
     });
-    if (m2btn) m2btn.addEventListener('click', submitM2Message);
+    if (m2btn) m2btn.addEventListener('click', function() { submitM2Message(); });
 
-    // Module 4 chat
     const m4input = document.getElementById('m4-input');
     const m4btn = document.getElementById('m4-send-btn');
     if (m4input) m4input.addEventListener('keydown', function(e) {
       if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submitM4Message(); }
     });
-    if (m4btn) m4btn.addEventListener('click', submitM4Message);
-  });
+    if (m4btn) m4btn.addEventListener('click', function() { submitM4Message(); });
+  }
+
+  // Run on DOMContentLoaded and also immediately as fallback
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', wireInputs);
+  } else {
+    wireInputs();
+  }
 </script>
 
 <!-- ══════════════════════════════════════════
