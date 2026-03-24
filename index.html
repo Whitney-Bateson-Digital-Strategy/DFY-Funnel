@@ -1238,11 +1238,6 @@
     }, 1200);
   }
 
-  // ── Enter key on landing ──
-  document.getElementById('email-input').addEventListener('keydown', e => {
-    if (e.key === 'Enter') handleEmailSubmit();
-  });
-
   // ── Module 2 ──
   function goToModule2() {
     if (clientData.modules.m2 === 'locked') return;
@@ -1637,8 +1632,15 @@ After covering all topics (12-16 exchanges), say you have everything needed. The
     if (!this.classList.contains('locked')) goToModule4();
   });
 
-  // Wire up chat inputs after DOM ready
+  // Wire up all inputs after DOM ready
   document.addEventListener('DOMContentLoaded', function() {
+    // Landing screen — Enter to submit email
+    const emailInput = document.getElementById('email-input');
+    if (emailInput) emailInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') handleEmailSubmit();
+    });
+
+    // Module 2 chat
     const m2input = document.getElementById('m2-input');
     const m2btn = document.getElementById('m2-send-btn');
     if (m2input) m2input.addEventListener('keydown', function(e) {
@@ -1646,6 +1648,7 @@ After covering all topics (12-16 exchanges), say you have everything needed. The
     });
     if (m2btn) m2btn.addEventListener('click', submitM2Message);
 
+    // Module 4 chat
     const m4input = document.getElementById('m4-input');
     const m4btn = document.getElementById('m4-send-btn');
     if (m4input) m4input.addEventListener('keydown', function(e) {
