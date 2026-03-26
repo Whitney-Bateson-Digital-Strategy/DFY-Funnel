@@ -386,23 +386,37 @@ input[type="file"]{display:none}
     <button class="back-btn" onclick="goTo('dashboard')">← Dashboard</button>
     <div><div class="mod-header-eyebrow">Module 2</div><div class="mod-header-title">Your Ideal Client</div></div>
   </div>
-  <div class="chat-layout">
+  <div class="chat-layout" id="m2-chat-layout">
     <div class="chat-intro">
       <strong>This is a conversation, not a form.</strong> I'll ask you questions about the ideal client for your specific offer — the perfect-fit person for what you outlined in Module 1. Answer naturally, there are no wrong answers.<br><br>
       Claude will continue asking until it has enough to generate a strong summary — usually 5-7 questions. Once you've answered the key ones, a <strong>"Generate my summary"</strong> button will appear so you can wrap up whenever you're ready.<br><br>
       <em>Note: Claude sometimes takes a few extra seconds to think before responding — that's normal!</em>
     </div>
-    <div class="chat-hint">💡 Press <strong>Enter</strong> to send. Press <strong>Shift + Enter</strong> for a new line. You can also click <strong>"Generate my summary"</strong> at any time to wrap up early.</div>
+    <div class="chat-hint">💡 Press <strong>Enter</strong> to send. Press <strong>Shift + Enter</strong> for a new line. Click <strong>"Generate my summary"</strong> to wrap up early.</div>
     <div class="chat-feed" id="m2-feed">
       <div class="typing-indicator" id="m2-typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>
     </div>
-    <div class="summary-box" id="m2-summary"><div class="summary-header"><span class="summary-badge">✓ Complete</span><span class="summary-title">Your Ideal Client Avatar</span></div><div class="summary-content" id="m2-summary-content"></div></div>
     <button class="finish-chat-btn" id="m2-finish-btn" style="display:none" onclick="finishM2Early()">Generate my summary →</button>
     <div class="chat-input-area" id="m2-input-area">
       <textarea class="chat-input" id="m2-input" placeholder="Type your answer here..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();var t=this.value.trim();if(t&&!m2Busy){this.value='';this.style.height='auto';sendM2(t);}}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"></textarea>
       <button class="send-btn" id="m2-send" onclick="(function(){var inp=document.getElementById('m2-input');var t=inp.value.trim();if(t&&!m2Busy){inp.value='';inp.style.height='auto';sendM2(t);}})()"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
     </div>
-    <button class="complete-btn" id="m2-complete" onclick="completeM2()">Save My ICA + Continue to Module 3 →</button>
+  </div>
+
+  <!-- Summary appears BELOW chat, not inside it -->
+  <div id="m2-summary-section" style="display:none;max-width:660px;margin:0 auto;padding:0 1rem 2rem;width:100%">
+    <div class="summary-box" id="m2-summary" style="display:block">
+      <div class="summary-header">
+        <span class="summary-badge">✓ Complete</span>
+        <span class="summary-title">Your Ideal Client Avatar</span>
+        <button onclick="toggleM2Chat()" id="m2-toggle-btn" style="margin-left:auto;background:none;border:none;color:var(--teal);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:underline">View conversation</button>
+      </div>
+      <div class="summary-content" id="m2-summary-content"></div>
+      <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)">
+        <p style="font-size:12px;color:var(--text-mid);margin-bottom:.6rem">Not happy with the summary? You can keep chatting above to add more detail, then click "Generate my summary" again to regenerate.</p>
+      </div>
+    </div>
+    <button class="complete-btn" id="m2-complete" onclick="completeM2()" style="display:block;width:100%;margin-top:.75rem">Save My ICA + Continue to Module 3 →</button>
   </div>
   <div class="toast" id="toast-m2">✓ ICA saved — Module 3 unlocked!</div>
 </div>
@@ -430,8 +444,8 @@ input[type="file"]{display:none}
         </div>
       </div>
       <div id="past-lm-detail" style="display:none">
-        <div class="field-group"><label class="field-label">Tell us about it — what was it and what happened with it?</label><p class="field-hint">What was the topic? Did people download it? Why aren't you using it now?</p><textarea class="field-textarea" id="f-past-lm" placeholder="e.g. I had a 3-day meal plan PDF — people downloaded it but it didn't lead to many bookings..."></textarea></div>
-        <div class="field-group"><label class="field-label">What do you think didn't work about it?</label><textarea class="field-textarea" id="f-past-lm-why" placeholder="e.g. It attracted the wrong people, or didn't connect to my offer clearly..."></textarea></div>
+        <div class="field-group"><label class="field-label">Tell us about it — what was it and what happened with it?</label><p class="field-hint">What was the topic? Did people download it? Why aren't you using it now?</p><textarea class="field-textarea" id="f-past-lm" placeholder="e.g. I had a 3-day meal plan PDF — people downloaded it but it didn't lead to many bookings... (or type N/A)"></textarea></div>
+        <div class="field-group"><label class="field-label">What do you think didn't work about it?</label><textarea class="field-textarea" id="f-past-lm-why" placeholder="e.g. It attracted the wrong people, or didn't connect to my offer clearly... (or type N/A)"></textarea></div>
       </div>
       <button class="btn-save" onclick="m3Next1()">Next →</button>
     </div>
@@ -440,7 +454,10 @@ input[type="file"]{display:none}
     <div class="m3-step" id="m3-s2">
       <div class="sec-label">For This Campaign</div>
       <div class="field-group"><label class="field-label">Do you want to use an existing lead magnet for this campaign, or create something new?</label><p class="field-hint">Keep in mind this lead magnet should connect directly to the offer you outlined in Module 1.</p><div id="m3-branch-cards"></div></div>
-      <button class="btn-save" onclick="m3Next2()">Next →</button>
+      <div style="display:flex;gap:.75rem;margin-top:.5rem">
+        <button class="btn-save" style="background:var(--cream);color:var(--text-mid);border:1.5px solid var(--border)" onclick="m3Back1()">← Back</button>
+        <button class="btn-save" onclick="m3Next2()">Next →</button>
+      </div>
     </div>
 
     <!-- Step 3A: Create new -->
@@ -451,16 +468,19 @@ input[type="file"]{display:none}
       <div class="field-group">
         <label class="field-label">What topic would give your ideal client a quick win right now?</label>
         <p class="field-hint">Think about what they're struggling with most, what questions they ask you most often, or what one insight would make them think "I need to work with this person." The best lead magnets solve a small problem really well and leave people wanting more. <em>If you're unsure, leave this blank and we'll help you brainstorm.</em></p>
-        <textarea class="field-textarea" id="f-lm-topic" placeholder="e.g. How to stop yo-yo dieting without giving up the foods you love... (or leave blank if unsure)"></textarea>
+        <textarea class="field-textarea" id="f-lm-topic" placeholder="e.g. How to stop yo-yo dieting without giving up the foods you love... (type N/A if unsure)"></textarea>
       </div>
 
       <div class="field-group">
         <label class="field-label">What should someone be able to do, feel, or understand after going through your lead magnet?</label>
         <p class="field-hint">Describe the transformation — even a small one. How should they feel? What will they be able to do differently? Leave blank if you're not sure yet.</p>
-        <textarea class="field-textarea" id="f-lm-transformation" placeholder="e.g. Feel confident they can improve their relationship with food without another restrictive diet... (or leave blank)"></textarea>
+        <textarea class="field-textarea" id="f-lm-transformation" placeholder="e.g. Feel confident they can improve their relationship with food without another restrictive diet... (type N/A if unsure)"></textarea>
       </div>
 
-      <button class="btn-save" onclick="saveM3()">Save + Continue →</button>
+      <div style="display:flex;gap:.75rem;margin-top:.5rem">
+        <button class="btn-save" style="background:var(--cream);color:var(--text-mid);border:1.5px solid var(--border)" onclick="m3Back2()">← Back</button>
+        <button class="btn-save" onclick="saveM3New()">Save + Continue →</button>
+      </div>
     </div>
 
     <!-- Step 3B: Use existing -->
@@ -487,8 +507,8 @@ input[type="file"]{display:none}
         </div>
       </div>
 
-      <div class="field-group"><label class="field-label">What's working well about it?</label><p class="field-hint">Good download rate? Great feedback? Strong connection to your offer? Tell us what to preserve.</p><textarea class="field-textarea" id="f-existing-working" placeholder="e.g. People always say the recipes are super practical..."></textarea></div>
-      <div class="field-group"><label class="field-label">Anything you'd like to freshen up?</label><textarea class="field-textarea" id="f-existing-freshen" placeholder="e.g. The design feels dated, or I'd like a stronger CTA at the end..."></textarea></div>
+      <div class="field-group"><label class="field-label">What's working well about it?</label><p class="field-hint">Good download rate? Great feedback? Strong connection to your offer? Tell us what to preserve.</p><textarea class="field-textarea" id="f-existing-working" placeholder="e.g. People always say the recipes are super practical... (type N/A if unsure)"></textarea></div>
+      <div class="field-group"><label class="field-label">Anything you'd like to freshen up?</label><textarea class="field-textarea" id="f-existing-freshen" placeholder="e.g. The design feels dated, or I'd like a stronger CTA at the end... (type N/A if none)"></textarea></div>
 
       <div class="field-group">
         <label class="field-label">Are you open to us suggesting changes to the title or content if we think it would make it more effective?</label>
@@ -499,7 +519,10 @@ input[type="file"]{display:none}
         </div>
       </div>
 
-      <button class="btn-save" onclick="saveM3()">Save + Continue →</button>
+      <div style="display:flex;gap:.75rem;margin-top:.5rem">
+        <button class="btn-save" style="background:var(--cream);color:var(--text-mid);border:1.5px solid var(--border)" onclick="m3Back2()">← Back</button>
+        <button class="btn-save" onclick="saveM3Existing()">Save + Continue →</button>
+      </div>
     </div>
 
     <!-- Step 3C: Improve existing -->
@@ -524,9 +547,9 @@ input[type="file"]{display:none}
         </div>
       </div>
 
-      <div class="field-group"><label class="field-label">What's not working about it right now?</label><p class="field-hint">Low downloads? Not connecting to your offer? Outdated content? Be as specific as you can.</p><textarea class="field-textarea" id="f-improve-issues" placeholder="e.g. People download it but never book a call — no clear next step..."></textarea></div>
-      <div class="field-group"><label class="field-label">What's the new goal for it?</label><textarea class="field-textarea" id="f-improve-goal" placeholder="e.g. I want it to clearly lead people toward booking a discovery call..."></textarea></div>
-      <div class="field-group"><label class="field-label">Anything you definitely want to keep?</label><textarea class="field-textarea" id="f-improve-keep" placeholder="e.g. The core content is solid — just needs a redesign and stronger CTA..."></textarea></div>
+      <div class="field-group"><label class="field-label">What's not working about it right now?</label><p class="field-hint">Low downloads? Not connecting to your offer? Outdated content? Be as specific as you can.</p><textarea class="field-textarea" id="f-improve-issues" placeholder="e.g. People download it but never book a call — no clear next step... (type N/A if unsure)"></textarea></div>
+      <div class="field-group"><label class="field-label">What's the new goal for it?</label><textarea class="field-textarea" id="f-improve-goal" placeholder="e.g. I want it to clearly lead people toward booking a discovery call... (type N/A if unsure)"></textarea></div>
+      <div class="field-group"><label class="field-label">Anything you definitely want to keep?</label><textarea class="field-textarea" id="f-improve-keep" placeholder="e.g. The core content is solid — just needs a redesign and stronger CTA... (type N/A if none)"></textarea></div>
       <div class="field-group">
         <label class="field-label">Are you open to us suggesting changes to the title or content?</label>
         <div class="radio-group">
@@ -536,7 +559,10 @@ input[type="file"]{display:none}
         </div>
       </div>
 
-      <button class="btn-save" onclick="saveM3()">Save + Continue →</button>
+      <div style="display:flex;gap:.75rem;margin-top:.5rem">
+        <button class="btn-save" style="background:var(--cream);color:var(--text-mid);border:1.5px solid var(--border)" onclick="m3Back2()">← Back</button>
+        <button class="btn-save" onclick="saveM3Improve()">Save + Continue →</button>
+      </div>
     </div>
   </div>
   <div class="toast" id="toast-m3">✓ Lead magnet info saved — Module 4 unlocked!</div>
@@ -548,22 +574,36 @@ input[type="file"]{display:none}
     <button class="back-btn" onclick="goTo('dashboard')">← Dashboard</button>
     <div><div class="mod-header-eyebrow">Module 4</div><div class="mod-header-title">Voice + Email Intel</div></div>
   </div>
-  <div class="chat-layout">
+  <div class="chat-layout" id="m4-chat-layout">
     <div class="chat-intro"><strong>Last one — and it's a conversation.</strong> I'll ask you about your voice, your story, and the details we need to write your welcome emails so they sound exactly like you.<br><br>
       Claude will keep asking until it has enough — usually 5-7 questions. A <strong>"Generate my summary"</strong> button will appear once you've covered the key ones so you can wrap up whenever you're ready.<br><br>
       <em>Note: Claude sometimes takes a few extra seconds to think — that's normal!</em>
     </div>
-    <div class="chat-hint">💡 Press <strong>Enter</strong> to send. Press <strong>Shift + Enter</strong> for a new line. Click <strong>"Generate my summary"</strong> at any time to wrap up early.</div>
+    <div class="chat-hint">💡 Press <strong>Enter</strong> to send. Press <strong>Shift + Enter</strong> for a new line. Click <strong>"Generate my summary"</strong> to wrap up early.</div>
     <div class="chat-feed" id="m4-feed">
       <div class="typing-indicator" id="m4-typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>
     </div>
-    <div class="summary-box" id="m4-summary"><div class="summary-header"><span class="summary-badge">✓ Complete</span><span class="summary-title">Voice + Email Intel Summary</span></div><div class="summary-content" id="m4-summary-content"></div></div>
     <button class="finish-chat-btn" id="m4-finish-btn" style="display:none" onclick="finishM4Early()">Generate my summary →</button>
     <div class="chat-input-area" id="m4-input-area">
       <textarea class="chat-input" id="m4-input" placeholder="Type your answer here..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();var t=this.value.trim();if(t&&!m4Busy){this.value='';this.style.height='auto';sendM4(t);}}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"></textarea>
       <button class="send-btn" id="m4-send" onclick="(function(){var inp=document.getElementById('m4-input');var t=inp.value.trim();if(t&&!m4Busy){inp.value='';inp.style.height='auto';sendM4(t);}})()"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
     </div>
-    <button class="complete-btn" id="m4-complete" onclick="completeM4()">Save + Submit All Modules →</button>
+  </div>
+
+  <!-- Summary appears BELOW chat -->
+  <div id="m4-summary-section" style="display:none;max-width:660px;margin:0 auto;padding:0 1rem 2rem;width:100%">
+    <div class="summary-box" id="m4-summary" style="display:block">
+      <div class="summary-header">
+        <span class="summary-badge">✓ Complete</span>
+        <span class="summary-title">Voice + Email Intel Summary</span>
+        <button onclick="toggleM4Chat()" id="m4-toggle-btn" style="margin-left:auto;background:none;border:none;color:var(--teal);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:underline">View conversation</button>
+      </div>
+      <div class="summary-content" id="m4-summary-content"></div>
+      <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)">
+        <p style="font-size:12px;color:var(--text-mid);margin-bottom:.6rem">Not happy with the summary? Keep chatting above to add more detail, then click "Generate my summary" again to regenerate.</p>
+      </div>
+    </div>
+    <button class="complete-btn" id="m4-complete" onclick="completeM4()" style="display:block;width:100%;margin-top:.75rem">Save + Submit All Modules →</button>
   </div>
   <div class="toast" id="toast-m4">✓ All done! Your team has been notified.</div>
 </div>
@@ -807,7 +847,7 @@ function openM2() {
   feed.innerHTML = '<div class="typing-indicator" id="m2-typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
   m2History.filter(function(m,i){ return !(i===0 && m.role==='user' && m.content.indexOf("client's name is") > -1); })
     .forEach(function(m){ addBubble('m2-feed', m.role, m.content); });
-  if (m2Summary) showM2Summary(m2Summary);
+  if (m2Summary) { showM2Summary(m2Summary); document.getElementById('m2-input-area').style.display = 'none'; }
   goTo('module2');
   if (m2History.length === 0) startM2();
 }
@@ -850,11 +890,43 @@ function finishM2Early() {
   sendM2('WRAP_UP_NOW');
 }
 function showM2Summary(text) {
-  var box = document.getElementById('m2-summary');
-  box.style.display = 'block';
   document.getElementById('m2-summary-content').innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+  // Show summary section below chat
+  document.getElementById('m2-summary-section').style.display = 'block';
+  // Hide finish btn, keep chat accessible but collapse input
+  document.getElementById('m2-finish-btn').style.display = 'none';
   document.getElementById('m2-input-area').style.display = 'none';
-  document.getElementById('m2-complete').style.display = 'block';
+  // Add a "refine" bar above input so they can keep chatting
+  var refineBar = document.getElementById('m2-refine-bar');
+  if (!refineBar) {
+    refineBar = document.createElement('div');
+    refineBar.id = 'm2-refine-bar';
+    refineBar.style.cssText = 'padding:.5rem 0;text-align:center;flex-shrink:0';
+    refineBar.innerHTML = '<button onclick="openM2Refine()" style="background:none;border:1.5px solid var(--border);color:var(--text-mid);padding:.4rem 1rem;border-radius:20px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif">Want to add more detail? Continue the conversation ↑</button>';
+    var layout = document.getElementById('m2-chat-layout');
+    layout.appendChild(refineBar);
+  }
+  // Scroll to summary
+  setTimeout(function(){ document.getElementById('m2-summary-section').scrollIntoView({behavior:'smooth', block:'start'}); }, 100);
+}
+function openM2Refine() {
+  document.getElementById('m2-input-area').style.display = 'flex';
+  document.getElementById('m2-finish-btn').style.display = 'block';
+  document.getElementById('m2-refine-bar').style.display = 'none';
+  document.getElementById('m2-input').focus();
+  window.scrollTo(0,0);
+}
+function toggleM2Chat() {
+  var layout = document.getElementById('m2-chat-layout');
+  var btn = document.getElementById('m2-toggle-btn');
+  if (layout.style.display === 'none') {
+    layout.style.display = 'flex';
+    btn.textContent = 'Hide conversation';
+    layout.scrollIntoView({behavior:'smooth'});
+  } else {
+    layout.style.display = 'none';
+    btn.textContent = 'View conversation';
+  }
 }
 function completeM2() {
   client.mods.m2 = 'done'; client.mods.m3 = 'todo';
@@ -948,32 +1020,75 @@ function m3Next2() {
   }
   setM3Dots(3); window.scrollTo(0,0);
 }
-function saveM3() {
+// ── Module 3 back functions ──
+function m3Back1() {
+  document.getElementById('m3-s2').classList.remove('visible');
+  document.getElementById('m3-s1').classList.add('visible');
+  setM3Dots(1); window.scrollTo(0,0);
+}
+function m3Back2() {
+  document.querySelectorAll('.m3-step').forEach(function(s){
+    if (s.id !== 'm3-s1' && s.id !== 'm3-s2') s.classList.remove('visible');
+  });
+  document.getElementById('m3-s2').classList.add('visible');
+  setM3Dots(2); window.scrollTo(0,0);
+}
+
+// ── Module 3 validation helpers ──
+function naIfBlank(val) { return val && val.trim() ? val.trim() : 'N/A'; }
+
+function saveM3New() {
+  var errors = [];
+  if (!getf('f-lm-topic').trim()) errors.push('Lead magnet topic (or type N/A if unsure)');
+  if (!getf('f-lm-transformation').trim()) errors.push('What they should feel/do after (or type N/A if unsure)');
+  if (errors.length) { alert('Please complete or type N/A for:\n\n• ' + errors.join('\n• ')); return; }
   var d = client.m3 || {};
-  if (m3Choice === 'new') {
-    d.lmPath = 'create';
-    d.whyNotExisting = getf('f-why-not-existing');
-    d.lmTopic = getf('f-lm-topic');
-    d.lmTransformation = getf('f-lm-transformation');
-    if (pdfUploads['new']) d.pdfUpload = pdfUploads['new'];
-  } else if (m3Choice === 'use') {
-    d.lmPath = 'existing';
-    d.existingName = getf('f-existing-name');
-    d.existingLink = getf('f-existing-link');
-    d.existingWorking = getf('f-existing-working');
-    d.existingFreshen = getf('f-existing-freshen');
-    d.openToChanges = getRadio('opentochanges');
-    if (pdfUploads['existing']) d.pdfUpload = pdfUploads['existing'];
-  } else {
-    d.lmPath = 'improve';
-    d.improveName = getf('f-improve-name');
-    d.improveLink = getf('f-improve-link');
-    d.improveIssues = getf('f-improve-issues');
-    d.improveGoal = getf('f-improve-goal');
-    d.improveKeep = getf('f-improve-keep');
-    d.openToChanges2 = getRadio('opentochanges2');
-    if (pdfUploads['improve']) d.pdfUpload = pdfUploads['improve'];
-  }
+  d.lmPath = 'create';
+  d.whyNotExisting = naIfBlank(getf('f-why-not-existing'));
+  d.lmTopic = naIfBlank(getf('f-lm-topic'));
+  d.lmTransformation = naIfBlank(getf('f-lm-transformation'));
+  if (pdfUploads['new']) d.pdfUpload = pdfUploads['new'];
+  client.m3 = d; client.mods.m3 = 'done'; client.mods.m4 = 'todo';
+  sbSave(client); showToast('toast-m3');
+  setTimeout(function(){ renderDashboard(); goTo('dashboard'); }, 1600);
+}
+
+function saveM3Existing() {
+  var errors = [];
+  if (!getf('f-existing-name').trim()) errors.push('Lead magnet name');
+  if (!getf('f-existing-link').trim() && !pdfUploads['existing']) errors.push('Canva link, URL, or PDF upload');
+  if (!getf('f-existing-working').trim()) errors.push("What's working (or type N/A)");
+  if (!getRadio('opentochanges')) errors.push('Whether you\'re open to content changes');
+  if (errors.length) { alert('Please complete or type N/A for:\n\n• ' + errors.join('\n• ')); return; }
+  var d = client.m3 || {};
+  d.lmPath = 'existing';
+  d.existingName = getf('f-existing-name');
+  d.existingLink = naIfBlank(getf('f-existing-link'));
+  d.existingWorking = naIfBlank(getf('f-existing-working'));
+  d.existingFreshen = naIfBlank(getf('f-existing-freshen'));
+  d.openToChanges = getRadio('opentochanges');
+  if (pdfUploads['existing']) d.pdfUpload = pdfUploads['existing'];
+  client.m3 = d; client.mods.m3 = 'done'; client.mods.m4 = 'todo';
+  sbSave(client); showToast('toast-m3');
+  setTimeout(function(){ renderDashboard(); goTo('dashboard'); }, 1600);
+}
+
+function saveM3Improve() {
+  var errors = [];
+  if (!getf('f-improve-name').trim()) errors.push('Which lead magnet you want to improve');
+  if (!getf('f-improve-issues').trim()) errors.push("What's not working (or type N/A)");
+  if (!getf('f-improve-goal').trim()) errors.push('New goal for the lead magnet (or type N/A)');
+  if (!getRadio('opentochanges2')) errors.push('Whether you\'re open to content changes');
+  if (errors.length) { alert('Please complete or type N/A for:\n\n• ' + errors.join('\n• ')); return; }
+  var d = client.m3 || {};
+  d.lmPath = 'improve';
+  d.improveName = getf('f-improve-name');
+  d.improveLink = naIfBlank(getf('f-improve-link'));
+  d.improveIssues = naIfBlank(getf('f-improve-issues'));
+  d.improveGoal = naIfBlank(getf('f-improve-goal'));
+  d.improveKeep = naIfBlank(getf('f-improve-keep'));
+  d.openToChanges2 = getRadio('opentochanges2');
+  if (pdfUploads['improve']) d.pdfUpload = pdfUploads['improve'];
   client.m3 = d; client.mods.m3 = 'done'; client.mods.m4 = 'todo';
   sbSave(client); showToast('toast-m3');
   setTimeout(function(){ renderDashboard(); goTo('dashboard'); }, 1600);
@@ -991,7 +1106,7 @@ function openM4() {
   feed.innerHTML = '<div class="typing-indicator" id="m4-typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
   m4History.filter(function(m,i){ return !(i===0 && m.role==='user' && m.content.indexOf("client's name is") > -1); })
     .forEach(function(m){ addBubble('m4-feed', m.role, m.content); });
-  if (m4Summary) showM4Summary(m4Summary);
+  if (m4Summary) { showM4Summary(m4Summary); document.getElementById('m4-input-area').style.display = 'none'; }
   goTo('module4');
   if (m4History.length === 0) startM4();
 }
@@ -1040,11 +1155,39 @@ function finishM4Early() {
   sendM4('WRAP_UP_NOW');
 }
 function showM4Summary(text) {
-  var box = document.getElementById('m4-summary');
-  box.style.display = 'block';
   document.getElementById('m4-summary-content').innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+  document.getElementById('m4-summary-section').style.display = 'block';
+  document.getElementById('m4-finish-btn').style.display = 'none';
   document.getElementById('m4-input-area').style.display = 'none';
-  document.getElementById('m4-complete').style.display = 'block';
+  var refineBar = document.getElementById('m4-refine-bar');
+  if (!refineBar) {
+    refineBar = document.createElement('div');
+    refineBar.id = 'm4-refine-bar';
+    refineBar.style.cssText = 'padding:.5rem 0;text-align:center;flex-shrink:0';
+    refineBar.innerHTML = '<button onclick="openM4Refine()" style="background:none;border:1.5px solid var(--border);color:var(--text-mid);padding:.4rem 1rem;border-radius:20px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif">Want to add more detail? Continue the conversation ↑</button>';
+    var layout = document.getElementById('m4-chat-layout');
+    layout.appendChild(refineBar);
+  }
+  setTimeout(function(){ document.getElementById('m4-summary-section').scrollIntoView({behavior:'smooth', block:'start'}); }, 100);
+}
+function openM4Refine() {
+  document.getElementById('m4-input-area').style.display = 'flex';
+  document.getElementById('m4-finish-btn').style.display = 'block';
+  document.getElementById('m4-refine-bar').style.display = 'none';
+  document.getElementById('m4-input').focus();
+  window.scrollTo(0,0);
+}
+function toggleM4Chat() {
+  var layout = document.getElementById('m4-chat-layout');
+  var btn = document.getElementById('m4-toggle-btn');
+  if (layout.style.display === 'none') {
+    layout.style.display = 'flex';
+    btn.textContent = 'Hide conversation';
+    layout.scrollIntoView({behavior:'smooth'});
+  } else {
+    layout.style.display = 'none';
+    btn.textContent = 'View conversation';
+  }
 }
 function completeM4() {
   client.mods.m4 = 'done';
