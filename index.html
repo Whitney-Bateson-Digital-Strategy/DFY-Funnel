@@ -205,6 +205,7 @@ input[type="file"]{display:none}
     </div>
     <div class="prog-label"><span>Your progress</span><span id="prog-text">0 of 4 complete</span></div>
     <div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-bar" style="width:0%"></div></div>
+    <div id="all-submitted-banner" style="display:none;background:#e8f5e9;border:1px solid #a5d6a7;border-radius:8px;padding:12px 16px;margin-bottom:12px;font-size:14px;color:#2e7d32;text-align:center">✓ All modules have been submitted. Your responses are now locked and your team has been notified.</div>
     <div class="module-list">
       <div class="module-card" id="card-m1">
         <div class="mod-icon teal">🏢</div>
@@ -700,6 +701,7 @@ function renderDashboard() {
   var name = client.m1 && client.m1.firstname;
   document.getElementById('dash-greeting').textContent = name ? 'Welcome back, ' + name + '!' : "Welcome! Let's get started.";
   var map = { todo:['Start','s-todo'], inprogress:['In Progress','s-inprogress'], done:['✓ Complete','s-done'], locked:['Locked','s-locked'] };
+  var finalSubmitted = client.mods.m4 === 'done';
   ['m1','m2','m3','m4'].forEach(function(m) {
     var s = client.mods[m] || 'locked';
     var info = map[s] || map.locked;
@@ -708,10 +710,14 @@ function renderDashboard() {
     var card = document.getElementById('card-' + m);
     if (s === 'locked') { card.classList.add('locked'); card.classList.remove('done'); }
     else { card.classList.remove('locked'); if (s === 'done') card.classList.add('done'); else card.classList.remove('done'); }
+    if (finalSubmitted) { card.style.pointerEvents = 'none'; card.style.opacity = '0.6'; }
+    else { card.style.pointerEvents = ''; card.style.opacity = ''; }
   });
   var done = ['m1','m2','m3','m4'].filter(function(m){ return client.mods[m] === 'done'; }).length;
   document.getElementById('prog-bar').style.width = (done / 4 * 100) + '%';
   document.getElementById('prog-text').textContent = done + ' of 4 complete';
+  var submitBanner = document.getElementById('all-submitted-banner');
+  if (submitBanner) { submitBanner.style.display = finalSubmitted ? 'block' : 'none'; }
   // Access items
   ['website','email','fb'].forEach(function(k) {
     var item = document.getElementById('access-' + k);
@@ -735,7 +741,9 @@ function confirmAccess(key) {
 }
 
 // ── Module 1 ──
+function allSubmitted() { return client.mods.m4 === 'done'; }
 function openM1() {
+  if (allSubmitted()) return;
   var d = client.m1 || {};
   function setf(id, v) { var el = document.getElementById(id); if (el && v) el.value = v; }
   setf('f-firstname', d.firstname); setf('f-lastname', d.lastname); setf('f-bizname', d.bizname);
@@ -885,7 +893,7 @@ async function callAI(system, messages) {
 var M2_SYSTEM = 'You are a warm, expert onboarding guide for Whitney Bateson Digital Strategy — a done-for-you lead gen funnel service for health and wellness professionals.\n\nGuide a SHORT, focused conversation (5-7 exchanges max) to understand the IDEAL CLIENT for this person\'s SPECIFIC OFFER. Ask ONE question at a time. Be warm and conversational. Do not ask every possible question — prioritize the most important ones.\n\nCover these topics efficiently:\n1. Who their ideal client is — brief demographics and life situation\n2. What transformation they want from this specific offer\n3. Their main struggle or problem right now\n4. What\'s making this urgent for them now\n5. Where they go to find help / what makes them trust a provider\n\nAfter 5-7 exchanges (or if the user clicks to end early and their message contains WRAP_UP_NOW), generate the summary immediately with whatever you have. Do not keep asking — wrap up.\n\nOutput EXACTLY:\n\n---ICA_SUMMARY_START---\n**Name:** [made-up first name for the avatar]\n**Who They Are:** [2-3 sentences on demographics and situation]\n**What They Want:** [the transformation they seek from this offer]\n**What\'s In Their Way:** [main struggles and what they\'ve tried]\n**What\'s Happening Now:** [life trigger making this urgent]\n**How They Decide:** [trust signals and where they look for help]\n**In Their Own Words:** [1-2 sentences as if the ideal client is speaking]\n---ICA_SUMMARY_END---';
 
 function openM2() {
-  if (client.mods.m2 === 'locked') return;
+  if (client.mods.m2 === 'locked' || allSubmitted()) return;
   if (client.mods.m2 === 'todo') { client.mods.m2 = 'inprogress'; sbSave(client); }
   m2History = (client.m2 && client.m2.history) ? client.m2.history : [];
   m2Summary = (client.m2 && client.m2.summary) ? client.m2.summary : '';
@@ -982,7 +990,7 @@ function completeM2() {
 
 // ── Module 3 ──
 function openM3() {
-  if (client.mods.m3 === 'locked') return;
+  if (client.mods.m3 === 'locked' || allSubmitted()) return;
   if (client.mods.m3 === 'todo') { client.mods.m3 = 'inprogress'; sbSave(client); }
   m3HadLm = null; m3Choice = null;
   document.querySelectorAll('.m3-step').forEach(function(s){ s.classList.remove('visible'); });
@@ -1144,7 +1152,7 @@ function saveM3Improve() {
 var M4_SYSTEM = 'You are a warm, expert onboarding guide for Whitney Bateson Digital Strategy — a done-for-you lead gen funnel service for health and wellness professionals.\n\nHave a SHORT, focused conversation (5-7 exchanges max) to get everything needed to write the client\'s 4-email welcome sequence in their voice. Ask ONE question at a time. Be warm, encouraging, specific. Use their name if you know it.\n\nIMPORTANT FRAMING: Remind people at relevant moments that they can copy and paste content directly from their website or blog if it\'s easier than typing it out from scratch. This is especially helpful for their bio, story, and writing samples.\n\nTOPICS to cover (weave naturally, keep it brief):\n\n1. VOICE AND TONE — Ask how they would describe their communication style in 2-3 words. What phrases do they find themselves using all the time with clients? Any words or phrases they actively avoid or that don\'t sound like them?\n\n2. THEIR STORY — Why did they get into this work? What happened in their life or career that brought them here? (Remind them they can paste their About page bio if that\'s easier.)\n\n3. EXISTING RESOURCES — Ask what blog posts, podcast episodes, freebies, or other resources they have that would be valuable for a brand new subscriber. Ask them to actually share the links in the chat so we can reference them directly.\n\n4. EMAIL 3 CONTENT — What is the #1 question or roadblock their ideal clients face early on? What is one insight, reframe, or piece of advice that would give them a quick win right now?\n\n5. "WHY NOW" AND SOCIAL PROOF — This is important for the email sequence: Ask what the cost of waiting or doing nothing looks like for their ideal client — what gets worse if they don\'t take action? Also ask if they have any testimonials or client success stories. If they have them on their website, ask for the link to that page rather than having them retype everything.\n\n6. OFFER LANDING PAGE — Instead of asking them to explain their program, ask for the link to their offer or services page. We\'ll pull the details from there.\n\n7. WRITING SAMPLE — Ask them to paste a recent email, social caption, or any piece of writing that sounds like them at their best. (Remind them they can grab something from their website or social media.)\n\nAfter 5-7 exchanges (or if the message contains WRAP_UP_NOW), generate the summary with whatever you have.\n\nOutput EXACTLY this format — note the correct email numbers:\n\n---VOICE_SUMMARY_START---\n**Tone and voice:** [3-5 words describing their style]\n**Phrases THEY use:** [specific words and phrases in their voice — things they actually said or wrote]\n**Phrases to avoid:** [anything they flagged as not sounding like them]\n**Their story:** [2-3 sentences on their origin and why they do this work]\n**Their specialty:** [what they specifically help clients achieve]\n**Resources for Email 2:** [up to 3 resources with links — blog posts, podcasts, freebies to share with new subscribers]\n**Offer page:** [link to their services or offer landing page]\n**Email 3 - Roadblock:** [the #1 question or challenge new clients face]\n**Email 3 - Quick win:** [their key insight, reframe, or piece of advice]\n**Email 4 - Why now:** [what gets worse if they wait / cost of inaction]\n**Email 4 - Social proof:** [testimonials, client wins, or link to testimonials page]\n**Writing sample notes:** [what their sample reveals about their voice — specific phrases or patterns to replicate]\n---VOICE_SUMMARY_END---';
 
 function openM4() {
-  if (client.mods.m4 === 'locked') return;
+  if (client.mods.m4 === 'locked' || allSubmitted()) return;
   if (client.mods.m4 === 'todo') { client.mods.m4 = 'inprogress'; sbSave(client); }
   m4History = (client.m4 && client.m4.history) ? client.m4.history : [];
   m4Summary = (client.m4 && client.m4.summary) ? client.m4.summary : '';
@@ -1236,6 +1244,7 @@ function toggleM4Chat() {
   }
 }
 function completeM4() {
+  if (!confirm('Once you submit, all modules will be locked and you will not be able to go back and edit any of your answers.\n\nAre you sure you want to submit?')) return;
   client.mods.m4 = 'done';
   sbSave(client); showToast('toast-m4');
   setTimeout(function(){ renderDashboard(); goTo('dashboard'); }, 2000);
