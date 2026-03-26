@@ -1056,4 +1056,14 @@ document.getElementById('m2-send').addEventListener('click', function() { var in
 document.getElementById('m4-input').addEventListener('keydown', function(e) {
   if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); var t = this.value.trim(); if (t && !m4Busy) { this.value = ''; this.style.height = 'auto'; sendM4(t); } }
 });
-document.getElementById('m4-input').addEventListener('input', function
+document.getElementById('m4-input').addEventListener('input', function { this.style.height = 'auto'; this.style.height = Math.min(this.scrollHeight, 120) + 'px'; });
+document.getElementById('m4-send').addEventListener('click', function() { var inp = document.getElementById('m4-input'); var t = inp.value.trim(); if (t && !m4Busy) { inp.value = ''; inp.style.height = 'auto'; sendM4(t); } });
+
+// ── Landing ──
+document.getElementById('continue-btn').addEventListener('click', handleContinue);
+document.getElementById('email-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') { e.preventDefault(); handleContinue(); }
+});
+</script>
+</body>
+</html>
