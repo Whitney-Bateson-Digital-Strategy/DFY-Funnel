@@ -77,6 +77,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);
 .access-confirmed-badge{background:#edf8f0;color:#2d7a4a;border-radius:20px;padding:.25rem .75rem;font-size:12px;font-weight:500}
 .access-instructions{font-size:12px;color:var(--text-mid);line-height:1.6;margin-top:.3rem}
 .access-instructions a{color:var(--teal);text-decoration:underline}
+.access-toggle-icon{font-size:14px;color:var(--text-light);transition:transform .2s;display:inline-block}
+.access-toggle-icon.open{transform:rotate(90deg)}
 .access-warning{background:#fff8f0;border:1px solid #ffd4b3;border-radius:var(--radius-sm);padding:.75rem 1rem;font-size:12px;color:#8a4000;margin-top:1rem;line-height:1.6}
 
 /* MODULE HEADER */
@@ -206,6 +208,7 @@ input[type="file"]{display:none}
     <div class="prog-label"><span>Your progress</span><span id="prog-text">0 of 4 complete</span></div>
     <div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-bar" style="width:0%"></div></div>
     <div id="all-submitted-banner" style="display:none;background:#e8f5e9;border:1px solid #a5d6a7;border-radius:8px;padding:12px 16px;margin-bottom:12px;font-size:14px;color:#2e7d32;text-align:center">✓ All modules have been submitted. Your responses are now locked and your team has been notified.</div>
+    <div class="section-label" style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--coral);margin-bottom:.6rem;margin-top:.5rem">Part 1 — Your Funnel Info</div>
     <div class="module-list">
       <div class="module-card" id="card-m1">
         <div class="mod-icon teal">🏢</div>
@@ -230,35 +233,35 @@ input[type="file"]{display:none}
     </div>
 
     <!-- Access Checklist — comprehensive -->
+    <div class="section-label" style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--coral);margin-bottom:.6rem;margin-top:1.5rem">Part 2 — Platform Access</div>
     <div class="access-card">
       <h3>🔑 Platform Access</h3>
       <p>We need access to a few platforms to build and set everything up for you. Click each item to see instructions, then confirm once you've shared access.</p>
 
       <div class="access-item" id="access-website">
-        <div class="access-item-header">
+        <div class="access-item-header" onclick="toggleAccessInstructions('website')" style="cursor:pointer">
           <div class="access-item-title">🌐 Website Admin Access</div>
-          <div id="chk-website-btn">
-            <button class="access-confirm-btn" onclick="confirmAccess('website')">Mark as Shared</button>
-          </div>
+          <span class="access-toggle-icon" id="access-toggle-website">▸</span>
         </div>
-        <div class="access-instructions">
+        <div class="access-instructions" id="access-instr-website" style="display:none">
           Please share admin access so we can build your Thank You page and make any needed updates.<br><br>
           <strong>WordPress</strong> — go to Users → Add New, enter <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="aacbcec7c3c4eaddc2c3dec4cfd3c8cbdecfd9c5c484c9c5c7">[email&#160;protected]</a></strong>, set role to Administrator.<br>
           <strong>Squarespace</strong> — go to Settings → Permissions → Invite Contributor, use <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6d0c090004032d1a0504190308140f0c19081e0203430e0200">[email&#160;protected]</a></strong>, select Administrator.<br>
           <strong>Showit</strong> — invite <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4223262f2b2c02352a2b362c273b20233627312d2c6c212d2f">[email&#160;protected]</a></strong> as a collaborator from your Showit account settings.<br>
           <strong>Wix</strong> — go to Dashboard → Roles &amp; Permissions → Invite People, use <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="85e4e1e8ecebc5f2edecf1ebe0fce7e4f1e0f6eaebabe6eae8">[email&#160;protected]</a></strong> as Co-owner.<br>
           <strong>Other platforms</strong> — share your login securely using <a href="https://www.lastpass.com/features/password-sharing" target="_blank">LastPass Secure Share</a> to <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d1b0b5bcb8bf91a6b9b8a5bfb4a8b3b0a5b4a2bebfffb2bebc">[email&#160;protected]</a></strong>.
+          <div style="margin-top:.75rem" id="chk-website-btn">
+            <button class="access-confirm-btn" onclick="event.stopPropagation();confirmAccess('website')">Mark as Shared</button>
+          </div>
         </div>
       </div>
 
       <div class="access-item" id="access-email">
-        <div class="access-item-header">
+        <div class="access-item-header" onclick="toggleAccessInstructions('email')" style="cursor:pointer">
           <div class="access-item-title">📧 Email Platform Access</div>
-          <div id="chk-email-btn">
-            <button class="access-confirm-btn" onclick="confirmAccess('email')">Mark as Shared</button>
-          </div>
+          <span class="access-toggle-icon" id="access-toggle-email">▸</span>
         </div>
-        <div class="access-instructions">
+        <div class="access-instructions" id="access-instr-email" style="display:none">
           We need access to set up your opt-in form, automation, and welcome sequence.<br><br>
           <strong>Kit (ConvertKit)</strong> — Settings → Team → Invite Team Member → <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="8cede8e1e5e2ccfbe4e5f8e2e9f5eeedf8e9ffe3e2a2efe3e1">[email&#160;protected]</a></strong>.<br>
           <strong>ActiveCampaign</strong> — Settings → Users → Add User → <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="cfaeaba2a6a18fb8a7a6bba1aab6adaebbaabca0a1e1aca0a2">[email&#160;protected]</a></strong> (Admin).<br>
@@ -266,23 +269,27 @@ input[type="file"]{display:none}
           <strong>Flodesk</strong> — Account Settings → Team → Invite → <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e180858c888fa1968988958f849883809584928e8fcf828e8c">[email&#160;protected]</a></strong>.<br>
           <strong>Mailchimp</strong> — Account → Settings → Users → Invite a User → <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="bddcd9d0d4d3fdcad5d4c9d3d8c4dfdcc9d8ced2d393ded2d0">[email&#160;protected]</a></strong> (Manager or Admin).<br>
           <strong>Other platforms</strong> — share credentials via <a href="https://www.lastpass.com/features/password-sharing" target="_blank">LastPass Secure Share</a> to <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="2746434a4e4967504f4e5349425e454653425448490944484a">[email&#160;protected]</a></strong>.
+          <div style="margin-top:.75rem" id="chk-email-btn">
+            <button class="access-confirm-btn" onclick="event.stopPropagation();confirmAccess('email')">Mark as Shared</button>
+          </div>
         </div>
       </div>
 
       <div class="access-item" id="access-fb">
-        <div class="access-item-header">
+        <div class="access-item-header" onclick="toggleAccessInstructions('fb')" style="cursor:pointer">
           <div class="access-item-title">📣 Meta Business Suite (Facebook + Ads)</div>
-          <div id="chk-fb-btn">
-            <button class="access-confirm-btn" onclick="confirmAccess('fb')">Mark as Shared</button>
-          </div>
+          <span class="access-toggle-icon" id="access-toggle-fb">▸</span>
         </div>
-        <div class="access-instructions">
+        <div class="access-instructions" id="access-instr-fb" style="display:none">
           We need access to Meta Business Suite to set up and run your Facebook lead ads.<br><br>
           1. Go to <a href="https://business.facebook.com/settings" target="_blank">business.facebook.com/settings</a><br>
           2. Click <strong>People</strong> → <strong>Add People</strong> → enter <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dbbabfb6b2b59bacb3b2afb5bea2b9baafbea8b4b5f5b8b4b6">[email&#160;protected]</a></strong><br>
           3. Assign access to your <strong>Facebook Page</strong> (Editor or Admin) and your <strong>Ad Account</strong> (Advertiser or Admin)<br>
           4. Click <strong>Invite</strong> — we'll accept and confirm once we're in.<br><br>
           <strong>No Business Manager yet?</strong> Email us at <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c7a6a3aaaea987b0afaeb3a9a2bea5a6b3a2b4a8a9e9a4a8aa">[email&#160;protected]</a></strong> and we'll help you get set up.
+          <div style="margin-top:.75rem" id="chk-fb-btn">
+            <button class="access-confirm-btn" onclick="event.stopPropagation();confirmAccess('fb')">Mark as Shared</button>
+          </div>
         </div>
       </div>
 
@@ -303,7 +310,7 @@ input[type="file"]{display:none}
 
     <!-- Framing callout -->
     <div class="field-context" style="margin-bottom:1.5rem">
-      💡 <strong>Quick note before you start:</strong> Everything in this funnel — your lead magnet, opt-in page, emails, and ads — will be built around a <em>specific offer or service</em> you want to attract clients for. As you fill this out, keep that offer in mind. Your ideal client isn't just "anyone who needs help" — it's the person who is the perfect fit for <em>that specific package or service</em>.
+      💡 <strong>Quick note before you start:</strong> Everything in this funnel — your lead magnet, opt-in page, emails, and ads — will be built around a <em>specific offer or service</em> you want to attract clients for.<br><br>As you answer the questions below, think about the person this funnel is for. If you have a specific package you're pointing to, this should be about the person who is the perfect fit for <em>that</em> offer. If this funnel is for your services overall, think about the kind of person who would want to book a call and have a conversation with you about working together.<br><br>The more clearly you define who this is for, the more targeted and effective everything we build will be.
     </div>
 
     <div class="sec-label">About Your Practice</div>
@@ -321,6 +328,7 @@ input[type="file"]{display:none}
         <label class="radio-option"><input type="radio" name="practype" value="Health / Wellness Coach"><div><div class="radio-label">Health / Wellness Coach</div></div></label>
         <label class="radio-option"><input type="radio" name="practype" value="Other"><div><div class="radio-label">Other health or wellness professional</div></div></label>
       </div>
+      <div id="practype-other-wrap" style="display:none;margin-top:.5rem"><input class="field-input" id="f-practype-other" type="text" placeholder="Please specify your type of practice..."></div>
     </div>
     <div class="field-group"><label class="field-label">Years in business</label>
       <select class="field-select" id="f-years"><option value="">Select one...</option><option>Less than 1 year</option><option>1–2 years</option><option>3–5 years</option><option>6–10 years</option><option>10+ years</option></select>
@@ -364,6 +372,7 @@ input[type="file"]{display:none}
         <label class="radio-option"><input type="radio" name="esp" value="Other"><div><div class="radio-label">Other</div></div></label>
         <label class="radio-option"><input type="radio" name="esp" value="Not sure / don't have one"><div><div class="radio-label">Not sure / don't have one yet</div></div></label>
       </div>
+      <div id="esp-other-wrap" style="display:none;margin-top:.5rem"><input class="field-input" id="f-esp-other" type="text" placeholder="Which email platform do you use?"></div>
     </div>
     <div class="field-group"><label class="field-label">Website platform</label>
       <div class="radio-group">
@@ -374,6 +383,7 @@ input[type="file"]{display:none}
         <label class="radio-option"><input type="radio" name="webplatform" value="Other"><div><div class="radio-label">Other</div></div></label>
         <label class="radio-option"><input type="radio" name="webplatform" value="No website yet"><div><div class="radio-label">I don't have a website yet</div></div></label>
       </div>
+      <div id="webplatform-other-wrap" style="display:none;margin-top:.5rem"><input class="field-input" id="f-webplatform-other" type="text" placeholder="Which website platform do you use?"></div>
     </div>
     <div class="field-group"><label class="field-label">Anything else we should know before we get started?</label><textarea class="field-textarea" id="f-notes" placeholder="Goals, concerns, context, deadlines... (type N/A if nothing to add)"></textarea></div>
   </div>
@@ -390,8 +400,8 @@ input[type="file"]{display:none}
   <div class="chat-layout" id="m2-chat-layout">
     <div class="chat-intro">
       <strong>This is a conversation, not a form.</strong> I'll ask you questions about the ideal client for your specific offer — the perfect-fit person for what you outlined in Module 1. Answer naturally, there are no wrong answers.<br><br>
-      Claude will continue asking until it has enough to generate a strong summary — usually 5-7 questions. Once you've answered the key ones, a <strong>"Generate my summary"</strong> button will appear so you can wrap up whenever you're ready.<br><br>
-      <em>Note: Claude sometimes takes a few extra seconds to think before responding — that's normal!</em>
+      Sam will continue asking until she has enough to generate a strong summary — usually 5-7 questions. Once you've answered the key ones, a <strong>"Generate my summary"</strong> button will appear so you can wrap up whenever you're ready.<br><br>
+      <em>Note: Sam sometimes takes a few extra seconds to think before responding — that's normal!</em>
     </div>
     <div class="chat-hint">💡 Press <strong>Enter</strong> to send. Press <strong>Shift + Enter</strong> for a new line. Click <strong>"Generate my summary"</strong> to wrap up early.</div>
     <div class="chat-feed" id="m2-feed">
@@ -430,7 +440,7 @@ input[type="file"]{display:none}
   </div>
   <div class="mod-body">
     <div class="field-context" style="margin-bottom:1.5rem">
-      🧲 <strong>What makes a great lead magnet?</strong> The best lead magnets give your ideal client a quick win — something that immediately helps them with a real problem — while naturally moving them closer to being ready for your offer. Think of it as a preview of what it's like to work with you: valuable, specific, and leaving them wanting more.
+      🧲 <strong>What makes a great lead magnet?</strong> The best lead magnets give your ideal client a quick win — something that immediately helps them with a real problem — while making them feel empowered and confident that real progress is possible. When it's done right, your potential client walks away thinking, "If this free resource was this good, imagine what working with them would be like." Your paid offer becomes the obvious next step. For example, a nutritionist's "5-Day Gut Health Reset" guide helps someone feel noticeably better in less than a week — and naturally leads them to want personalized support to keep going.
     </div>
 
     <div class="step-dots"><div class="step-dot active" id="m3-dot1"></div><div class="step-dot" id="m3-dot2"></div><div class="step-dot" id="m3-dot3"></div><span class="step-lbl" id="m3-step-lbl">Step 1 of 3</span></div>
@@ -473,8 +483,8 @@ input[type="file"]{display:none}
       </div>
 
       <div class="field-group">
-        <label class="field-label">What should someone be able to do, feel, or understand after going through your lead magnet?</label>
-        <p class="field-hint">Describe the transformation — even a small one. How should they feel? What will they be able to do differently? Leave blank if you're not sure yet.</p>
+        <label class="field-label">After going through your lead magnet, what should someone walk away being able to do, feel confident about, or understand differently?</label>
+        <p class="field-hint">Think about the shift — even a small one. Maybe they feel empowered to take a first step, or they finally understand something that's been confusing them, or they have a quick win that makes them want to keep going. Leave blank if you're not sure yet.</p>
         <textarea class="field-textarea" id="f-lm-transformation" placeholder="e.g. Feel confident they can improve their relationship with food without another restrictive diet... (type N/A if unsure)"></textarea>
       </div>
 
@@ -577,8 +587,8 @@ input[type="file"]{display:none}
   </div>
   <div class="chat-layout" id="m4-chat-layout">
     <div class="chat-intro"><strong>Last one — and it's a conversation.</strong> I'll ask you about your voice, your story, and the details we need to write your welcome emails so they sound exactly like you.<br><br>
-      Claude will keep asking until it has enough — usually 5-7 questions. A <strong>"Generate my summary"</strong> button will appear once you've covered the key ones so you can wrap up whenever you're ready.<br><br>
-      <em>Note: Claude sometimes takes a few extra seconds to think — that's normal!</em>
+      Sam will keep asking until she has enough — usually 5-7 questions. A <strong>"Generate my summary"</strong> button will appear once you've covered the key ones so you can wrap up whenever you're ready.<br><br>
+      <em>Note: Sam sometimes takes a few extra seconds to think — that's normal!</em>
     </div>
     <div class="chat-hint">💡 Press <strong>Enter</strong> to send. Press <strong>Shift + Enter</strong> for a new line. Click <strong>"Generate my summary"</strong> to wrap up early.</div>
     <div class="chat-feed" id="m4-feed">
@@ -604,8 +614,10 @@ input[type="file"]{display:none}
         <p style="font-size:12px;color:var(--text-mid);margin-bottom:.6rem">Not happy with the summary? Keep chatting above to add more detail, then click "Generate my summary" again to regenerate.</p>
       </div>
     </div>
-    <button class="complete-btn" id="m4-complete" onclick="completeM4()" style="display:block;width:100%;margin-top:.75rem">Save + Submit All Modules →</button>
+    <button class="complete-btn" id="m4-save-dash" onclick="saveM4ToDashboard()" style="display:block;width:100%;margin-top:.75rem;background:var(--white);color:var(--teal);border:1.5px solid var(--teal)">Save and Go to Dashboard</button>
+    <button class="complete-btn" id="m4-complete" onclick="completeM4()" style="display:block;width:100%;margin-top:.5rem">Submit All — Everything Is Ready to Go ✓</button>
   </div>
+  <div class="toast" id="toast-m4-saved">✓ Progress saved!</div>
   <div class="toast" id="toast-m4">✓ All done! Your team has been notified.</div>
 </div>
 
@@ -727,12 +739,23 @@ function renderDashboard() {
       btn.innerHTML = '<span class="access-confirmed-badge">✓ Access Shared</span>';
     } else {
       item.classList.remove('confirmed');
-      btn.innerHTML = '<button class="access-confirm-btn" onclick="confirmAccess(\'' + k + '\')">Mark as Shared</button>';
+      btn.innerHTML = '<button class="access-confirm-btn" onclick="event.stopPropagation();confirmAccess(\'' + k + '\')">Mark as Shared</button>';
     }
   });
   var allConfirmed = client.access.website && client.access.email && client.access.fb;
   var warning = document.getElementById('access-warning');
   if (warning) warning.style.display = allConfirmed ? 'none' : 'block';
+}
+function toggleAccessInstructions(key) {
+  var instr = document.getElementById('access-instr-' + key);
+  var icon = document.getElementById('access-toggle-' + key);
+  if (instr.style.display === 'none') {
+    instr.style.display = 'block';
+    icon.classList.add('open');
+  } else {
+    instr.style.display = 'none';
+    icon.classList.remove('open');
+  }
 }
 function confirmAccess(key) {
   client.access[key] = true;
@@ -752,8 +775,12 @@ function openM1() {
   if (d.practype) setRadio('practype', d.practype);
   if (d.offercta) setRadio('offercta', d.offercta);
   if (d.typage) { setRadio('typage', d.typage); if (d.typage === 'A low-ticket product') document.getElementById('ty-offer-wrap').style.display = 'block'; }
-  if (d.esp) setRadio('esp', d.esp);
-  if (d.webplatform) setRadio('webplatform', d.webplatform);
+  if (d.esp) { setRadio('esp', d.esp); if (d.esp === 'Other') { document.getElementById('esp-other-wrap').style.display = 'block'; } }
+  if (d.espOther) { var el = document.getElementById('f-esp-other'); if(el) el.value = d.espOther; }
+  if (d.webplatform) { setRadio('webplatform', d.webplatform); if (d.webplatform === 'Other') { document.getElementById('webplatform-other-wrap').style.display = 'block'; } }
+  if (d.webplatformOther) { var el = document.getElementById('f-webplatform-other'); if(el) el.value = d.webplatformOther; }
+  if (d.practype === 'Other') { document.getElementById('practype-other-wrap').style.display = 'block'; }
+  if (d.practypeOther) { var el = document.getElementById('f-practype-other'); if(el) el.value = d.practypeOther; }
   if (client.mods.m1 === 'todo') { client.mods.m1 = 'inprogress'; sbSave(client); }
   goTo('module1');
 }
@@ -790,7 +817,10 @@ function saveM1() {
     website: getf('f-website'), years: getf('f-years'), practype: getRadio('practype'),
     offer: getf('f-offer'), offercta: getRadio('offercta'), offerurl: getf('f-offerurl') || 'N/A',
     typage: getRadio('typage'), tyoffer: getf('f-ty-offer'),
-    esp: getRadio('esp'), webplatform: getRadio('webplatform'), notes: getf('f-notes') || 'N/A'
+    esp: getRadio('esp'), espOther: getf('f-esp-other'),
+    webplatform: getRadio('webplatform'), webplatformOther: getf('f-webplatform-other'),
+    practypeOther: getf('f-practype-other'),
+    notes: getf('f-notes') || 'N/A'
   };
   client.mods.m1 = 'done'; client.mods.m2 = 'todo';
   sbSave(client); showToast('toast-m1');
@@ -959,6 +989,8 @@ function showM2Summary(text) {
     refineBar.innerHTML = '<button onclick="openM2Refine()" style="background:none;border:1.5px solid var(--border);color:var(--text-mid);padding:.4rem 1rem;border-radius:20px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif">Want to add more detail? Continue the conversation ↑</button>';
     var layout = document.getElementById('m2-chat-layout');
     layout.appendChild(refineBar);
+  } else {
+    refineBar.style.display = 'block';
   }
   // Scroll to summary
   setTimeout(function(){ document.getElementById('m2-summary-section').scrollIntoView({behavior:'smooth', block:'start'}); }, 100);
@@ -1221,6 +1253,8 @@ function showM4Summary(text) {
     refineBar.innerHTML = '<button onclick="openM4Refine()" style="background:none;border:1.5px solid var(--border);color:var(--text-mid);padding:.4rem 1rem;border-radius:20px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif">Want to add more detail? Continue the conversation ↑</button>';
     var layout = document.getElementById('m4-chat-layout');
     layout.appendChild(refineBar);
+  } else {
+    refineBar.style.display = 'block';
   }
   setTimeout(function(){ document.getElementById('m4-summary-section').scrollIntoView({behavior:'smooth', block:'start'}); }, 100);
 }
@@ -1243,6 +1277,11 @@ function toggleM4Chat() {
     btn.textContent = 'View conversation';
   }
 }
+function saveM4ToDashboard() {
+  saveM4();
+  showToast('toast-m4-saved');
+  setTimeout(function(){ renderDashboard(); goTo('dashboard'); }, 1200);
+}
 function completeM4() {
   if (!confirm('Once you submit, all modules will be locked and you will not be able to go back and edit any of your answers.\n\nAre you sure you want to submit?')) return;
   client.mods.m4 = 'done';
@@ -1259,6 +1298,16 @@ document.querySelectorAll('.radio-option').forEach(function(opt) {
       r.closest('.radio-option').classList.remove('selected');
     });
     opt.classList.add('selected');
+  });
+});
+
+// ── "Other" text input toggles ──
+['practype','esp','webplatform'].forEach(function(name) {
+  document.querySelectorAll('input[name="' + name + '"]').forEach(function(r) {
+    r.addEventListener('change', function() {
+      var wrap = document.getElementById(name + '-other-wrap');
+      if (wrap) wrap.style.display = r.value === 'Other' ? 'block' : 'none';
+    });
   });
 });
 
