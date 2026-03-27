@@ -159,6 +159,15 @@ async function createClientPage(client: Record<string, unknown>): Promise<string
   if (m1.webplatform) props['Website Platform'] = { rich_text: rt(m1.webplatform) };
   if (m1.esp) props['Email Platform'] = { rich_text: rt(m1.esp) };
   if (m1.offer) props['Main Offer'] = { rich_text: rt(m1.offer) };
+  if (m1.offercta) props['Offer CTA'] = { select: { name: m1.offercta } };
+  if (m1.years) props['Years in Business'] = { select: { name: m1.years } };
+  if (m1.typage) props['Thank You Page'] = { rich_text: rt(m1.typage) };
+  if (m1.offerurl && m1.offerurl !== 'N/A') props['Offer URL'] = { url: m1.offerurl };
+  // FB access answers
+  const fbCreate = (client.fb_access_answers || {}) as Record<string, string>;
+  if (fbCreate.hasPage) props['FB - Has Page'] = { select: { name: fbCreate.hasPage } };
+  if (fbCreate.hasMeta) props['FB - Has Meta Business'] = { select: { name: fbCreate.hasMeta } };
+  if (fbCreate.hasAdAccount) props['FB - Has Ad Account'] = { select: { name: fbCreate.hasAdAccount } };
 
   const r = await fetch(`${NOTION_API}/pages`, {
     method: 'POST', headers: nHeaders,
@@ -196,6 +205,15 @@ async function updateClientPage(pageId: string, client: Record<string, unknown>)
   if (m1.webplatform) props['Website Platform'] = { rich_text: rt(m1.webplatform) };
   if (m1.esp) props['Email Platform'] = { rich_text: rt(m1.esp) };
   if (m1.offer) props['Main Offer'] = { rich_text: rt(m1.offer) };
+  if (m1.offercta) props['Offer CTA'] = { select: { name: m1.offercta } };
+  if (m1.years) props['Years in Business'] = { select: { name: m1.years } };
+  if (m1.typage) props['Thank You Page'] = { rich_text: rt(m1.typage) };
+  if (m1.offerurl && m1.offerurl !== 'N/A') props['Offer URL'] = { url: m1.offerurl };
+  // FB access answers
+  const fbUpdate = (client.fb_access_answers || {}) as Record<string, string>;
+  if (fbUpdate.hasPage) props['FB - Has Page'] = { select: { name: fbUpdate.hasPage } };
+  if (fbUpdate.hasMeta) props['FB - Has Meta Business'] = { select: { name: fbUpdate.hasMeta } };
+  if (fbUpdate.hasAdAccount) props['FB - Has Ad Account'] = { select: { name: fbUpdate.hasAdAccount } };
 
   await fetch(`${NOTION_API}/pages/${pageId}`, {
     method: 'PATCH', headers: nHeaders, body: JSON.stringify({ properties: props })
