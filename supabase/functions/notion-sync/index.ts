@@ -296,6 +296,12 @@ async function rebuildPageContent(pageId: string, client: Record<string, unknown
   blocks.push(bullet('Website access: ' + (client.access_website ? '✅ Confirmed' : '⏳ Pending')));
   blocks.push(bullet('Email platform access: ' + (client.access_email ? '✅ Confirmed' : '⏳ Pending')));
   blocks.push(bullet('Facebook Ads access: ' + (client.access_fb ? '✅ Confirmed' : '⏳ Pending')));
+  const fbAnswers = client.fb_access_answers as Record<string, string> | null;
+  if (fbAnswers) {
+    blocks.push(bullet('Has business FB page: ' + (fbAnswers.hasPage || '—')));
+    blocks.push(bullet('Has Meta Business account: ' + (fbAnswers.hasMeta || '—')));
+    blocks.push(bullet('Has ad account: ' + (fbAnswers.hasAdAccount || '—')));
+  }
 
   for (let i = 0; i < blocks.length; i += 100) {
     await fetch(`${NOTION_API}/blocks/${pageId}/children`, {
