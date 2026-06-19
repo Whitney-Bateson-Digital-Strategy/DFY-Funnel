@@ -359,7 +359,11 @@ Deno.serve(async (req: Request) => {
         })
       });
       const data = await r.json();
-      return json(data);
+if (!r.ok) {
+  console.error('Anthropic error:', r.status, data);
+  return json({ error: data?.error?.message || 'Anthropic request failed', detail: data }, r.status);
+}
+return json(data);
     }
 
     // NOTION SYNC — route client record to Notion
