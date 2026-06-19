@@ -909,7 +909,7 @@ async function callAI(system, messages) {
   var r = await fetch(EDGE, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + SB_KEY },
-    body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, system: system, messages: messages })
+    body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 1000, system: system, messages: messages })
   });
   var d = await r.json();
   if (d.content && d.content[0]) return d.content[0].text;
