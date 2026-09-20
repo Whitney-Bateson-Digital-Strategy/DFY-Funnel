@@ -88,8 +88,7 @@ h1,h2,h3,h4,.brand-name,.mod-title,.summary-title,.branch-card-title,.landing-he
 /* DASHBOARD */
 #screen-dashboard{background:var(--soft)}
 .dash-header{background:var(--navy-dk);padding:1.4rem 2rem;display:flex;align-items:center;justify-content:space-between}
-.dash-brand-name{font-family:var(--head);color:var(--white);font-size:22px;font-weight:600;line-height:1.15}
-.dash-brand-sub{font-size:10.5px;color:rgba(255,255,255,.72);letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-top:2px}
+.dash-logo{height:52px;width:auto;display:block;flex-shrink:0}
 .dash-pill{background:rgba(255,255,255,.11);border-radius:var(--r);padding:.4rem .9rem;font-size:13px;color:rgba(255,255,255,.88)}
 .dash-body{max-width:680px;margin:0 auto;padding:2.5rem 1.5rem 3rem}
 .dash-welcome h2{font-family:var(--head);font-size:30px;font-weight:600;color:var(--navy);margin-bottom:.4rem;line-height:1.15}
@@ -231,8 +230,9 @@ input[type="file"]{display:none}
 @media(max-width:560px){
   .two-col{grid-template-columns:1fr}
   .landing-card{padding:2.25rem 1.4rem}
-  .dash-header{padding:1.1rem 1.25rem}
-  .dash-brand-name{font-size:19px}
+  .dash-header{padding:1rem 1.15rem;gap:.85rem}
+  .dash-logo{height:38px}
+  .dash-pill{font-size:12px;padding:.35rem .7rem}
   .dash-welcome h2{font-size:25px}
   .mod-header{padding:1.1rem 1.1rem;gap:.8rem}
   .mod-header-title{font-size:1.25rem}
@@ -265,10 +265,7 @@ input[type="file"]{display:none}
 <!-- DASHBOARD -->
 <div id="screen-dashboard" class="screen">
   <div class="dash-header">
-    <div>
-      <div class="dash-brand-name">Whitney Bateson</div>
-      <div class="dash-brand-sub">Done For You Funnel</div>
-    </div>
+    <img class="dash-logo" src="logo-dfy-funnel.png" width="800" height="358" alt="Done-For-You Funnel">
     <div class="dash-pill" id="dash-email">—</div>
   </div>
   <div class="dash-body">
