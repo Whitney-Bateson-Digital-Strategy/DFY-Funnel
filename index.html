@@ -56,7 +56,7 @@ a:hover{color:var(--coral-dk)}
 strong,b{font-weight:700}
 /* Cormorant defaults to old-style figures, which read badly in anything
    numeric. Every heading gets lining, tabular figures. */
-h1,h2,h3,h4,.brand-name,.mod-title,.summary-title,.branch-card-title,.landing-headline,.dash-welcome h2,.mod-header-title{font-variant-numeric:lining-nums tabular-nums;font-feature-settings:"lnum" 1,"tnum" 1}
+h1,h2,h3,h4,.mod-title,.summary-title,.branch-card-title,.landing-headline,.dash-welcome h2,.mod-header-title{font-variant-numeric:lining-nums tabular-nums;font-feature-settings:"lnum" 1,"tnum" 1}
 .screen{display:none;min-height:100vh;flex-direction:column}
 .screen.active{display:flex}
 
@@ -68,12 +68,13 @@ h1,h2,h3,h4,.brand-name,.mod-title,.summary-title,.branch-card-title,.landing-he
   white-space:nowrap}
 
 /* LANDING */
-#screen-landing{align-items:center;justify-content:center;background:var(--navy-dk);padding:2rem}
-.landing-card{background:var(--white);border-radius:var(--r-lg);padding:3rem 2.5rem;max-width:460px;width:100%;text-align:center;box-shadow:0 8px 40px rgba(1,61,70,.28)}
-.brand-eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);margin-bottom:.5rem}
-.brand-name{font-family:var(--head);font-size:34px;font-weight:600;color:var(--navy);line-height:1.1;margin-bottom:.15rem}
-.brand-sub{font-size:12px;font-weight:700;color:var(--muted);margin-bottom:1.75rem;letter-spacing:.14em;text-transform:uppercase}
-.landing-divider{width:40px;height:2px;background:var(--coral);margin:0 auto 1.75rem;border-radius:2px}
+/* Cream page, lime-washed top edge on the card — the logo is coral artwork
+   and only sits right on a light ground. */
+#screen-landing{align-items:center;justify-content:center;background:var(--soft);padding:2rem 1.25rem}
+.landing-card{background:var(--white);border:1px solid var(--border);border-top:3px solid var(--coral);border-radius:var(--r-lg);padding:2.75rem 2.5rem;max-width:460px;width:100%;text-align:center;box-shadow:var(--sh-md)}
+.landing-logo{display:block;width:100%;max-width:215px;height:auto;margin:0 auto .5rem}
+.brand-sub{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:1.6rem;letter-spacing:.14em;text-transform:uppercase}
+.landing-divider{width:40px;height:2px;background:var(--coral);margin:0 auto 1.6rem;border-radius:2px}
 .landing-headline{font-family:var(--head);font-size:26px;font-weight:600;color:var(--navy);margin-bottom:.7rem;line-height:1.2}
 .landing-body{font-size:15.5px;color:var(--muted);line-height:1.65;margin-bottom:1.75rem}
 .welcome-back{background:var(--hi);border:1px solid var(--hi-md);border-radius:var(--r);padding:.65rem 1rem;font-size:14px;color:var(--navy);font-weight:600;margin-bottom:.85rem;display:none;text-align:left}
@@ -87,9 +88,9 @@ h1,h2,h3,h4,.brand-name,.mod-title,.summary-title,.branch-card-title,.landing-he
 
 /* DASHBOARD */
 #screen-dashboard{background:var(--soft)}
-.dash-header{background:var(--navy-dk);padding:1.4rem 2rem;display:flex;align-items:center;justify-content:space-between}
-.dash-logo{height:52px;width:auto;display:block;flex-shrink:0}
-.dash-pill{background:rgba(255,255,255,.11);border-radius:var(--r);padding:.4rem .9rem;font-size:13px;color:rgba(255,255,255,.88)}
+.dash-header{background:var(--white);border-bottom:1px solid var(--border);box-shadow:0 2px 12px rgba(2,82,93,.07);padding:1.1rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.dash-logo{height:54px;width:auto;display:block;flex-shrink:0}
+.dash-pill{background:var(--soft);border:1px solid var(--border);border-radius:var(--r);padding:.45rem .9rem;font-size:13px;color:var(--muted)}
 .dash-body{max-width:680px;margin:0 auto;padding:2.5rem 1.5rem 3rem}
 .dash-welcome h2{font-family:var(--head);font-size:30px;font-weight:600;color:var(--navy);margin-bottom:.4rem;line-height:1.15}
 .dash-welcome p{font-size:16px;color:var(--muted);line-height:1.65;margin-bottom:1.9rem}
@@ -133,11 +134,11 @@ h1,h2,h3,h4,.brand-name,.mod-title,.summary-title,.branch-card-title,.landing-he
 .access-warning strong{color:var(--navy);font-weight:700}
 
 /* MODULE HEADER */
-.mod-header{background:var(--navy-dk);padding:1.25rem 1.75rem;display:flex;align-items:center;gap:1.1rem;flex-shrink:0}
-.back-btn{background:rgba(255,255,255,.11);color:rgba(255,255,255,.9);font-size:10.5px;padding:9px 15px}
-.back-btn:hover{background:rgba(255,255,255,.2);color:var(--white)}
-.mod-header-eyebrow{font-size:10.5px;text-transform:uppercase;letter-spacing:.14em;color:var(--lime);font-weight:700;margin-bottom:.15rem}
-.mod-header-title{font-family:var(--head);font-size:1.45rem;font-weight:600;color:var(--white);line-height:1.15}
+.mod-header{background:var(--white);border-bottom:1px solid var(--border);box-shadow:0 2px 12px rgba(2,82,93,.07);padding:1.1rem 1.75rem;display:flex;align-items:center;gap:1.1rem;flex-shrink:0}
+.back-btn{background:var(--white);color:var(--navy);border:1px solid rgba(2,82,93,.3);font-size:10.5px;padding:9px 15px}
+.back-btn:hover{background:var(--soft);border-color:var(--navy);transform:translateY(-1px)}
+.mod-header-eyebrow{font-size:10.5px;text-transform:uppercase;letter-spacing:.14em;color:var(--coral);font-weight:700;margin-bottom:.15rem}
+.mod-header-title{font-family:var(--head);font-size:1.45rem;font-weight:600;color:var(--navy);line-height:1.15}
 
 /* MODULE BODY */
 .mod-body{max-width:640px;margin:0 auto;padding:2.25rem 1.5rem 5rem;width:100%}
@@ -191,7 +192,7 @@ h1,h2,h3,h4,.brand-name,.mod-title,.summary-title,.branch-card-title,.landing-he
 input[type="file"]{display:none}
 
 /* CHAT */
-.chat-layout{display:flex;flex-direction:column;height:calc(100vh - 72px);max-width:680px;margin:0 auto;width:100%;padding:0 1rem}
+.chat-layout{display:flex;flex-direction:column;flex:1;min-height:0;max-width:680px;margin:0 auto;width:100%;padding:0 1rem}
 .chat-intro{background:var(--hi);border:1px solid var(--hi-md);border-left:3px solid var(--coral);border-radius:0 var(--r) var(--r) 0;padding:1rem 1.2rem;margin:1.2rem 0 .65rem;font-size:15px;color:var(--text);line-height:1.65;flex-shrink:0}
 .chat-intro strong{color:var(--navy);font-weight:700}
 .chat-hint{background:var(--peach);border:1px solid rgba(255,127,80,.3);border-radius:var(--r);padding:.55rem .9rem;font-size:13.5px;color:var(--text);margin-bottom:.65rem;flex-shrink:0}
@@ -229,9 +230,10 @@ input[type="file"]{display:none}
 
 @media(max-width:560px){
   .two-col{grid-template-columns:1fr}
-  .landing-card{padding:2.25rem 1.4rem}
-  .dash-header{padding:1rem 1.15rem;gap:.85rem}
-  .dash-logo{height:38px}
+  .dash-header{padding:.9rem 1.15rem;gap:.85rem}
+  .dash-logo{height:40px}
+  .landing-card{padding:2.25rem 1.5rem}
+  .landing-logo{max-width:180px}
   .dash-pill{font-size:12px;padding:.35rem .7rem}
   .dash-welcome h2{font-size:25px}
   .mod-header{padding:1.1rem 1.1rem;gap:.8rem}
@@ -239,7 +241,6 @@ input[type="file"]{display:none}
   .module-card{padding:1.1rem}
   .mod-title{font-size:1.15rem}
   .access-card{padding:1.35rem 1.1rem}
-  .chat-layout{height:calc(100vh - 68px)}
 }
 </style>
 </head>
@@ -248,9 +249,8 @@ input[type="file"]{display:none}
 <!-- LANDING -->
 <div id="screen-landing" class="screen active">
   <div class="landing-card">
-    <div class="brand-eyebrow">Done For You Funnel</div>
-    <div class="brand-name">Whitney Bateson</div>
-    <div class="brand-sub">Digital Strategy</div>
+    <img class="landing-logo" src="logo-dfy-funnel.png" width="800" height="358" alt="Done-For-You Funnel">
+    <div class="brand-sub">Whitney Bateson · Digital Strategy</div>
     <div class="landing-divider"></div>
     <div class="landing-headline">Let's build your lead gen funnel.</div>
     <p class="landing-body">Complete each module at your own pace — your progress saves automatically so you can always pick up right where you left off.</p>
