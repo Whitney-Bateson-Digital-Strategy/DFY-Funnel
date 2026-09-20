@@ -81,6 +81,21 @@ function has(v: unknown): v is string {
   return s !== '' && s.toUpperCase() !== 'N/A';
 }
 
+// Notion validates every property in a PATCH together: one malformed URL
+// rejects the whole update, taking the module statuses down with it. Clients
+// routinely type "yoursite.com", so normalise and drop anything that won't parse.
+function asUrl(v: unknown): string | null {
+  const s = String(v ?? '').trim();
+  if (!has(s)) return null;
+  const withScheme = /^https?:\/\//i.test(s) ? s : 'https://' + s;
+  try {
+    const u = new URL(withScheme);
+    return u.hostname.includes('.') ? withScheme : null;
+  } catch {
+    return null;
+  }
+}
+
 // ── Chat transcripts ────────────────────────────────────────
 // Transcripts live in the `messages` table, not in the client record, so the
 // sync reads them back out here. (They used to be sent in the payload; when
@@ -170,14 +185,17 @@ function buildProps(client: Record<string, unknown>): Record<string, unknown> {
   const props: Record<string, unknown> = {};
   if (has(m1.bizname)) props['Business Name'] = { rich_text: rt(m1.bizname) };
   if (has(m1.practype)) props['Practice Type'] = { select: { name: m1.practype } };
-  if (has(m1.website)) props['Website'] = { url: m1.website };
+  const website = asUrl(m1.website);
+  if (website) props['Website'] = { url: website };
   if (has(m1.webplatform)) props['Website Platform'] = { rich_text: rt(m1.webplatform) };
   if (has(m1.esp)) props['Email Platform'] = { rich_text: rt(m1.esp) };
   if (has(m1.offer)) props['Main Offer'] = { rich_text: rt(m1.offer) };
   if (has(m1.offercta)) props['Offer CTA'] = { select: { name: m1.offercta } };
-  if (has(m1.offerurl)) props['Offer URL'] = { url: m1.offerurl };
+  const offerUrl = asUrl(m1.offerurl);
+  if (offerUrl) props['Offer URL'] = { url: offerUrl };
   const m3 = (client.m3_data || {}) as Record<string, string>;
-  if (has(m3.typage)) props['Thank You Page'] = { rich_text: rt(m3.typage) };
+  // Lowercase "you" — that is how the property is actually named in Notion.
+  if (has(m3.typage)) props['Thank you Page'] = { rich_text: rt(m3.typage) };
   return props;
 }
 
