@@ -561,11 +561,6 @@ input[type="file"]{display:none}
         <textarea class="field-textarea" id="f-best-content" placeholder="e.g. A reel about what I actually eat in a day went a bit viral and I got tons of DMs... (or type N/A)"></textarea>
       </div>
 
-      <div class="field-group">
-        <label class="field-label">Do you have anything already half-built we could use?</label>
-        <p class="field-hint">A workshop, a webinar, a talk you've given, a really long post, a handout you give clients. Sometimes the fastest lead magnet is one you've already written.</p>
-        <textarea class="field-textarea" id="f-half-built" placeholder="e.g. I did a free workshop last year on meal prep that went really well... (or type N/A)"></textarea>
-      </div>
 
       <div style="display:flex;gap:.75rem;margin-top:.5rem">
         <button class="btn-save" style="background:var(--cream);color:var(--text-mid);border:1.5px solid var(--border)" onclick="m3Back2()">← Back</button>
@@ -1346,7 +1341,6 @@ function m3Next2() {
     setv('f-why-not-existing', d.whyNotExisting);
     setv('f-content-channels', d.contentChannels);
     setv('f-best-content', d.bestContent);
-    setv('f-half-built', d.halfBuilt);
   } else if (m3Choice === 'use') {
     document.getElementById('m3-s3-existing').classList.add('visible');
     setv('f-existing-name', d.existingName);
@@ -1451,7 +1445,6 @@ function startM3Chat() {
   d.whyNotExisting = naIfBlank(getf('f-why-not-existing'));
   d.contentChannels = naIfBlank(getf('f-content-channels'));
   d.bestContent = naIfBlank(getf('f-best-content'));
-  d.halfBuilt = naIfBlank(getf('f-half-built'));
   client.m3 = d; sbSave(client);
   openM3Chat();
 }
@@ -1494,7 +1487,6 @@ function startM3Convo() {
     (ica ? " Their ideal client: " + ica : "") +
     (m3.contentChannels && m3.contentChannels !== 'N/A' ? " Their content lives at: " + m3.contentChannels + "." : "") +
     (m3.bestContent && m3.bestContent !== 'N/A' ? " Content that performed well for them: " + m3.bestContent + "." : "") +
-    (m3.halfBuilt && m3.halfBuilt !== 'N/A' ? " They already have half-built: " + m3.halfBuilt + "." : "") +
     " Start warmly, reassure them they don't need to have the idea, then ask your first question.";
   m3History = [{ role:'user', content: ctx }];
   sendM3(null);

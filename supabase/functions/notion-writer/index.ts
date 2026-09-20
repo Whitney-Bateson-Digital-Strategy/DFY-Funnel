@@ -446,6 +446,7 @@ async function syncNotionContent(pageId: string, client: Record<string, unknown>
     if (has(m3.whyNotExisting))  blocks.push(bullet('Why not an existing one: ' + m3.whyNotExisting));
     if (has(m3.contentChannels)) blocks.push(bullet('📍 Content lives at: ' + m3.contentChannels));
     if (has(m3.bestContent))     blocks.push(bullet('⭐ Content that performed well: ' + m3.bestContent));
+    // Retired question — still rendered so the records that answered it keep theirs
     if (has(m3.halfBuilt))       blocks.push(bullet('🔨 Already half-built: ' + m3.halfBuilt));
     // Older records
     if (has(m3.lmTopic))          blocks.push(bullet('Topic: ' + m3.lmTopic));
