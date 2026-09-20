@@ -4,172 +4,243 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Whitney Bateson — Done For You Funnel</title>
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
 :root{
-  --teal:#02525d;--teal-dark:#013840;--teal-mid:#3a6068;
-  --coral:#ff7f50;--lime:#e3f696;--sky:#aed3dd;--sky-light:#c8e6ee;
-  --cream:#efeae3;--white:#ffffff;--text:#013840;--text-mid:#3a6068;
-  --text-light:#7a9499;--border:#d4e4e7;--radius:12px;--radius-sm:8px;
+  /* ── Brand tokens (shared with the sales page) ── */
+  --cream:#faf8f4;
+  --soft:#faf8f4;
+  --hi:rgba(227,246,150,0.30);
+  --hi-md:rgba(227,246,150,0.62);
+  --navy:#02525d;
+  --navy-dk:#013d46;
+  --coral:#ff7f50;
+  --coral-dk:#e6663b;
+  --pink:#ffcdcd;
+  --lime:#e3f696;
+  --lime-lt:#f0fac5;
+  --text:#1a1a1a;
+  --muted:#5c5c5c;
+  --faint:#8a8a8a;
+  --white:#ffffff;
+  --border:rgba(26,26,26,0.09);
+  --peach:rgba(255,127,80,0.16);
+  --r:6px;
+  --r-lg:8px;
+  --sh-sm:0 1px 3px rgba(2,82,93,0.05);
+  --sh-md:0 4px 22px rgba(2,82,93,0.08);
+  --head:'Cormorant Garamond',Georgia,serif;
+  --body:'Nunito',system-ui,sans-serif;
+
+  /* ── Aliases kept so inline styles in the markup keep resolving ── */
+  --teal:var(--navy);
+  --teal-dark:var(--navy-dk);
+  --teal-mid:var(--navy-dk);
+  --sky:var(--hi-md);
+  --sky-light:var(--hi);
+  --text-mid:var(--muted);
+  --text-light:var(--faint);
+  --radius:var(--r-lg);
+  --radius-sm:var(--r);
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);min-height:100vh}
+
+body{font-family:var(--body);background:var(--soft);color:var(--text);font-size:16px;line-height:1.7;min-height:100vh;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--head);line-height:1.18;font-weight:600;color:var(--navy)}
+p{margin-bottom:0}
+a{color:var(--navy);text-underline-offset:3px}
+a:hover{color:var(--coral-dk)}
+strong,b{font-weight:700}
+/* Cormorant defaults to old-style figures, which read badly in anything
+   numeric. Every heading gets lining, tabular figures. */
+h1,h2,h3,h4,.brand-name,.mod-title,.summary-title,.branch-card-title,.landing-headline,.dash-welcome h2,.mod-header-title{font-variant-numeric:lining-nums tabular-nums;font-feature-settings:"lnum" 1,"tnum" 1}
 .screen{display:none;min-height:100vh;flex-direction:column}
 .screen.active{display:flex}
 
+/* ── Shared button system ─────────────────────────────────────── */
+.btn-primary,.btn-save,.complete-btn,.access-confirm-btn,.finish-chat-btn,.back-btn{
+  font-family:var(--body);font-weight:700;letter-spacing:.085em;text-transform:uppercase;
+  border:none;border-radius:4px;cursor:pointer;
+  transition:background .2s,transform .15s,box-shadow .2s,border-color .2s,color .2s;
+  white-space:nowrap}
+
 /* LANDING */
-#screen-landing{align-items:center;justify-content:center;background:var(--teal-dark);padding:2rem}
-.landing-card{background:var(--white);border-radius:20px;padding:3rem 2.5rem;max-width:460px;width:100%;text-align:center}
-.brand-eyebrow{font-size:11px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--coral);margin-bottom:.4rem}
-.brand-name{font-family:'Lora',serif;font-size:28px;font-weight:600;color:var(--teal);margin-bottom:.2rem}
-.brand-sub{font-size:13px;color:var(--text-mid);margin-bottom:1.75rem;letter-spacing:.05em}
+#screen-landing{align-items:center;justify-content:center;background:var(--navy-dk);padding:2rem}
+.landing-card{background:var(--white);border-radius:var(--r-lg);padding:3rem 2.5rem;max-width:460px;width:100%;text-align:center;box-shadow:0 8px 40px rgba(1,61,70,.28)}
+.brand-eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);margin-bottom:.5rem}
+.brand-name{font-family:var(--head);font-size:34px;font-weight:600;color:var(--navy);line-height:1.1;margin-bottom:.15rem}
+.brand-sub{font-size:12px;font-weight:700;color:var(--muted);margin-bottom:1.75rem;letter-spacing:.14em;text-transform:uppercase}
 .landing-divider{width:40px;height:2px;background:var(--coral);margin:0 auto 1.75rem;border-radius:2px}
-.landing-headline{font-family:'Lora',serif;font-size:21px;color:var(--teal);margin-bottom:.6rem;line-height:1.4}
-.landing-body{font-size:14px;color:var(--text-mid);line-height:1.7;margin-bottom:1.75rem}
-.welcome-back{background:var(--sky-light);border-radius:var(--radius-sm);padding:.6rem 1rem;font-size:13px;color:var(--teal);margin-bottom:.75rem;display:none;text-align:left}
-.email-label{display:block;font-size:11px;font-weight:500;color:var(--text-mid);text-align:left;margin-bottom:.35rem;letter-spacing:.06em;text-transform:uppercase}
-.email-input{width:100%;padding:.8rem 1rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:15px;color:var(--text);background:var(--white);margin-bottom:.6rem;transition:border-color .2s;outline:none}
-.email-input:focus{border-color:var(--teal)}
-.returning-note{font-size:12px;color:var(--text-light);margin-bottom:1.1rem;font-style:italic}
-.btn-primary{width:100%;padding:.85rem 1.5rem;background:var(--coral);color:var(--white);border:none;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;transition:background .2s}
-.btn-primary:hover{background:#e86e3f}
-.btn-primary:disabled{opacity:.6;cursor:not-allowed}
+.landing-headline{font-family:var(--head);font-size:26px;font-weight:600;color:var(--navy);margin-bottom:.7rem;line-height:1.2}
+.landing-body{font-size:15.5px;color:var(--muted);line-height:1.65;margin-bottom:1.75rem}
+.welcome-back{background:var(--hi);border:1px solid var(--hi-md);border-radius:var(--r);padding:.65rem 1rem;font-size:14px;color:var(--navy);font-weight:600;margin-bottom:.85rem;display:none;text-align:left}
+.email-label{display:block;font-size:12px;font-weight:700;color:var(--muted);text-align:left;margin-bottom:.4rem;letter-spacing:.12em;text-transform:uppercase}
+.email-input{width:100%;padding:.8rem 1rem;border:1px solid var(--border);border-radius:var(--r);font-family:var(--body);font-size:15px;color:var(--text);background:var(--white);margin-bottom:.6rem;transition:border-color .2s,box-shadow .2s;outline:none}
+.email-input:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(2,82,93,.10)}
+.returning-note{font-size:13.5px;color:var(--muted);margin-bottom:1.2rem;font-style:italic}
+.btn-primary{width:100%;padding:15px 25px;background:var(--coral);color:var(--white);font-size:12.5px}
+.btn-primary:hover{background:var(--coral-dk);transform:translateY(-1px);box-shadow:0 6px 20px rgba(255,127,80,.32)}
+.btn-primary:disabled{opacity:.6;cursor:not-allowed;transform:none;box-shadow:none}
 
 /* DASHBOARD */
-#screen-dashboard{background:var(--cream)}
-.dash-header{background:var(--teal-dark);padding:1.4rem 2rem;display:flex;align-items:center;justify-content:space-between}
-.dash-brand-name{font-family:'Lora',serif;color:var(--white);font-size:18px;font-weight:600}
-.dash-brand-sub{font-size:11px;color:var(--sky);letter-spacing:.1em;text-transform:uppercase}
-.dash-pill{background:rgba(255,255,255,.1);border-radius:20px;padding:.35rem .9rem;font-size:12px;color:var(--sky-light)}
-.dash-body{max-width:660px;margin:0 auto;padding:2.25rem 1.5rem}
-.dash-welcome h2{font-family:'Lora',serif;font-size:23px;color:var(--teal);margin-bottom:.35rem}
-.dash-welcome p{font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:1.75rem}
-.prog-label{font-size:12px;color:var(--text-light);display:flex;justify-content:space-between;margin-bottom:.4rem}
-.prog-bar-wrap{background:var(--sky-light);border-radius:20px;height:6px;margin-bottom:1.75rem;overflow:hidden}
-.prog-bar-fill{height:100%;background:var(--coral);border-radius:20px;transition:width .5s ease}
-.module-list{display:flex;flex-direction:column;gap:.85rem;margin-bottom:1.75rem}
-.module-card{background:var(--white);border-radius:var(--radius);padding:1.2rem 1.4rem;display:flex;align-items:center;gap:1.1rem;border:1.5px solid var(--border);cursor:pointer;transition:border-color .2s,box-shadow .2s}
-.module-card:hover:not(.locked){border-color:var(--teal);box-shadow:0 2px 12px rgba(2,82,93,.08)}
-.module-card.locked{cursor:default;opacity:.5}
-.module-card.done{border-color:var(--sky);background:#f7fcfd}
-.mod-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
-.mod-icon.teal{background:var(--sky-light)}.mod-icon.coral{background:#fff0eb}.mod-icon.lime{background:#f5fcd8}
-.mod-num{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.12em;color:var(--text-light);margin-bottom:.15rem}
-.mod-title{font-family:'Lora',serif;font-size:15px;color:var(--teal);margin-bottom:.15rem}
-.mod-desc{font-size:12px;color:var(--text-mid)}
-.mod-status{font-size:12px;font-weight:500;padding:.25rem .7rem;border-radius:20px;flex-shrink:0;white-space:nowrap}
-.s-todo{background:var(--cream);color:var(--text-mid)}
-.s-inprogress{background:#fff7f0;color:var(--coral)}
-.s-done{background:#edf8f0;color:#2d7a4a}
-.s-locked{background:var(--cream);color:var(--text-light)}
+#screen-dashboard{background:var(--soft)}
+.dash-header{background:var(--navy-dk);padding:1.4rem 2rem;display:flex;align-items:center;justify-content:space-between}
+.dash-logo{height:52px;width:auto;display:block;flex-shrink:0}
+.dash-pill{background:rgba(255,255,255,.11);border-radius:var(--r);padding:.4rem .9rem;font-size:13px;color:rgba(255,255,255,.88)}
+.dash-body{max-width:680px;margin:0 auto;padding:2.5rem 1.5rem 3rem}
+.dash-welcome h2{font-family:var(--head);font-size:30px;font-weight:600;color:var(--navy);margin-bottom:.4rem;line-height:1.15}
+.dash-welcome p{font-size:16px;color:var(--muted);line-height:1.65;margin-bottom:1.9rem}
+.prog-label{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;margin-bottom:.5rem}
+.prog-bar-wrap{background:var(--hi-md);border-radius:999px;height:6px;margin-bottom:1.9rem;overflow:hidden}
+.prog-bar-fill{height:100%;background:var(--coral);border-radius:999px;transition:width .5s ease}
+.module-list{display:flex;flex-direction:column;gap:.7rem;margin-bottom:1.75rem}
+.module-card{background:var(--white);border-radius:var(--r-lg);padding:1.25rem 1.4rem;display:flex;align-items:center;gap:1.1rem;border:1px solid var(--border);box-shadow:var(--sh-sm);cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .15s}
+.module-card:hover:not(.locked){border-color:var(--navy);box-shadow:var(--sh-md);transform:translateY(-1px)}
+.module-card.locked{cursor:default;opacity:.48;box-shadow:none}
+.module-card.done{border-color:var(--hi-md);background:#fcfdf6}
+.mod-icon{width:44px;height:44px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.mod-icon.teal{background:rgba(2,82,93,.08)}
+.mod-icon.coral{background:var(--peach)}
+.mod-icon.lime{background:var(--hi-md)}
+.mod-num{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--coral);margin-bottom:.2rem}
+.mod-title{font-family:var(--head);font-size:1.3rem;font-weight:600;color:var(--navy);margin-bottom:.15rem;line-height:1.2}
+.mod-desc{font-size:14px;color:var(--muted);line-height:1.5}
+.mod-status{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.4rem .75rem;border-radius:999px;flex-shrink:0;white-space:nowrap}
+.s-todo{background:var(--peach);color:var(--coral-dk)}
+.s-inprogress{background:var(--lime);color:var(--navy)}
+.s-done{background:var(--navy);color:var(--white)}
+.s-locked{background:var(--cream);color:var(--faint);border:1px solid var(--border)}
 
 /* ACCESS CARD */
-.access-card{background:var(--white);border-radius:var(--radius);padding:1.4rem 1.5rem;border:1.5px solid var(--border)}
-.access-card h3{font-family:'Lora',serif;font-size:15px;color:var(--teal);margin-bottom:.3rem}
-.access-card p{font-size:13px;color:var(--text-mid);margin-bottom:1rem;line-height:1.6}
-.access-item{border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:.9rem 1rem;margin-bottom:.6rem;transition:border-color .2s}
-.access-item.confirmed{border-color:#2d7a4a;background:#f4fbf6}
-.access-item-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.3rem}
-.access-item-title{font-size:13px;font-weight:500;color:var(--text)}
-.access-confirm-btn{background:var(--teal);color:white;border:none;border-radius:20px;padding:.25rem .75rem;font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:background .2s}
-.access-confirm-btn:hover{background:var(--teal-mid)}
-.access-confirmed-badge{background:#edf8f0;color:#2d7a4a;border-radius:20px;padding:.25rem .75rem;font-size:12px;font-weight:500}
-.access-instructions{font-size:12px;color:var(--text-mid);line-height:1.6;margin-top:.3rem}
-.access-instructions a{color:var(--teal);text-decoration:underline}
-.access-toggle-icon{font-size:14px;color:var(--text-light);transition:transform .2s;display:inline-block}
+.access-card{background:var(--white);border-radius:var(--r-lg);padding:1.75rem;border:1px solid var(--border);box-shadow:var(--sh-sm)}
+.access-card h3{font-family:var(--head);font-size:1.4rem;font-weight:600;color:var(--navy);margin-bottom:.4rem}
+.access-card p{font-size:15px;color:var(--muted);margin-bottom:1.2rem;line-height:1.65}
+.access-item{border:1px solid var(--border);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:.7rem;transition:border-color .2s,background .2s}
+.access-item.confirmed{border-color:var(--hi-md);background:#fcfdf6}
+.access-item-header{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:.4rem;flex-wrap:wrap}
+.access-item-title{font-size:15px;font-weight:700;color:var(--navy)}
+.access-confirm-btn{background:var(--coral);color:var(--white);font-size:10.5px;padding:9px 15px}
+.access-confirm-btn:hover{background:var(--coral-dk);transform:translateY(-1px)}
+.access-confirmed-badge{display:inline-block;background:var(--lime);color:var(--navy);border-radius:var(--r);padding:7px 13px;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.access-instructions{font-size:14px;color:var(--muted);line-height:1.65;margin-top:.3rem}
+.access-instructions a{color:var(--navy)}
+.access-toggle-icon{font-size:14px;color:var(--faint);transition:transform .2s;display:inline-block}
 .access-toggle-icon.open{transform:rotate(90deg)}
-.access-warning{background:#fff8f0;border:1px solid #ffd4b3;border-radius:var(--radius-sm);padding:.75rem 1rem;font-size:12px;color:#8a4000;margin-top:1rem;line-height:1.6}
+.access-warning{background:var(--peach);border:1px solid rgba(255,127,80,.32);border-left:3px solid var(--coral);border-radius:var(--r);padding:.9rem 1.1rem;font-size:14px;color:var(--text);margin-top:1.1rem;line-height:1.65}
+.access-warning strong{color:var(--navy);font-weight:700}
 
 /* MODULE HEADER */
-.mod-header{background:var(--teal-dark);padding:1.2rem 1.75rem;display:flex;align-items:center;gap:1rem;flex-shrink:0}
-.back-btn{background:rgba(255,255,255,.1);border:none;color:var(--sky-light);font-size:13px;padding:.35rem .8rem;border-radius:20px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s}
-.back-btn:hover{background:rgba(255,255,255,.18)}
-.mod-header-eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--sky);margin-bottom:.15rem}
-.mod-header-title{font-family:'Lora',serif;font-size:17px;color:var(--white)}
+.mod-header{background:var(--navy-dk);padding:1.25rem 1.75rem;display:flex;align-items:center;gap:1.1rem;flex-shrink:0}
+.back-btn{background:rgba(255,255,255,.11);color:rgba(255,255,255,.9);font-size:10.5px;padding:9px 15px}
+.back-btn:hover{background:rgba(255,255,255,.2);color:var(--white)}
+.mod-header-eyebrow{font-size:10.5px;text-transform:uppercase;letter-spacing:.14em;color:var(--lime);font-weight:700;margin-bottom:.15rem}
+.mod-header-title{font-family:var(--head);font-size:1.45rem;font-weight:600;color:var(--white);line-height:1.15}
 
 /* MODULE BODY */
-.mod-body{max-width:620px;margin:0 auto;padding:2rem 1.5rem 5rem;width:100%}
-.sec-label{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.15em;color:var(--coral);margin-bottom:1.1rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}
-.field-group{margin-bottom:1.4rem}
-.field-label{display:block;font-size:13px;font-weight:500;color:var(--text);margin-bottom:.35rem}
-.field-hint{font-size:12px;color:var(--text-light);margin-bottom:.45rem;font-style:italic;line-height:1.5}
-.field-context{font-size:13px;color:var(--text-mid);background:var(--sky-light);border-radius:var(--radius-sm);padding:.65rem .9rem;margin-bottom:.6rem;line-height:1.6;border-left:3px solid var(--sky)}
-.field-input,.field-select,.field-textarea{width:100%;padding:.75rem 1rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:var(--white);transition:border-color .2s;outline:none}
-.field-input:focus,.field-select:focus,.field-textarea:focus{border-color:var(--teal)}
-.field-textarea{resize:vertical;min-height:85px;line-height:1.6}
+.mod-body{max-width:640px;margin:0 auto;padding:2.25rem 1.5rem 5rem;width:100%}
+.sec-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--coral);margin-bottom:1.2rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.field-group{margin-bottom:1.6rem}
+.field-label{display:block;font-size:15px;font-weight:700;color:var(--navy);margin-bottom:.4rem;line-height:1.45}
+.field-hint{font-size:14px;color:var(--muted);margin-bottom:.55rem;line-height:1.6}
+.field-context{font-size:15px;color:var(--text);background:var(--hi);border:1px solid var(--hi-md);border-left:3px solid var(--coral);border-radius:0 var(--r) var(--r) 0;padding:.9rem 1.1rem;margin-bottom:.75rem;line-height:1.65}
+.field-context strong{color:var(--navy);font-weight:700}
+.field-input,.field-select,.field-textarea{width:100%;padding:.8rem 1rem;border:1px solid var(--border);border-radius:var(--r);font-family:var(--body);font-size:15px;color:var(--text);background:var(--white);transition:border-color .2s,box-shadow .2s;outline:none}
+.field-input:focus,.field-select:focus,.field-textarea:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(2,82,93,.10)}
+.field-textarea{resize:vertical;min-height:90px;line-height:1.65}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-.radio-group{display:flex;flex-direction:column;gap:.45rem}
-.radio-option{display:flex;align-items:flex-start;gap:.7rem;padding:.7rem .9rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;transition:border-color .2s,background .2s;background:var(--white)}
-.radio-option:hover{border-color:var(--teal)}
-.radio-option.selected{border-color:var(--teal);background:#f0f8fa}
-.radio-option input{margin-top:2px;accent-color:var(--teal);flex-shrink:0}
-.radio-label{font-size:14px;color:var(--text)}
-.radio-sub{font-size:12px;color:var(--text-light);margin-top:2px}
-.sec-divider{border:none;border-top:1px solid var(--border);margin:1.75rem 0}
-.save-bar{position:sticky;bottom:0;background:var(--white);border-top:1px solid var(--border);padding:.9rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
-.save-note{font-size:12px;color:var(--text-light)}
-.btn-save{padding:.7rem 1.75rem;background:var(--teal);color:var(--white);border:none;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:background .2s}
-.btn-save:hover{background:var(--teal-mid)}
-.btn-save:disabled{opacity:.5;cursor:not-allowed}
-.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--teal);color:white;padding:.55rem 1.2rem;border-radius:20px;font-size:13px;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;z-index:999}
+.radio-group{display:flex;flex-direction:column;gap:.5rem}
+.radio-option{display:flex;align-items:flex-start;gap:.75rem;padding:.8rem 1rem;border:1px solid var(--border);border-radius:var(--r);cursor:pointer;transition:border-color .2s,background .2s;background:var(--white)}
+.radio-option:hover{border-color:var(--navy)}
+.radio-option.selected{border-color:var(--coral);background:var(--peach)}
+.radio-option input{margin-top:3px;accent-color:var(--coral);flex-shrink:0}
+.radio-label{font-size:15px;color:var(--text);line-height:1.5}
+.radio-sub{font-size:13.5px;color:var(--muted);margin-top:3px;line-height:1.5}
+.sec-divider{border:none;border-top:1px solid var(--border);margin:2rem 0}
+.save-bar{position:sticky;bottom:0;background:var(--white);border-top:1px solid var(--border);padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;box-shadow:0 -4px 22px rgba(2,82,93,.06)}
+.save-note{font-size:13.5px;color:var(--muted);font-style:italic}
+.btn-save{padding:13px 25px;background:var(--coral);color:var(--white);font-size:12px}
+.btn-save:hover{background:var(--coral-dk);transform:translateY(-1px);box-shadow:0 6px 20px rgba(255,127,80,.32)}
+.btn-save:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--navy-dk);color:var(--white);padding:.7rem 1.3rem;border-radius:var(--r);font-size:13.5px;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;z-index:999;box-shadow:0 6px 24px rgba(1,61,70,.3)}
 .toast.show{opacity:1}
 
 /* MODULE 3 */
-.branch-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.3rem;cursor:pointer;transition:border-color .2s;margin-bottom:.6rem}
-.branch-card:hover{border-color:var(--teal)}
-.branch-card.selected{border-color:var(--coral);background:#fff8f5}
-.branch-card-title{font-family:'Lora',serif;font-size:15px;color:var(--teal);margin-bottom:.2rem}
-.branch-card-desc{font-size:12px;color:var(--text-mid)}
+.branch-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:1.2rem 1.3rem;cursor:pointer;transition:border-color .2s,background .2s,box-shadow .2s;margin-bottom:.65rem;box-shadow:var(--sh-sm)}
+.branch-card:hover{border-color:var(--navy)}
+.branch-card.selected{border-color:var(--coral);border-width:2px;background:var(--peach);box-shadow:var(--sh-md)}
+.branch-card-title{font-family:var(--head);font-size:1.25rem;font-weight:600;color:var(--navy);margin-bottom:.2rem;line-height:1.2}
+.branch-card-desc{font-size:14px;color:var(--muted);line-height:1.55}
 .m3-step{display:none}.m3-step.visible{display:block}
-.step-dots{display:flex;align-items:center;gap:.45rem;margin-bottom:1.4rem}
-.step-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:background .2s}
-.step-dot.active{background:var(--coral)}.step-dot.done{background:var(--teal)}
-.step-lbl{font-size:12px;color:var(--text-light);margin-left:.2rem}
+.step-dots{display:flex;align-items:center;gap:.5rem;margin-bottom:1.6rem}
+.step-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:background .2s,transform .2s}
+.step-dot.active{background:var(--coral);transform:scale(1.3)}
+.step-dot.done{background:var(--navy)}
+.step-lbl{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-left:.4rem}
 
 /* FILE UPLOAD */
-.upload-area{border:2px dashed var(--border);border-radius:var(--radius);padding:1.5rem;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;background:var(--white)}
-.upload-area:hover{border-color:var(--teal);background:#f7fcfd}
-.upload-area.has-file{border-color:#2d7a4a;background:#f4fbf6;border-style:solid}
+.upload-area{border:1.5px dashed rgba(2,82,93,.4);border-radius:var(--r);padding:1.6rem;text-align:center;cursor:pointer;transition:border-color .2s,background .2s,transform .12s;background:var(--white)}
+.upload-area:hover{border-color:var(--navy);background:var(--hi);transform:translateY(-1px)}
+.upload-area.has-file{border-color:var(--navy);background:var(--hi);border-style:solid}
 .upload-icon{font-size:28px;margin-bottom:.5rem}
-.upload-label{font-size:13px;color:var(--text-mid);margin-bottom:.3rem}
-.upload-sub{font-size:11px;color:var(--text-light)}
-.upload-filename{font-size:13px;color:#2d7a4a;font-weight:500;margin-top:.4rem}
+.upload-label{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:.25rem}
+.upload-sub{font-size:13px;color:var(--muted)}
+.upload-filename{font-size:14px;color:var(--navy);font-weight:700;margin-top:.5rem;line-height:1.5}
 input[type="file"]{display:none}
 
 /* CHAT */
-.chat-layout{display:flex;flex-direction:column;height:calc(100vh - 64px);max-width:660px;margin:0 auto;width:100%;padding:0 1rem}
-.chat-intro{background:var(--sky-light);border-radius:var(--radius);padding:.9rem 1.2rem;margin:1.1rem 0 .6rem;font-size:13px;color:var(--teal);line-height:1.6;border:1px solid var(--sky);flex-shrink:0}
-.chat-hint{background:#fff8f0;border:1px solid #ffd4b3;border-radius:var(--radius-sm);padding:.5rem .9rem;font-size:12px;color:#8a4000;margin-bottom:.6rem;flex-shrink:0}
-.chat-feed{flex:1;overflow-y:auto;padding:.6rem 0 .8rem;display:flex;flex-direction:column;gap:.65rem}
+.chat-layout{display:flex;flex-direction:column;height:calc(100vh - 72px);max-width:680px;margin:0 auto;width:100%;padding:0 1rem}
+.chat-intro{background:var(--hi);border:1px solid var(--hi-md);border-left:3px solid var(--coral);border-radius:0 var(--r) var(--r) 0;padding:1rem 1.2rem;margin:1.2rem 0 .65rem;font-size:15px;color:var(--text);line-height:1.65;flex-shrink:0}
+.chat-intro strong{color:var(--navy);font-weight:700}
+.chat-hint{background:var(--peach);border:1px solid rgba(255,127,80,.3);border-radius:var(--r);padding:.55rem .9rem;font-size:13.5px;color:var(--text);margin-bottom:.65rem;flex-shrink:0}
+.chat-hint strong{color:var(--navy);font-weight:700}
+.chat-feed{flex:1;overflow-y:auto;padding:.7rem 0 .9rem;display:flex;flex-direction:column;gap:.7rem}
 .bubble-wrap{display:flex}
 .bubble-wrap.user{justify-content:flex-end}
 .bubble-wrap.assistant{justify-content:flex-start}
-.bubble{max-width:82%;padding:.7rem .95rem;border-radius:16px;font-size:14px;line-height:1.65}
-.bubble.assistant{background:var(--white);color:var(--text);border:1px solid var(--border);border-bottom-left-radius:4px}
-.bubble.user{background:var(--teal);color:var(--white);border-bottom-right-radius:4px}
-.typing-indicator{display:none;align-items:center;gap:4px;padding:.7rem .95rem;background:var(--white);border:1px solid var(--border);border-radius:16px;border-bottom-left-radius:4px;width:fit-content}
-.typing-dot{width:7px;height:7px;background:var(--teal-mid);border-radius:50%;animation:typePulse 1.2s ease-in-out infinite}
+.bubble{max-width:82%;padding:.85rem 1.1rem;border-radius:10px;font-size:15px;line-height:1.68}
+.bubble.assistant{background:var(--white);color:var(--text);border:1px solid var(--border);box-shadow:var(--sh-sm);border-bottom-left-radius:3px}
+.bubble.assistant strong{color:var(--navy);font-weight:700}
+.bubble.user{background:var(--navy);color:var(--white);border-bottom-right-radius:3px}
+.typing-indicator{display:none;align-items:center;gap:4px;padding:.85rem 1.1rem;background:var(--white);border:1px solid var(--border);border-radius:10px;border-bottom-left-radius:3px;width:fit-content;box-shadow:var(--sh-sm)}
+.typing-dot{width:7px;height:7px;background:var(--coral);border-radius:50%;animation:typePulse 1.2s ease-in-out infinite}
 .typing-dot:nth-child(2){animation-delay:.2s}
 .typing-dot:nth-child(3){animation-delay:.4s}
 @keyframes typePulse{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
-.summary-box{display:none;background:var(--white);border:1.5px solid var(--sky);border-radius:var(--radius);padding:1.1rem 1.4rem;margin:.4rem 0}
-.summary-badge{background:var(--lime);color:var(--teal-dark);font-size:11px;font-weight:500;padding:.2rem .55rem;border-radius:20px;letter-spacing:.05em;text-transform:uppercase}
-.summary-title{font-family:'Lora',serif;font-size:15px;color:var(--teal);margin-left:.45rem}
-.summary-header{display:flex;align-items:center;margin-bottom:.7rem}
-.summary-content{font-size:13px;color:var(--text-mid);line-height:1.8}
-.chat-input-area{flex-shrink:0;padding:.65rem 0 .85rem;display:flex;gap:.55rem;align-items:flex-end}
-.chat-input{flex:1;padding:.7rem .95rem;border:1.5px solid var(--border);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:var(--white);resize:none;outline:none;min-height:46px;max-height:120px;line-height:1.5;transition:border-color .2s}
-.chat-input:focus{border-color:var(--teal)}
-.send-btn{width:42px;height:42px;background:var(--coral);border:none;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0}
-.send-btn:hover{background:#e86e3f}
+@media(prefers-reduced-motion:reduce){.typing-dot{animation:none;opacity:.6}}
+.summary-box{display:none;background:var(--white);border:1px solid var(--border);border-top:3px solid var(--coral);border-radius:var(--r);padding:1.5rem 1.6rem;margin:.5rem 0;box-shadow:var(--sh-md)}
+.summary-badge{background:var(--lime);color:var(--navy);font-size:10.5px;font-weight:700;padding:5px 11px;border-radius:var(--r);letter-spacing:.12em;text-transform:uppercase}
+.summary-title{font-family:var(--head);font-size:1.4rem;font-weight:600;color:var(--navy);margin-left:.6rem;line-height:1.2}
+.summary-header{display:flex;align-items:center;margin-bottom:.9rem;flex-wrap:wrap;gap:.4rem}
+.summary-content{font-size:15px;color:var(--text);line-height:1.8}
+.summary-content strong{color:var(--navy);font-weight:700}
+.chat-input-area{flex-shrink:0;padding:.7rem 0 .9rem;display:flex;gap:.6rem;align-items:flex-end}
+.chat-input{flex:1;padding:.8rem 1rem;border:1px solid var(--border);border-radius:var(--r);font-family:var(--body);font-size:15px;color:var(--text);background:var(--white);resize:none;outline:none;min-height:48px;max-height:120px;line-height:1.55;transition:border-color .2s,box-shadow .2s}
+.chat-input:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(2,82,93,.10)}
+.send-btn{width:46px;height:46px;background:var(--coral);border:none;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .15s;flex-shrink:0}
+.send-btn:hover{background:var(--coral-dk);transform:translateY(-1px)}
 .send-btn svg{width:17px;height:17px;fill:white}
-.complete-btn{display:none;width:100%;padding:.85rem;background:var(--teal);color:white;border:none;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;margin:.65rem 0 1.25rem;transition:background .2s}
-.complete-btn:hover{background:var(--teal-mid)}
+.complete-btn{display:none;width:100%;padding:16px;background:var(--coral);color:var(--white);font-size:12.5px;margin:.75rem 0 1.25rem}
+.complete-btn:hover{background:var(--coral-dk);transform:translateY(-1px);box-shadow:0 6px 20px rgba(255,127,80,.32)}
+.finish-chat-btn{width:100%;padding:12px 1rem;background:var(--white);border:1px solid rgba(2,82,93,.3);color:var(--navy);font-size:11px;margin-bottom:.5rem;flex-shrink:0}
+.finish-chat-btn:hover{background:var(--soft);border-color:var(--navy);transform:translateY(-1px)}
 
-.finish-chat-btn{width:100%;padding:.65rem 1rem;background:transparent;border:1.5px solid var(--coral);color:var(--coral);border-radius:var(--radius-sm);font-family:"DM Sans",sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;margin-bottom:.5rem;flex-shrink:0}
-.finish-chat-btn:hover{background:var(--coral);color:white}
-@media(max-width:520px){.two-col{grid-template-columns:1fr}.landing-card{padding:2rem 1.25rem}.dash-header{padding:1.1rem 1.25rem}}
+@media(max-width:560px){
+  .two-col{grid-template-columns:1fr}
+  .landing-card{padding:2.25rem 1.4rem}
+  .dash-header{padding:1rem 1.15rem;gap:.85rem}
+  .dash-logo{height:38px}
+  .dash-pill{font-size:12px;padding:.35rem .7rem}
+  .dash-welcome h2{font-size:25px}
+  .mod-header{padding:1.1rem 1.1rem;gap:.8rem}
+  .mod-header-title{font-size:1.25rem}
+  .module-card{padding:1.1rem}
+  .mod-title{font-size:1.15rem}
+  .access-card{padding:1.35rem 1.1rem}
+  .chat-layout{height:calc(100vh - 68px)}
+}
 </style>
 </head>
 <body>
@@ -194,10 +265,7 @@ input[type="file"]{display:none}
 <!-- DASHBOARD -->
 <div id="screen-dashboard" class="screen">
   <div class="dash-header">
-    <div>
-      <div class="dash-brand-name">Whitney Bateson</div>
-      <div class="dash-brand-sub">Done For You Funnel</div>
-    </div>
+    <img class="dash-logo" src="logo-dfy-funnel.png" width="800" height="358" alt="Done-For-You Funnel">
     <div class="dash-pill" id="dash-email">—</div>
   </div>
   <div class="dash-body">
@@ -207,8 +275,8 @@ input[type="file"]{display:none}
     </div>
     <div class="prog-label"><span>Your progress</span><span id="prog-text">0 of 4 complete</span></div>
     <div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-bar" style="width:0%"></div></div>
-    <div id="all-submitted-banner" style="display:none;background:#e8f5e9;border:1px solid #a5d6a7;border-radius:8px;padding:12px 16px;margin-bottom:12px;font-size:14px;color:#2e7d32;text-align:center">✓ All modules have been submitted. Your responses are now locked and Whitney's Team has been notified.</div>
-    <div class="section-label" style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--coral);margin-bottom:.6rem;margin-top:.5rem">Part 1 — Your Funnel Info</div>
+    <div id="all-submitted-banner" style="display:none;background:var(--lime);border:1px solid var(--lime);border-radius:var(--r);padding:14px 18px;margin-bottom:14px;font-size:15px;font-weight:700;color:var(--navy);text-align:center">✓ All modules have been submitted. Your responses are now locked and Whitney's Team has been notified.</div>
+    <div class="section-label" style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--coral);margin-bottom:.7rem;margin-top:.5rem">Part 1 — Your Funnel Info</div>
     <div class="module-list">
       <div class="module-card" id="card-m1">
         <div class="mod-icon teal">🏢</div>
@@ -233,99 +301,37 @@ input[type="file"]{display:none}
     </div>
 
     <div id="submit-all-wrap" style="display:none;margin-top:1rem">
-      <button onclick="submitAll()" style="width:100%;padding:.85rem;background:var(--coral);color:white;border:none;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:background .2s">Submit All — Everything Is Ready to Go ✓</button>
+      <button onclick="submitAll()" class="btn-primary" style="padding:16px 25px">Submit All — Everything Is Ready to Go ✓</button>
       <p style="font-size:12px;color:var(--text-light);text-align:center;margin-top:.5rem">Once you submit, all modules will be locked and Whitney's Team will be notified.</p>
     </div>
 
-    <div class="section-label" style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--coral);margin-bottom:.6rem;margin-top:1.5rem">Part 2 — Platform Access</div>
+    <div class="section-label" style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--coral);margin-bottom:.7rem;margin-top:1.75rem">Part 2 — Platform Access</div>
     <div class="access-card">
       <h3>🔑 Platform Access</h3>
-      <p>We need access to a few platforms to build and set everything up for you. Click each item to see instructions, then confirm once you've shared access.</p>
+      <p>We need access to two platforms to build and set everything up for you. Add <strong>admin@whitneybateson.com</strong> as an admin or team member on each, then mark it as shared below.</p>
 
       <div class="access-item" id="access-website">
-        <div class="access-item-header" onclick="toggleAccessInstructions('website')" style="cursor:pointer">
+        <div class="access-item-header">
           <div class="access-item-title">🌐 Website Admin Access</div>
-          <span class="access-toggle-icon" id="access-toggle-website">▸</span>
+          <div id="chk-website-btn"></div>
         </div>
-        <div class="access-instructions" id="access-instr-website" style="display:none">
-          Please share admin access so we can build your Thank You page and make any needed updates.<br><br>
-          <strong>WordPress</strong> — go to Users → Add New, enter <strong>admin@whitneybateson.com</strong>, set role to Administrator.<br>
-          <strong>Squarespace</strong> — go to Settings → Permissions → Invite Contributor, use <strong>admin@whitneybateson.com</strong>, select Administrator.<br>
-          <strong>Showit</strong> — invite <strong>admin@whitneybateson.com</strong> as a collaborator from your Showit account settings.<br>
-          <strong>Wix</strong> — go to Dashboard → Roles &amp; Permissions → Invite People, use <strong>admin@whitneybateson.com</strong> as Co-owner.<br>
-          <strong>Other platforms</strong> — share your login securely using <a href="https://www.lastpass.com/features/password-sharing" target="_blank">LastPass Secure Share</a> to <strong>admin@whitneybateson.com</strong>.
-          <div style="margin-top:.75rem" id="chk-website-btn">
-            <button class="access-confirm-btn" onclick="event.stopPropagation();confirmAccess('website')">Mark as Shared</button>
-          </div>
+        <div class="access-instructions">
+          So we can build your Thank You page. Every platform handles this a little differently — if you can't find where, hit <em>I'm stuck</em> and we'll walk you through it.
         </div>
       </div>
 
       <div class="access-item" id="access-email">
-        <div class="access-item-header" onclick="toggleAccessInstructions('email')" style="cursor:pointer">
+        <div class="access-item-header">
           <div class="access-item-title">📧 Email Platform Access</div>
-          <span class="access-toggle-icon" id="access-toggle-email">▸</span>
+          <div id="chk-email-btn"></div>
         </div>
-        <div class="access-instructions" id="access-instr-email" style="display:none">
-          We need access to set up your opt-in form, automation, and welcome sequence.<br><br>
-          <strong>Kit (ConvertKit)</strong> — Settings → Team → Invite Team Member → <strong>admin@whitneybateson.com</strong>.<br>
-          <strong>ActiveCampaign</strong> — Settings → Users → Add User → <strong>admin@whitneybateson.com</strong> (Admin).<br>
-          <strong>MailerLite</strong> — Settings → Team → Invite → <strong>admin@whitneybateson.com</strong>.<br>
-          <strong>Flodesk</strong> — Account Settings → Team → Invite → <strong>admin@whitneybateson.com</strong>.<br>
-          <strong>Mailchimp</strong> — Account → Settings → Users → Invite a User → <strong>admin@whitneybateson.com</strong> (Manager or Admin).<br>
-          <strong>Other platforms</strong> — share credentials via <a href="https://www.lastpass.com/features/password-sharing" target="_blank">LastPass Secure Share</a> to <strong>admin@whitneybateson.com</strong>.
-          <div style="margin-top:.75rem" id="chk-email-btn">
-            <button class="access-confirm-btn" onclick="event.stopPropagation();confirmAccess('email')">Mark as Shared</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="access-item" id="access-fb">
-        <div class="access-item-header" onclick="toggleAccessInstructions('fb')" style="cursor:pointer">
-          <div class="access-item-title">📣 Meta Business Suite (Facebook + Ads)</div>
-          <span class="access-toggle-icon" id="access-toggle-fb">▸</span>
-        </div>
-        <div class="access-instructions" id="access-instr-fb" style="display:none">
-          We'll need access to your Facebook and Meta accounts to run your lead ads. Just answer a few quick questions and we'll take it from there.<br><br>
-
-          <div style="margin-bottom:.75rem">
-            <label style="font-weight:600;font-size:13px;display:block;margin-bottom:.35rem">Do you currently have a business Facebook page?</label>
-            <div class="radio-group" style="gap:.4rem">
-              <label class="radio-option" style="padding:.5rem .75rem"><input type="radio" name="fb-page" value="Yes"><div><div class="radio-label">Yes</div></div></label>
-              <label class="radio-option" style="padding:.5rem .75rem"><input type="radio" name="fb-page" value="No"><div><div class="radio-label">No</div></div></label>
-              <label class="radio-option" style="padding:.5rem .75rem"><input type="radio" name="fb-page" value="Not sure"><div><div class="radio-label">Not sure</div></div></label>
-            </div>
-          </div>
-
-          <div style="margin-bottom:.75rem">
-            <label style="font-weight:600;font-size:13px;display:block;margin-bottom:.35rem">Do you currently have a Meta Business account?</label>
-            <div class="radio-group" style="gap:.4rem">
-              <label class="radio-option" style="padding:.5rem .75rem"><input type="radio" name="fb-meta" value="Yes"><div><div class="radio-label">Yes</div></div></label>
-              <label class="radio-option" style="padding:.5rem .75rem"><input type="radio" name="fb-meta" value="No"><div><div class="radio-label">No</div></div></label>
-              <label class="radio-option" style="padding:.5rem .75rem"><input type="radio" name="fb-meta" value="Not sure"><div><div class="radio-label">Not sure</div></div></label>
-            </div>
-          </div>
-
-          <div style="margin-bottom:.75rem">
-            <label style="font-weight:600;font-size:13px;display:block;margin-bottom:.35rem">Do you currently have an ad account?</label>
-            <div class="radio-group" style="gap:.4rem">
-              <label class="radio-option" style="padding:.5rem .75rem"><input type="radio" name="fb-adacct" value="Yes"><div><div class="radio-label">Yes</div></div></label>
-              <label class="radio-option" style="padding:.5rem .75rem"><input type="radio" name="fb-adacct" value="No"><div><div class="radio-label">No</div></div></label>
-              <label class="radio-option" style="padding:.5rem .75rem"><input type="radio" name="fb-adacct" value="Not sure"><div><div class="radio-label">Not sure</div></div></label>
-            </div>
-          </div>
-
-          <div id="fb-confirmation-msg" style="display:none;background:#e8f5e9;border:1px solid #a5d6a7;border-radius:8px;padding:12px 16px;margin-top:.75rem;font-size:13px;color:#2e7d32;text-align:center">
-            Great! Priscilla from Whitney's team will reach out to you soon about how to get access.
-          </div>
-
-          <div style="margin-top:.75rem" id="chk-fb-btn">
-            <button class="access-confirm-btn" onclick="event.stopPropagation();saveFbAnswers()">Submit</button>
-          </div>
+        <div class="access-instructions">
+          So we can set up your opt-in form, automation and welcome sequence. Not sure where to add us? Hit <em>I'm stuck</em> and we'll help.
         </div>
       </div>
 
       <div class="access-warning" id="access-warning">
-        ⚠️ <strong>Required before we can start:</strong> We cannot begin building your funnel until we have access to all three platforms. Please complete this as soon as possible. Questions? Email <strong><a href="mailto:admin@whitneybateson.com">admin@whitneybateson.com</a></strong>.
+        ⚠️ <strong>Required before we can start:</strong> We cannot begin building your funnel until we have access to both platforms. Please complete this as soon as possible. Questions? Email <strong><a href="mailto:admin@whitneybateson.com">admin@whitneybateson.com</a></strong>.
       </div>
     </div>
   </div>
@@ -360,8 +366,23 @@ input[type="file"]{display:none}
       </div>
       <div id="practype-other-wrap" style="display:none;margin-top:.5rem"><input class="field-input" id="f-practype-other" type="text" placeholder="Please specify your type of practice..."></div>
     </div>
-    <div class="field-group"><label class="field-label">Years in business</label>
-      <select class="field-select" id="f-years"><option value="">Select one...</option><option>Less than 1 year</option><option>1–2 years</option><option>3–5 years</option><option>6–10 years</option><option>10+ years</option></select>
+    <div class="field-group">
+      <label class="field-label">Are you licensed or credentialed?</label>
+      <div class="radio-group">
+        <label class="radio-option"><input type="radio" name="licensed" value="Yes"><div><div class="radio-label">Yes</div></div></label>
+        <label class="radio-option"><input type="radio" name="licensed" value="No"><div><div class="radio-label">No</div></div></label>
+        <label class="radio-option"><input type="radio" name="licensed" value="Not applicable"><div><div class="radio-label">Not applicable</div></div></label>
+      </div>
+      <div id="license-states-wrap" style="display:none;margin-top:.5rem"><input class="field-input" id="f-license-states" type="text" placeholder="Which states or provinces are you licensed in? e.g. California, Oregon"></div>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Can you work with clients anywhere, or only in certain states/provinces?</label>
+      <p class="field-hint">This tells us where to run your ads — there's no point showing them to people you can't legally work with.</p>
+      <div class="radio-group">
+        <label class="radio-option"><input type="radio" name="geolimit" value="Anywhere"><div><div class="radio-label">Anywhere</div><div class="radio-sub">It's a course, program, or service with no location limits</div></div></label>
+        <label class="radio-option"><input type="radio" name="geolimit" value="Certain states/provinces only"><div><div class="radio-label">Only certain states or provinces</div></div></label>
+        <label class="radio-option"><input type="radio" name="geolimit" value="Not sure"><div><div class="radio-label">Not sure</div><div class="radio-sub">We'll help you figure this out</div></div></label>
+      </div>
     </div>
 
     <hr class="sec-divider">
@@ -377,19 +398,6 @@ input[type="file"]{display:none}
       </div>
     </div>
     <div class="field-group"><label class="field-label">Link to your offer page or services page <span style="font-weight:400;color:var(--text-light)">(if you have one)</span></label><input class="field-input" id="f-offerurl" type="url" placeholder="https://yourwebsite.com/work-with-me — or type N/A if you don't have one yet"></div>
-
-    <hr class="sec-divider">
-    <div class="sec-label">Thank You Page</div>
-    <div class="field-context">Your Thank You page is the first page a new subscriber sees after opting in. It's a powerful moment — they're engaged and interested. What do you want them to do next?</div>
-    <div class="field-group"><label class="field-label">After someone opts in, what should your Thank You page direct them to?</label>
-      <div class="radio-group">
-        <label class="radio-option"><input type="radio" name="typage" value="Same CTA as my offer above"><div><div class="radio-label">Same CTA as my offer above <span style="background:var(--sky-light);color:var(--teal);font-size:11px;padding:1px 6px;border-radius:10px;font-weight:500;margin-left:4px">Most popular</span></div><div class="radio-sub">Direct them to the same next step you outlined above — this is what most people choose and it works great.</div></div></label>
-        <label class="radio-option"><input type="radio" name="typage" value="A low-ticket product" onclick="document.getElementById('ty-offer-wrap').style.display='block'"><div><div class="radio-label">A low-ticket product</div><div class="radio-sub">A lower-priced offer they can buy on the spot</div></div></label>
-        <label class="radio-option"><input type="radio" name="typage" value="A free bonus resource" onclick="document.getElementById('ty-offer-wrap').style.display='none'"><div><div class="radio-label">A free bonus resource</div><div class="radio-sub">An extra freebie that adds more value right away</div></div></label>
-        <label class="radio-option"><input type="radio" name="typage" value="I'm not sure yet" onclick="document.getElementById('ty-offer-wrap').style.display='none'"><div><div class="radio-label">I'm not sure yet</div><div class="radio-sub">We'll help you figure out the best option</div></div></label>
-      </div>
-    </div>
-    <div id="ty-offer-wrap" style="display:none" class="field-group"><label class="field-label">What's the low-ticket offer? Include the name, price, and link.</label><input class="field-input" id="f-ty-offer" type="text" placeholder="e.g. Meal Planning Starter Kit — $27 — yoursite.com/kit"></div>
 
     <hr class="sec-divider">
     <div class="sec-label">Your Platforms</div>
@@ -416,6 +424,47 @@ input[type="file"]{display:none}
       </div>
       <div id="webplatform-other-wrap" style="display:none;margin-top:.5rem"><input class="field-input" id="f-webplatform-other" type="text" placeholder="Which website platform do you use?"></div>
     </div>
+    <hr class="sec-divider">
+    <div class="sec-label">Your Brand Assets</div>
+    <div class="field-context">These go straight into your lead magnet, opt-in page, and ads. If you don't have something, just skip it — we'll work with what you've got.</div>
+
+    <div class="field-group">
+      <label class="field-label">Your logo</label>
+      <p class="field-hint">PNG, JPG, or SVG. A transparent PNG is ideal if you have one.</p>
+      <div class="upload-area" id="upload-area-logo" onclick="document.getElementById('file-upload-logo').click()">
+        <input type="file" id="file-upload-logo" accept="image/*,.svg" onchange="handleFileUpload('logo', this)">
+        <div class="upload-icon">🖼️</div>
+        <div class="upload-label">Click to upload your logo</div>
+        <div class="upload-sub">Max 10MB</div>
+        <div class="upload-filename" id="upload-filename-logo"></div>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Brand guide or style sheet <span style="font-weight:400;color:var(--text-light)">(if you have one)</span></label>
+      <p class="field-hint">Anything that lists your colors, fonts, or brand rules.</p>
+      <div class="upload-area" id="upload-area-brandguide" onclick="document.getElementById('file-upload-brandguide').click()">
+        <input type="file" id="file-upload-brandguide" accept=".pdf,image/*" onchange="handleFileUpload('brandguide', this)">
+        <div class="upload-icon">🎨</div>
+        <div class="upload-label">Click to upload your brand guide</div>
+        <div class="upload-sub">PDF or image, max 10MB</div>
+        <div class="upload-filename" id="upload-filename-brandguide"></div>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Headshots + photos</label>
+      <p class="field-hint">Your ads perform much better with a real photo of you. Upload as many as you like — you can select multiple at once.</p>
+      <div class="upload-area" id="upload-area-photos" onclick="document.getElementById('file-upload-photos').click()">
+        <input type="file" id="file-upload-photos" accept="image/*" multiple onchange="handleMultiUpload('photos', this)">
+        <div class="upload-icon">📸</div>
+        <div class="upload-label">Click to upload photos</div>
+        <div class="upload-sub">Images only, max 10MB each</div>
+        <div class="upload-filename" id="upload-filename-photos"></div>
+      </div>
+    </div>
+
+    <hr class="sec-divider">
     <div class="field-group"><label class="field-label">Anything else we should know before we get started?</label><textarea class="field-textarea" id="f-notes" placeholder="Goals, concerns, context, deadlines... (type N/A if nothing to add)"></textarea></div>
   </div>
   <div class="save-bar"><span class="save-note">Your answers save to your progress record.</span><button class="btn-save" onclick="saveM1()">Save + Continue →</button></div>
@@ -447,7 +496,7 @@ input[type="file"]{display:none}
       <div class="summary-header">
         <span class="summary-badge">✓ Complete</span>
         <span class="summary-title">Your Ideal Client Avatar</span>
-        <button onclick="toggleM2Chat()" id="m2-toggle-btn" style="margin-left:auto;background:none;border:none;color:var(--teal);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:underline">View conversation</button>
+        <button onclick="toggleM2Chat()" id="m2-toggle-btn" style="margin-left:auto;background:none;border:none;color:var(--teal);font-size:12px;cursor:pointer;font-family:var(--body);text-decoration:underline">View conversation</button>
       </div>
       <div class="summary-content" id="m2-summary-content"></div>
       <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)">
@@ -470,7 +519,7 @@ input[type="file"]{display:none}
       🧲 <strong>What makes a great lead magnet?</strong> The best lead magnets give your ideal client a quick win — something that immediately helps them with a real problem — while making them feel empowered and confident that real progress is possible. When it's done right, your potential client walks away thinking, "If this free resource was this good, imagine what working with them would be like." Your paid offer becomes the obvious next step. For example, a nutritionist's "5-Day Gut Health Reset" guide helps someone feel noticeably better in less than a week — and naturally leads them to want personalized support to keep going.
     </div>
 
-    <div class="step-dots"><div class="step-dot active" id="m3-dot1"></div><div class="step-dot" id="m3-dot2"></div><div class="step-dot" id="m3-dot3"></div><span class="step-lbl" id="m3-step-lbl">Step 1 of 3</span></div>
+    <div class="step-dots"><div class="step-dot active" id="m3-dot1"></div><div class="step-dot" id="m3-dot2"></div><div class="step-dot" id="m3-dot3"></div><div class="step-dot" id="m3-dot4"></div><span class="step-lbl" id="m3-step-lbl">Step 1 of 4</span></div>
 
     <div class="m3-step visible" id="m3-s1">
       <div class="sec-label">Lead Magnet History</div>
@@ -497,20 +546,30 @@ input[type="file"]{display:none}
 
     <div class="m3-step" id="m3-s3-new">
       <div class="sec-label">Building Your Lead Magnet</div>
+      <div class="field-context" style="margin-bottom:1.25rem">Good news — you don't have to come up with the idea. Answer a few quick things below, then Sam will talk it through with you and we'll take it from there.</div>
       <div id="why-not-existing-wrap" style="display:none" class="field-group"><label class="field-label">Why not use an existing one for this campaign?</label><textarea class="field-textarea" id="f-why-not-existing" placeholder="e.g. It doesn't connect to this offer, or I want something fresher..."></textarea></div>
+
       <div class="field-group">
-        <label class="field-label">What topic would give your ideal client a quick win right now?</label>
-        <p class="field-hint">Think about what they're struggling with most, what questions they ask you most often, or what one insight would make them think "I need to work with this person." <em>If you're unsure, leave this blank and we'll help you brainstorm.</em></p>
-        <textarea class="field-textarea" id="f-lm-topic" placeholder="e.g. How to stop yo-yo dieting without giving up the foods you love... (type N/A if unsure)"></textarea>
+        <label class="field-label">Where does your content live?</label>
+        <p class="field-hint">Instagram, blog, podcast, YouTube, newsletter — wherever you show up. Handles or links are both fine. We'll go read it.</p>
+        <textarea class="field-textarea" id="f-content-channels" placeholder="e.g. @nourishedlife on Instagram, blog at nourishedlife.com/blog, and I send a weekly newsletter"></textarea>
       </div>
+
       <div class="field-group">
-        <label class="field-label">After going through your lead magnet, what should someone walk away being able to do, feel confident about, or understand differently?</label>
-        <p class="field-hint">Think about the shift — even a small one. Leave blank if you're not sure yet.</p>
-        <textarea class="field-textarea" id="f-lm-transformation" placeholder="e.g. Feel confident they can improve their relationship with food without another restrictive diet... (type N/A if unsure)"></textarea>
+        <label class="field-label">Has any post, email, or video of yours gotten an unusually good response?</label>
+        <p class="field-hint">Something that got more saves, replies, or comments than usual. What was it about?</p>
+        <textarea class="field-textarea" id="f-best-content" placeholder="e.g. A reel about what I actually eat in a day went a bit viral and I got tons of DMs... (or type N/A)"></textarea>
       </div>
+
+      <div class="field-group">
+        <label class="field-label">Do you have anything already half-built we could use?</label>
+        <p class="field-hint">A workshop, a webinar, a talk you've given, a really long post, a handout you give clients. Sometimes the fastest lead magnet is one you've already written.</p>
+        <textarea class="field-textarea" id="f-half-built" placeholder="e.g. I did a free workshop last year on meal prep that went really well... (or type N/A)"></textarea>
+      </div>
+
       <div style="display:flex;gap:.75rem;margin-top:.5rem">
         <button class="btn-save" style="background:var(--cream);color:var(--text-mid);border:1.5px solid var(--border)" onclick="m3Back2()">← Back</button>
-        <button class="btn-save" onclick="saveM3New()">Save + Continue →</button>
+        <button class="btn-save" onclick="startM3Chat()">Next: Talk it through with Sam →</button>
       </div>
     </div>
 
@@ -525,26 +584,40 @@ input[type="file"]{display:none}
       <div class="field-group">
         <label class="field-label">Or upload your lead magnet as a PDF</label>
         <div class="upload-area" id="upload-area-existing" onclick="document.getElementById('pdf-upload-existing').click()">
-          <input type="file" id="pdf-upload-existing" accept=".pdf" onchange="handlePdfUpload('existing', this)">
+          <input type="file" id="pdf-upload-existing" accept=".pdf" onchange="handleFileUpload('existing', this)">
           <div class="upload-icon">📄</div>
           <div class="upload-label">Click to upload your PDF</div>
           <div class="upload-sub">PDF files only, max 10MB</div>
           <div class="upload-filename" id="upload-filename-existing"></div>
         </div>
       </div>
-      <div class="field-group"><label class="field-label">What's working well about it?</label><textarea class="field-textarea" id="f-existing-working" placeholder="e.g. People always say the recipes are super practical... (type N/A if unsure)"></textarea></div>
+      <hr class="sec-divider">
+      <div class="field-context">A few quick facts about how it's performed. Rough numbers are completely fine — we just need a sense of it.</div>
+      <div class="field-group"><label class="field-label">Roughly how many people have downloaded it?</label>
+        <select class="field-select" id="f-existing-downloads"><option value="">Select one...</option><option>None yet</option><option>Under 50</option><option>50–200</option><option>200–1,000</option><option>Over 1,000</option><option>No idea</option></select>
+      </div>
+      <div class="field-group"><label class="field-label">Where have you promoted it?</label><textarea class="field-textarea" id="f-existing-promoted" placeholder="e.g. Link in my Instagram bio and a banner on my homepage... (or type N/A)"></textarea></div>
+      <div class="field-group"><label class="field-label">Did anyone ever reply or reach out after getting it?</label><p class="field-hint">Even a couple of DMs or emails tells us something useful.</p><textarea class="field-textarea" id="f-existing-replies" placeholder="e.g. A few people replied saying thanks, but nobody ever booked... (or type N/A)"></textarea></div>
+      <div class="field-group"><label class="field-label">What happens right now after someone downloads it?</label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="existing-after" value="Nothing — they just get the file"><div><div class="radio-label">Nothing — they just get the file</div></div></label>
+          <label class="radio-option"><input type="radio" name="existing-after" value="One delivery email"><div><div class="radio-label">One email that delivers it</div></div></label>
+          <label class="radio-option"><input type="radio" name="existing-after" value="A short email sequence"><div><div class="radio-label">A short email sequence</div></div></label>
+          <label class="radio-option"><input type="radio" name="existing-after" value="They go onto my regular newsletter"><div><div class="radio-label">They go onto my regular newsletter</div></div></label>
+          <label class="radio-option"><input type="radio" name="existing-after" value="Not sure"><div><div class="radio-label">Not sure</div></div></label>
+        </div>
+      </div>
       <div class="field-group"><label class="field-label">Anything you'd like to freshen up?</label><textarea class="field-textarea" id="f-existing-freshen" placeholder="e.g. The design feels dated, or I'd like a stronger CTA at the end... (type N/A if none)"></textarea></div>
       <div class="field-group">
         <label class="field-label">Are you open to us suggesting changes to the title or content if we think it would make it more effective?</label>
         <div class="radio-group">
           <label class="radio-option"><input type="radio" name="opentochanges" value="Yes — do whatever makes it more effective"><div><div class="radio-label">Yes — do whatever makes it more effective</div></div></label>
           <label class="radio-option"><input type="radio" name="opentochanges" value="Yes — but check with me first"><div><div class="radio-label">Yes — but check with me first before making major changes</div></div></label>
-          <label class="radio-option"><input type="radio" name="opentochanges" value="No — please keep the core content as-is"><div><div class="radio-label">No — please keep the core content as-is</div></div></label>
         </div>
       </div>
       <div style="display:flex;gap:.75rem;margin-top:.5rem">
         <button class="btn-save" style="background:var(--cream);color:var(--text-mid);border:1.5px solid var(--border)" onclick="m3Back2()">← Back</button>
-        <button class="btn-save" onclick="saveM3Existing()">Save + Continue →</button>
+        <button class="btn-save" onclick="saveM3Existing()">Next →</button>
       </div>
     </div>
 
@@ -558,14 +631,29 @@ input[type="file"]{display:none}
       <div class="field-group">
         <label class="field-label">Or upload as a PDF</label>
         <div class="upload-area" id="upload-area-improve" onclick="document.getElementById('pdf-upload-improve').click()">
-          <input type="file" id="pdf-upload-improve" accept=".pdf" onchange="handlePdfUpload('improve', this)">
+          <input type="file" id="pdf-upload-improve" accept=".pdf" onchange="handleFileUpload('improve', this)">
           <div class="upload-icon">📄</div>
           <div class="upload-label">Click to upload your PDF</div>
           <div class="upload-sub">PDF files only, max 10MB</div>
           <div class="upload-filename" id="upload-filename-improve"></div>
         </div>
       </div>
-      <div class="field-group"><label class="field-label">What's not working about it right now?</label><textarea class="field-textarea" id="f-improve-issues" placeholder="e.g. People download it but never book a call — no clear next step... (type N/A if unsure)"></textarea></div>
+      <hr class="sec-divider">
+      <div class="field-context">A few quick facts about how it's performed. Rough numbers are completely fine.</div>
+      <div class="field-group"><label class="field-label">Roughly how many people have downloaded it?</label>
+        <select class="field-select" id="f-improve-downloads"><option value="">Select one...</option><option>None yet</option><option>Under 50</option><option>50–200</option><option>200–1,000</option><option>Over 1,000</option><option>No idea</option></select>
+      </div>
+      <div class="field-group"><label class="field-label">Where have you promoted it?</label><textarea class="field-textarea" id="f-improve-promoted" placeholder="e.g. Link in my Instagram bio and a banner on my homepage... (or type N/A)"></textarea></div>
+      <div class="field-group"><label class="field-label">Did anyone ever reply or reach out after getting it?</label><textarea class="field-textarea" id="f-improve-replies" placeholder="e.g. A few people replied saying thanks, but nobody ever booked... (or type N/A)"></textarea></div>
+      <div class="field-group"><label class="field-label">What happens right now after someone downloads it?</label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="improve-after" value="Nothing — they just get the file"><div><div class="radio-label">Nothing — they just get the file</div></div></label>
+          <label class="radio-option"><input type="radio" name="improve-after" value="One delivery email"><div><div class="radio-label">One email that delivers it</div></div></label>
+          <label class="radio-option"><input type="radio" name="improve-after" value="A short email sequence"><div><div class="radio-label">A short email sequence</div></div></label>
+          <label class="radio-option"><input type="radio" name="improve-after" value="They go onto my regular newsletter"><div><div class="radio-label">They go onto my regular newsletter</div></div></label>
+          <label class="radio-option"><input type="radio" name="improve-after" value="Not sure"><div><div class="radio-label">Not sure</div></div></label>
+        </div>
+      </div>
       <div class="field-group"><label class="field-label">What's the new goal for it?</label><textarea class="field-textarea" id="f-improve-goal" placeholder="e.g. I want it to clearly lead people toward booking a discovery call... (type N/A if unsure)"></textarea></div>
       <div class="field-group"><label class="field-label">Anything you definitely want to keep?</label><textarea class="field-textarea" id="f-improve-keep" placeholder="e.g. The core content is solid — just needs a redesign and stronger CTA... (type N/A if none)"></textarea></div>
       <div class="field-group">
@@ -573,16 +661,66 @@ input[type="file"]{display:none}
         <div class="radio-group">
           <label class="radio-option"><input type="radio" name="opentochanges2" value="Yes — do whatever makes it more effective"><div><div class="radio-label">Yes — do whatever makes it more effective</div></div></label>
           <label class="radio-option"><input type="radio" name="opentochanges2" value="Yes — but check with me first"><div><div class="radio-label">Yes — but check with me first</div></div></label>
-          <label class="radio-option"><input type="radio" name="opentochanges2" value="No — keep the core content as-is"><div><div class="radio-label">No — keep the core content as-is</div></div></label>
         </div>
       </div>
       <div style="display:flex;gap:.75rem;margin-top:.5rem">
         <button class="btn-save" style="background:var(--cream);color:var(--text-mid);border:1.5px solid var(--border)" onclick="m3Back2()">← Back</button>
-        <button class="btn-save" onclick="saveM3Improve()">Save + Continue →</button>
+        <button class="btn-save" onclick="saveM3Improve()">Next →</button>
+      </div>
+    </div>
+
+    <div class="m3-step" id="m3-s4">
+      <div class="sec-label">Thank You Page</div>
+      <div class="field-context">Your Thank You page is the first page someone sees after opting in. It's a powerful moment — they just raised their hand and they're paying attention. What do you want them to do next?</div>
+      <div class="field-group"><label class="field-label">After someone opts in, what should your Thank You page direct them to?</label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="typage" value="Same CTA as my offer"><div><div class="radio-label">The same next step as my offer <span style="background:var(--sky-light);color:var(--teal);font-size:11px;padding:1px 6px;border-radius:10px;font-weight:500;margin-left:4px">Most popular</span></div><div class="radio-sub">Point them to the next step you chose back in Module 1 — this is what most people pick and it works well.</div></div></label>
+          <label class="radio-option"><input type="radio" name="typage" value="A low-ticket product"><div><div class="radio-label">A low-ticket product</div><div class="radio-sub">A lower-priced offer they can buy on the spot</div></div></label>
+          <label class="radio-option"><input type="radio" name="typage" value="A free bonus resource"><div><div class="radio-label">A free bonus resource</div><div class="radio-sub">An extra freebie that adds more value right away</div></div></label>
+          <label class="radio-option"><input type="radio" name="typage" value="I'm not sure yet"><div><div class="radio-label">I'm not sure yet</div><div class="radio-sub">We'll help you figure out the best option</div></div></label>
+        </div>
+      </div>
+      <div id="ty-offer-wrap" style="display:none" class="field-group"><label class="field-label">What's the low-ticket offer? Include the name, price, and link.</label><input class="field-input" id="f-ty-offer" type="text" placeholder="e.g. Meal Planning Starter Kit — $27 — yoursite.com/kit"></div>
+      <div style="display:flex;gap:.75rem;margin-top:.5rem">
+        <button class="btn-save" style="background:var(--cream);color:var(--text-mid);border:1.5px solid var(--border)" onclick="m3BackToBranch()">← Back</button>
+        <button class="btn-save" onclick="saveM3Final()">Save + Continue →</button>
       </div>
     </div>
   </div>
   <div class="toast" id="toast-m3">✓ Lead magnet info saved — Module 4 unlocked!</div>
+</div>
+
+<!-- MODULE 3 — LEAD MAGNET CHAT -->
+<div id="screen-module3chat" class="screen">
+  <div class="mod-header">
+    <button class="back-btn" onclick="goTo('dashboard')">← Dashboard</button>
+    <div><div class="mod-header-eyebrow">Module 3</div><div class="mod-header-title">Your Lead Magnet</div></div>
+  </div>
+  <div class="chat-layout" id="m3-chat-layout">
+    <div class="chat-intro">
+      <strong>You don't need to have the idea.</strong> Sam will ask you a handful of questions about what you already know and do — the answers are the raw material we use to build your lead magnet. Answer naturally, and don't worry about whether something sounds like a good freebie. That part is our job.<br><br>
+      <em>Note: Sam sometimes takes a few extra seconds to think before responding... that's normal!</em>
+    </div>
+    <div class="chat-hint">💡 Press <strong>Enter</strong> to send. Press <strong>Shift + Enter</strong> for a new line.</div>
+    <div class="chat-feed" id="m3-feed">
+      <div class="typing-indicator" id="m3-typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>
+    </div>
+    <div class="chat-input-area" id="m3-input-area">
+      <textarea class="chat-input" id="m3-input" placeholder="Type your answer here..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();var t=this.value.trim();if(t&&!m3Busy){this.value='';this.style.height='auto';sendM3(t);}}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"></textarea>
+      <button class="send-btn" id="m3-send" onclick="(function(){var inp=document.getElementById('m3-input');var t=inp.value.trim();if(t&&!m3Busy){inp.value='';inp.style.height='auto';sendM3(t);}})()"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
+    </div>
+  </div>
+  <div id="m3-summary-section" style="display:none;max-width:660px;margin:0 auto;padding:0 1rem 2rem;width:100%">
+    <div class="summary-box" id="m3-summary" style="display:block">
+      <div class="summary-header">
+        <span class="summary-badge">✓ Complete</span>
+        <span class="summary-title">Lead Magnet Notes</span>
+        <button onclick="toggleM3Chat()" id="m3-toggle-btn" style="margin-left:auto;background:none;border:none;color:var(--teal);font-size:12px;cursor:pointer;font-family:var(--body);text-decoration:underline">View conversation</button>
+      </div>
+      <div class="summary-content" id="m3-summary-content"></div>
+    </div>
+    <button class="complete-btn" id="m3-continue" onclick="m3ChatDone()" style="display:block;width:100%;margin-top:.75rem">Continue →</button>
+  </div>
 </div>
 
 <!-- MODULE 4 — VOICE CHAT -->
@@ -607,13 +745,37 @@ input[type="file"]{display:none}
       <div class="summary-header">
         <span class="summary-badge">✓ Complete</span>
         <span class="summary-title">Voice + Email Intel Summary</span>
-        <button onclick="toggleM4Chat()" id="m4-toggle-btn" style="margin-left:auto;background:none;border:none;color:var(--teal);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:underline">View conversation</button>
+        <button onclick="toggleM4Chat()" id="m4-toggle-btn" style="margin-left:auto;background:none;border:none;color:var(--teal);font-size:12px;cursor:pointer;font-family:var(--body);text-decoration:underline">View conversation</button>
       </div>
       <div class="summary-content" id="m4-summary-content"></div>
       <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)">
         <p style="font-size:12px;color:var(--text-mid);margin-bottom:.6rem">Not happy with the summary? You can keep chatting above to add more detail — Sam will generate an updated summary when you're done.</p>
       </div>
     </div>
+
+    <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.4rem 1.5rem;margin-top:1rem">
+      <div class="sec-label" style="margin-top:0">Last Thing — A Few Things to Paste In</div>
+      <div class="field-context">These go directly into your emails. Copy and paste is completely fine — don't retype anything.</div>
+
+      <div class="field-group">
+        <label class="field-label">Two or three things you've written</label>
+        <p class="field-hint">Paste in a couple of recent newsletters, emails, or longer social posts — whatever sounds most like you. Or just drop in a link to your newsletter archive or blog. This is how we learn your voice, so real examples beat a description every time.</p>
+        <textarea class="field-textarea" id="f-writing-samples" style="min-height:140px" placeholder="Paste your writing here, or link to your blog/newsletter archive... (type N/A if you don't have anything)"></textarea>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Testimonials or client wins</label>
+        <p class="field-hint">Paste in anything you've got — reviews, DMs, emails, a note someone sent you. Include first names where you have them.</p>
+        <textarea class="field-textarea" id="f-testimonials" style="min-height:120px" placeholder="Paste testimonials here... (type N/A if you don't have any yet)"></textarea>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Resources worth linking to</label>
+        <p class="field-hint">Blog posts, podcast episodes, other freebies, a favourite guide — anything you'd want mentioned in your emails. Links are perfect.</p>
+        <textarea class="field-textarea" id="f-resources" placeholder="e.g. yoursite.com/blog/gut-health-basics, my podcast episode on stress eating... (type N/A if none)"></textarea>
+      </div>
+    </div>
+
     <button class="complete-btn" id="m4-save-dash" onclick="saveM4ToDashboard()" style="display:block;width:100%;margin-top:.75rem">OK, Finished — Go to Dashboard</button>
   </div>
   <div class="toast" id="toast-m4-saved">✓ Progress saved!</div>
@@ -628,20 +790,23 @@ var EDGE = SB_URL + '/functions/v1/notion-sync';
 var email = '';
 var client = {};
 var m2History = [], m2Summary = '', m2Busy = false;
+var m3History = [], m3Summary = '', m3Busy = false;
 var m4History = [], m4Summary = '', m4Busy = false;
 var m3HadLm = null, m3Choice = null;
-var pdfUploads = {};
+var fileUploads = {};
 
 // ── Supabase ──
 function sbHeaders() {
   return { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'resolution=merge-duplicates' };
 }
+// Throws on failure so the caller can tell "no record yet" apart from
+// "couldn't reach the server" — treating the second as the first wipes real answers.
 async function sbGet(e) {
-  try {
-    var r = await fetch(SB_URL + '/rest/v1/clients?email=eq.' + encodeURIComponent(e) + '&limit=1', { headers: sbHeaders() });
-    var d = await r.json();
-    return d && d.length ? d[0] : null;
-  } catch(ex) { return null; }
+  var r = await fetch(SB_URL + '/rest/v1/clients?email=eq.' + encodeURIComponent(e) + '&limit=1', { headers: sbHeaders() });
+  if (!r.ok) throw new Error('Lookup failed: ' + r.status);
+  var d = await r.json();
+  if (!Array.isArray(d)) throw new Error('Unexpected lookup response');
+  return d.length ? d[0] : null;
 }
 async function sbSave(data) {
   try { localStorage.setItem('wb_' + email, JSON.stringify(data)); } catch(ex) {}
@@ -651,7 +816,16 @@ async function sbSave(data) {
   } catch(ex) {}
 }
 
-// ── CHANGE 1: saveMessage — saves each chat message to messages table ──
+// Hidden priming/control messages are stored but never shown to the client
+function isVisibleMsg(m) {
+  return !(m.role === 'user' && (
+    m.content.indexOf("client's name is") > -1 ||
+    m.content.indexOf('REFINE_MODE') > -1 ||
+    m.content.indexOf('WRAP_UP_NOW') > -1
+  ));
+}
+
+// saveMessage — saves each chat message to the messages table
 async function saveMessage(module, role, content) {
   if (role === 'user' && (
     content.includes("client's name is") ||
@@ -678,20 +852,22 @@ function toDb(d) {
   return {
     email: d.email,
     module_1_status: d.mods.m1, module_2_status: d.mods.m2, module_3_status: d.mods.m3, module_4_status: d.mods.m4,
-    access_website: d.access.website, access_email: d.access.email, access_fb: d.access.fb,
+    access_website: d.access.website, access_email: d.access.email, access_fb: false,
     submitted: d.submitted || false,
     m1_data: d.m1 || {}, m2_data: d.m2 || {}, m3_data: d.m3 || {}, m4_data: d.m4 || {},
-    fb_access_answers: d.fbAccess || null
+    // Meta access moved to a separate process, so this column now carries the
+    // "I'm stuck" flags instead — e.g. { website: true }. Renaming it would need a migration.
+    fb_access_answers: d.accessStuck || null
   };
 }
 function fromDb(r) {
   return {
     email: r.email,
     mods: { m1: r.module_1_status||'todo', m2: r.module_2_status||'locked', m3: r.module_3_status||'locked', m4: r.module_4_status||'locked' },
-    access: { website: r.access_website||false, email: r.access_email||false, fb: r.access_fb||false },
+    access: { website: r.access_website||false, email: r.access_email||false },
     submitted: r.submitted||false,
     m1: r.m1_data||{}, m2: r.m2_data||{}, m3: r.m3_data||{}, m4: r.m4_data||{},
-    fbAccess: r.fb_access_answers||null
+    accessStuck: r.fb_access_answers||{}
   };
 }
 
@@ -719,18 +895,28 @@ function handleContinue() {
   sbGet(email).then(function(existing) {
     if (existing) {
       client = fromDb(existing);
+      hydrateUploads();
       document.getElementById('welcome-back').style.display = 'block';
       setTimeout(function(){ btn.textContent = 'Continue →'; btn.disabled = false; renderDashboard(); goTo('dashboard'); }, 600);
     } else {
-      client = { email: email, mods: { m1:'todo', m2:'locked', m3:'locked', m4:'locked' }, access: { website:false, email:false, fb:false }, m1:{}, m2:{}, m3:{}, m4:{} };
+      client = { email: email, mods: { m1:'todo', m2:'locked', m3:'locked', m4:'locked' }, access: { website:false, email:false }, m1:{}, m2:{}, m3:{}, m4:{} };
       sbSave(client).then(function(){ btn.textContent = 'Continue →'; btn.disabled = false; renderDashboard(); goTo('dashboard'); });
     }
   }).catch(function() {
+    // The server was unreachable. Do NOT assume this is a new client — saving a
+    // blank record here would overwrite everything they've already filled in.
     var raw = null;
     try { raw = localStorage.getItem('wb_' + email); } catch(ex){}
-    if (raw) { try { client = JSON.parse(raw); } catch(ex){} document.getElementById('welcome-back').style.display = 'block'; }
-    else { client = { email: email, mods: { m1:'todo', m2:'locked', m3:'locked', m4:'locked' }, access: { website:false, email:false, fb:false }, m1:{}, m2:{}, m3:{}, m4:{} }; }
-    btn.textContent = 'Continue →'; btn.disabled = false; renderDashboard(); goTo('dashboard');
+    btn.textContent = 'Continue →'; btn.disabled = false;
+    if (raw) {
+      try { client = JSON.parse(raw); hydrateUploads(); } catch(ex) { raw = null; }
+    }
+    if (raw) {
+      document.getElementById('welcome-back').style.display = 'block';
+      renderDashboard(); goTo('dashboard');
+    } else {
+      alert("We couldn't reach the server just now, so we can't safely load your progress.\n\nPlease check your connection and try again in a moment. If this keeps happening, email admin@whitneybateson.com.");
+    }
   });
 }
 
@@ -759,41 +945,38 @@ function renderDashboard() {
   if (submitWrap) { submitWrap.style.display = (done === 4 && !finalSubmitted) ? 'block' : 'none'; }
   var submitBanner = document.getElementById('all-submitted-banner');
   if (submitBanner) { submitBanner.style.display = finalSubmitted ? 'block' : 'none'; }
-  ['website','email','fb'].forEach(function(k) {
+  client.accessStuck = client.accessStuck || {};
+  ['website','email'].forEach(function(k) {
     var item = document.getElementById('access-' + k);
     var btn = document.getElementById('chk-' + k + '-btn');
+    if (!item || !btn) return;
     if (client.access[k]) {
       item.classList.add('confirmed');
-      if (k === 'fb') { btn.innerHTML = '<span class="access-confirmed-badge">✓ Submitted</span>'; }
-      else { btn.innerHTML = '<span class="access-confirmed-badge">✓ Access Shared</span>'; }
+      btn.innerHTML = '<span class="access-confirmed-badge">✓ Access Shared</span>';
+    } else if (client.accessStuck[k]) {
+      item.classList.remove('confirmed');
+      btn.innerHTML = '<span class="access-confirmed-badge" style="background:var(--peach);color:var(--coral-dk)">⏳ We\'ll reach out</span>' +
+        ' <button class="access-confirm-btn" style="margin-left:.4rem" onclick="confirmAccess(\'' + k + '\')">Mark as Shared</button>';
     } else {
       item.classList.remove('confirmed');
-      if (k === 'fb') { btn.innerHTML = '<button class="access-confirm-btn" onclick="event.stopPropagation();saveFbAnswers()">Submit</button>'; }
-      else { btn.innerHTML = '<button class="access-confirm-btn" onclick="event.stopPropagation();confirmAccess(\'' + k + '\')">Mark as Shared</button>'; }
+      btn.innerHTML = '<button class="access-confirm-btn" onclick="confirmAccess(\'' + k + '\')">Mark as Shared</button>' +
+        ' <button class="access-confirm-btn" style="background:transparent;color:var(--text-mid);border:1.5px solid var(--border);margin-left:.4rem" onclick="flagStuck(\'' + k + '\')">I\'m stuck</button>';
     }
   });
-  var allConfirmed = client.access.website && client.access.email && client.access.fb;
+  var allConfirmed = client.access.website && client.access.email;
   var warning = document.getElementById('access-warning');
   if (warning) warning.style.display = allConfirmed ? 'none' : 'block';
 }
-function toggleAccessInstructions(key) {
-  var instr = document.getElementById('access-instr-' + key);
-  var icon = document.getElementById('access-toggle-' + key);
-  if (instr.style.display === 'none') { instr.style.display = 'block'; icon.classList.add('open'); }
-  else { instr.style.display = 'none'; icon.classList.remove('open'); }
+function confirmAccess(key) {
+  client.access[key] = true;
+  if (client.accessStuck) delete client.accessStuck[key];
+  sbSave(client); renderDashboard();
 }
-function confirmAccess(key) { client.access[key] = true; sbSave(client); renderDashboard(); }
-function saveFbAnswers() {
-  var page = document.querySelector('input[name="fb-page"]:checked');
-  var meta = document.querySelector('input[name="fb-meta"]:checked');
-  var ad = document.querySelector('input[name="fb-adacct"]:checked');
-  if (!page || !meta || !ad) { alert('Please answer all three questions.'); return; }
-  client.fbAccess = { hasPage: page.value, hasMeta: meta.value, hasAdAccount: ad.value };
-  client.access.fb = true;
-  sbSave(client);
-  document.getElementById('fb-confirmation-msg').style.display = 'block';
-  document.querySelector('#chk-fb-btn .access-confirm-btn').style.display = 'none';
-  setTimeout(function(){ renderDashboard(); }, 2000);
+function flagStuck(key) {
+  client.accessStuck = client.accessStuck || {};
+  client.accessStuck[key] = true;
+  sbSave(client); renderDashboard();
+  alert("No problem — we've flagged this and someone from the team will reach out to help you get it sorted.\n\nIf you'd rather not wait, email admin@whitneybateson.com.");
 }
 
 // ── Module 1 ──
@@ -803,11 +986,14 @@ function openM1() {
   var d = client.m1 || {};
   function setf(id, v) { var el = document.getElementById(id); if (el && v) el.value = v; }
   setf('f-firstname', d.firstname); setf('f-lastname', d.lastname); setf('f-bizname', d.bizname);
-  setf('f-website', d.website); setf('f-years', d.years); setf('f-offer', d.offer);
-  setf('f-offerurl', d.offerurl); setf('f-ty-offer', d.tyoffer); setf('f-notes', d.notes);
+  setf('f-website', d.website); setf('f-offer', d.offer);
+  setf('f-offerurl', d.offerurl); setf('f-notes', d.notes);
+  setf('f-license-states', d.licenseStates);
   if (d.practype) setRadio('practype', d.practype);
   if (d.offercta) setRadio('offercta', d.offercta);
-  if (d.typage) { setRadio('typage', d.typage); if (d.typage === 'A low-ticket product') document.getElementById('ty-offer-wrap').style.display = 'block'; }
+  if (d.licensed) { setRadio('licensed', d.licensed); if (d.licensed === 'Yes') document.getElementById('license-states-wrap').style.display = 'block'; }
+  if (d.geolimit) setRadio('geolimit', d.geolimit);
+  restoreUpload('logo'); restoreUpload('brandguide'); restoreUpload('photos');
   if (d.esp) { setRadio('esp', d.esp); if (d.esp === 'Other') document.getElementById('esp-other-wrap').style.display = 'block'; }
   if (d.espOther) { var el = document.getElementById('f-esp-other'); if(el) el.value = d.espOther; }
   if (d.webplatform) { setRadio('webplatform', d.webplatform); if (d.webplatform === 'Other') document.getElementById('webplatform-other-wrap').style.display = 'block'; }
@@ -831,61 +1017,122 @@ function saveM1() {
   if (!getf('f-bizname').trim()) errors.push('Business name');
   if (!getf('f-website').trim()) errors.push('Website URL');
   if (!getRadio('practype')) errors.push('Type of practice');
-  if (!getf('f-years').trim()) errors.push('Years in business');
+  if (!getRadio('licensed')) errors.push('Whether you\'re licensed or credentialed');
+  if (getRadio('licensed') === 'Yes' && !getf('f-license-states').trim()) errors.push('Which states/provinces you\'re licensed in');
+  if (!getRadio('geolimit')) errors.push('Where you can work with clients');
   if (!getf('f-offer').trim()) errors.push('Your offer');
   if (!getRadio('offercta')) errors.push('Next step for your offer');
-  if (!getRadio('typage')) errors.push('Thank You page direction');
-  if (getRadio('typage') === 'A low-ticket product' && !getf('f-ty-offer').trim()) errors.push('Low-ticket offer details');
   if (!getRadio('esp')) errors.push('Email marketing platform');
   if (!getRadio('webplatform')) errors.push('Website platform');
   if (errors.length > 0) { alert('Please complete the following required fields before continuing:\n\n• ' + errors.join('\n• ')); return; }
   client.m1 = {
     firstname: getf('f-firstname'), lastname: getf('f-lastname'), bizname: getf('f-bizname'),
-    website: getf('f-website'), years: getf('f-years'), practype: getRadio('practype'),
+    website: getf('f-website'), practype: getRadio('practype'),
+    licensed: getRadio('licensed'), licenseStates: getf('f-license-states') || 'N/A', geolimit: getRadio('geolimit'),
     offer: getf('f-offer'), offercta: getRadio('offercta'), offerurl: getf('f-offerurl') || 'N/A',
-    typage: getRadio('typage'), tyoffer: getf('f-ty-offer'),
     esp: getRadio('esp'), espOther: getf('f-esp-other'),
     webplatform: getRadio('webplatform'), webplatformOther: getf('f-webplatform-other'),
-    practypeOther: getf('f-practype-other'), notes: getf('f-notes') || 'N/A'
+    practypeOther: getf('f-practype-other'), notes: getf('f-notes') || 'N/A',
+    brandAssets: {
+      logo: fileUploads['logo'] || null,
+      brandguide: fileUploads['brandguide'] || null,
+      photos: fileUploads['photos'] || null
+    }
   };
   client.mods.m1 = 'done'; client.mods.m2 = 'todo';
   sbSave(client); showToast('toast-m1');
   setTimeout(function(){ renderDashboard(); goTo('dashboard'); }, 1400);
 }
 
-// ── PDF Upload ──
-async function handlePdfUpload(type, input) {
+// ── File Upload ──
+function safeSlug(s) { return String(s || '').replace(/[^a-zA-Z0-9._-]/g, '_'); }
+
+// Uploads one file to storage and returns a record, or null on failure
+async function uploadOne(key, file) {
+  var filename = safeSlug(email) + '_' + key + '_' + Date.now() + '_' + safeSlug(file.name);
+  var uploadRes = await fetch(SB_URL + '/storage/v1/object/lead-magnets/' + encodeURIComponent(filename), {
+    method: 'POST',
+    headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': file.type || 'application/octet-stream', 'x-upsert': 'true' },
+    body: file
+  });
+  if (!uploadRes.ok) throw new Error('Upload failed: ' + uploadRes.status);
+  var fileUrl = SB_URL + '/storage/v1/object/lead-magnets/' + encodeURIComponent(filename);
+  try {
+    var signRes = await fetch(SB_URL + '/storage/v1/object/sign/lead-magnets/' + encodeURIComponent(filename), {
+      method: 'POST',
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ expiresIn: 31536000 })
+    });
+    if (signRes.ok) {
+      var signData = await signRes.json();
+      if (signData && signData.signedURL) fileUrl = SB_URL + '/storage/v1' + signData.signedURL;
+    }
+  } catch(ex) {}
+  return { name: file.name, size: file.size, url: fileUrl, filename: filename };
+}
+
+async function handleFileUpload(key, input) {
   var file = input.files[0];
   if (!file) return;
-  if (file.size > 10 * 1024 * 1024) { alert('File is too large. Please upload a PDF under 10MB.'); return; }
-  var area = document.getElementById('upload-area-' + type);
-  var label = document.getElementById('upload-filename-' + type);
+  if (file.size > 10 * 1024 * 1024) { alert('That file is too large. Please keep it under 10MB.'); return; }
+  var area = document.getElementById('upload-area-' + key);
+  var label = document.getElementById('upload-filename-' + key);
   label.textContent = 'Uploading...';
   try {
-    var filename = email.replace('@', '_').replace('.', '_') + '_' + Date.now() + '_' + file.name;
-    var uploadRes = await fetch(SB_URL + '/storage/v1/object/lead-magnets/' + encodeURIComponent(filename), {
-      method: 'POST',
-      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/pdf', 'x-upsert': 'true' },
-      body: file
-    });
-    if (uploadRes.ok) {
-      var signRes = await fetch(SB_URL + '/storage/v1/object/sign/lead-magnets/' + encodeURIComponent(filename), {
-        method: 'POST',
-        headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ expiresIn: 31536000 })
-      });
-      var signData = signRes.ok ? await signRes.json() : null;
-      var fileUrl = signData && signData.signedURL ? SB_URL + '/storage/v1' + signData.signedURL : SB_URL + '/storage/v1/object/lead-magnets/' + encodeURIComponent(filename);
-      pdfUploads[type] = { name: file.name, size: file.size, url: fileUrl, filename: filename };
-      area.classList.add('has-file');
-      label.textContent = '✓ ' + file.name + ' — uploaded!';
-    } else { throw new Error('Upload failed: ' + uploadRes.status); }
-  } catch(ex) {
-    label.textContent = '✗ Upload failed — please try again';
-    pdfUploads[type] = { name: file.name, size: file.size, url: null };
+    fileUploads[key] = await uploadOne(key, file);
     area.classList.add('has-file');
-    label.textContent = '⚠ ' + file.name + ' (could not upload — email to admin@whitneybateson.com)';
+    label.textContent = '✓ ' + file.name + ' — uploaded!';
+  } catch(ex) {
+    fileUploads[key] = { name: file.name, size: file.size, url: null };
+    area.classList.add('has-file');
+    label.textContent = '⚠ ' + file.name + ' (could not upload — please email it to admin@whitneybateson.com)';
   }
+}
+
+async function handleMultiUpload(key, input) {
+  var files = Array.prototype.slice.call(input.files || []);
+  if (!files.length) return;
+  var tooBig = files.filter(function(f){ return f.size > 10 * 1024 * 1024; });
+  if (tooBig.length) { alert('These files are over 10MB and were skipped:\n\n• ' + tooBig.map(function(f){return f.name;}).join('\n• ')); }
+  files = files.filter(function(f){ return f.size <= 10 * 1024 * 1024; });
+  if (!files.length) return;
+  var area = document.getElementById('upload-area-' + key);
+  var label = document.getElementById('upload-filename-' + key);
+  label.textContent = 'Uploading ' + files.length + ' file' + (files.length > 1 ? 's' : '') + '...';
+  var existing = Array.isArray(fileUploads[key]) ? fileUploads[key] : [];
+  var failed = 0;
+  for (var i = 0; i < files.length; i++) {
+    try { existing.push(await uploadOne(key, files[i])); }
+    catch(ex) { failed++; existing.push({ name: files[i].name, size: files[i].size, url: null }); }
+  }
+  fileUploads[key] = existing;
+  area.classList.add('has-file');
+  label.textContent = '✓ ' + existing.length + ' file' + (existing.length > 1 ? 's' : '') + ' added' +
+    (failed ? ' — ' + failed + ' could not upload, please email those to admin@whitneybateson.com' : '');
+  input.value = '';
+}
+
+// Repaint an upload box from whatever is already saved
+function restoreUpload(key) {
+  var area = document.getElementById('upload-area-' + key);
+  var label = document.getElementById('upload-filename-' + key);
+  if (!area || !label) return;
+  var v = fileUploads[key];
+  if (!v) return;
+  area.classList.add('has-file');
+  if (Array.isArray(v)) label.textContent = '✓ ' + v.length + ' file' + (v.length > 1 ? 's' : '') + ' added';
+  else label.textContent = '✓ ' + v.name;
+}
+
+// Pull previously saved uploads back into memory after a reload
+function hydrateUploads() {
+  var ba = (client.m1 && client.m1.brandAssets) || {};
+  if (ba.logo) fileUploads['logo'] = ba.logo;
+  if (ba.brandguide) fileUploads['brandguide'] = ba.brandguide;
+  if (ba.photos) fileUploads['photos'] = ba.photos;
+  var m3 = client.m3 || {};
+  if (m3.pdfUpload && m3.lmPath === 'existing') fileUploads['existing'] = m3.pdfUpload;
+  if (m3.pdfUpload && m3.lmPath === 'improve') fileUploads['improve'] = m3.pdfUpload;
 }
 
 // ── Chat helpers ──
@@ -918,7 +1165,7 @@ async function callAI(system, messages) {
 }
 
 // ── Module 2 ──
-var M2_SYSTEM = 'You are Sam, a warm and knowledgeable onboarding guide for Whitney Bateson Digital Strategy — a done-for-you lead gen funnel service for health and wellness professionals.\n\nGuide a natural, conversational flow of 8-10 questions to understand the IDEAL CLIENT for this person\'s offer. Ask ONE question at a time. Be warm and conversational — it should feel like chatting with a colleague, not filling out a form.\n\nCover these topics naturally across your questions:\n1. Who their ideal client is — demographics, life situation, identity\n2. What transformation they want from this offer (or from working with this person in general)\n3. Their main struggle or problem right now\n4. What they\'ve already tried that hasn\'t worked\n5. What\'s making this feel urgent for them now\n6. Where they go to find help / what makes them trust a provider\n7. What objections or hesitations they have before taking the next step\n8. How they talk about their problem in their own words\n\nAfter you\'ve asked 8-10 questions and feel you have a solid picture, automatically generate the summary. Do NOT ask if they want a summary — just generate it. If the user\'s message contains WRAP_UP_NOW, generate the summary immediately with whatever you have.\n\nOutput EXACTLY:\n\n---ICA_SUMMARY_START---\n**Name:** [made-up first name for the avatar]\n**Who They Are:** [2-3 sentences on demographics and situation]\n**What They Want:** [the transformation they seek]\n**What\'s In Their Way:** [main struggles and what they\'ve tried]\n**What\'s Happening Now:** [life trigger making this urgent]\n**How They Decide:** [trust signals and where they look for help]\n**In Their Own Words:** [1-2 sentences as if the ideal client is speaking]\n---ICA_SUMMARY_END---';
+var M2_SYSTEM = 'You are Sam, a warm and knowledgeable onboarding guide for Whitney Bateson Digital Strategy — a done-for-you lead gen funnel service for health and wellness professionals.\n\nGuide a natural, conversational flow of 8-10 questions to understand the IDEAL CLIENT for this person\'s offer. Ask ONE question at a time. Be warm and conversational — it should feel like chatting with a colleague, not filling out a form.\n\nYour SECOND question must always be a version of: "Think about the last three clients you genuinely loved working with — the ones who got great results and who you wish you had more of. Tell me about them." Ground everything that follows in those real people. If they describe an abstract or aspirational avatar later, gently bring them back to the actual clients they named.\n\nCover these topics naturally across your questions:\n1. Their last three best clients — who they actually were, and what they had in common\n2. What transformation they want from this offer (or from working with this person in general)\n3. Their main struggle or problem right now\n4. What they\'ve already tried that hasn\'t worked\n5. What\'s making this feel urgent for them now\n6. Where they go to find help / what makes them trust a provider\n7. What objections or hesitations they have before taking the next step\n8. How they talk about their problem in their own words\n\nAfter you\'ve asked 8-10 questions and feel you have a solid picture, automatically generate the summary. Do NOT ask if they want a summary — just generate it. If the user\'s message contains WRAP_UP_NOW, generate the summary immediately with whatever you have.\n\nOutput EXACTLY:\n\n---ICA_SUMMARY_START---\n**Name:** [made-up first name for the avatar]\n**Who They Are:** [2-3 sentences on demographics and situation]\n**What They Want:** [the transformation they seek]\n**What\'s In Their Way:** [main struggles and what they\'ve tried]\n**What\'s Happening Now:** [life trigger making this urgent]\n**How They Decide:** [trust signals and where they look for help]\n**In Their Own Words:** [1-2 sentences as if the ideal client is speaking]\n---ICA_SUMMARY_END---';
 
 // ── CHANGE 4: openM2 — loads history from messages table ──
 async function openM2() {
@@ -927,35 +1174,34 @@ async function openM2() {
 
   m2Summary = (client.m2 && client.m2.summary) ? client.m2.summary : '';
   m2History = [];
+  var loaded = false;
 
   try {
     var r = await fetch(
       SB_URL + '/rest/v1/messages?email=eq.' + encodeURIComponent(email) + '&module=eq.m2&order=created_at.asc&limit=1000',
       { headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY } }
     );
-    var msgs = await r.json();
+    // A 4xx returns a JSON error object, not an array — don't mistake that for "no history"
+    var msgs = r.ok ? await r.json() : null;
     if (Array.isArray(msgs)) {
       m2History = msgs.map(function(m) { return { role: m.role, content: m.content }; });
+      loaded = true;
     }
   } catch(ex) {
-    m2History = (client.m2 && client.m2.history) ? client.m2.history : [];
-    console.warn('Could not load messages from table, using blob fallback:', ex);
+    console.warn('Could not load m2 messages:', ex);
   }
+  if (!loaded && client.m2 && client.m2.history) { m2History = client.m2.history; loaded = true; }
 
   var feed = document.getElementById('m2-feed');
   feed.innerHTML = '<div class="typing-indicator" id="m2-typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
 
-  m2History.filter(function(m) {
-    return !(m.role === 'user' && (
-      m.content.indexOf("client's name is") > -1 ||
-      m.content.indexOf('REFINE_MODE') > -1 ||
-      m.content.indexOf('WRAP_UP_NOW') > -1
-    ));
-  }).forEach(function(m) { addBubble('m2-feed', m.role, m.content); });
+  m2History.filter(isVisibleMsg).forEach(function(m) { addBubble('m2-feed', m.role, m.content); });
 
   if (m2Summary) { showM2Summary(m2Summary); document.getElementById('m2-input-area').style.display = 'none'; }
   goTo('module2');
-  if (m2History.length === 0) startM2();
+  // Only start over if we actually know the history is empty
+  if (m2History.length === 0 && loaded) startM2();
+  else if (m2History.length === 0) addBubble('m2-feed', 'assistant', "I couldn't load our conversation just now — please refresh the page and try again so we don't lose anything you've already told me.");
 }
 
 function startM2() {
@@ -973,28 +1219,28 @@ async function sendM2(userText) {
   if (userText !== null) {
     m2History.push({ role:'user', content:userText });
     addBubble('m2-feed', 'user', userText);
-    saveMessage('m2', 'user', userText);
-    saveM2();
+    // Awaited so messages keep their order in the transcript
+    await saveMessage('m2', 'user', userText);
   }
   m2Busy = true; setTyping('m2-typing', true);
   try {
     var reply = await callAI(M2_SYSTEM, m2History);
     m2History.push({ role:'assistant', content:reply });
     setTyping('m2-typing', false);
-    saveMessage('m2', 'assistant', reply);
+    await saveMessage('m2', 'assistant', reply);
     if (reply.indexOf('---ICA_SUMMARY_START---') > -1) {
       var pre = reply.split('---ICA_SUMMARY_START---')[0].trim();
       if (pre) addBubble('m2-feed', 'assistant', pre);
       var match = reply.match(/---ICA_SUMMARY_START---([\s\S]*?)---ICA_SUMMARY_END---/);
-      if (match) { m2Summary = match[1].trim(); showM2Summary(m2Summary); }
+      if (match) { m2Summary = match[1].trim(); showM2Summary(m2Summary); saveM2(); }
     } else { addBubble('m2-feed', 'assistant', reply); }
-    saveM2();
   } catch(ex) { setTyping('m2-typing', false); addBubble('m2-feed', 'assistant', 'Something went wrong connecting to the AI. Please check your connection and try again. (' + ex.message + ')'); }
   m2Busy = false;
 }
 
-// ── CHANGE 2: saveM2 — only stores summary, not history blob ──
+// Only ever writes a real summary — never blanks a saved one
 function saveM2() {
+  if (!m2Summary) return;
   client.m2 = { summary: m2Summary };
   sbSave(client);
 }
@@ -1008,7 +1254,7 @@ function showM2Summary(text) {
     refineBar = document.createElement('div');
     refineBar.id = 'm2-refine-bar';
     refineBar.style.cssText = 'padding:.5rem 0;text-align:center;flex-shrink:0';
-    refineBar.innerHTML = '<button onclick="openM2Refine()" style="background:none;border:1.5px solid var(--border);color:var(--text-mid);padding:.4rem 1rem;border-radius:20px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif">Want to add more detail? Continue the conversation ↑</button>';
+    refineBar.innerHTML = '<button onclick="openM2Refine()" style="background:none;border:1.5px solid var(--border);color:var(--text-mid);padding:.4rem 1rem;border-radius:20px;font-size:12px;cursor:pointer;font-family:var(--body)">Want to add more detail? Continue the conversation ↑</button>';
     document.getElementById('m2-chat-layout').appendChild(refineBar);
   } else { refineBar.style.display = 'block'; }
   setTimeout(function(){ document.getElementById('m2-summary-section').scrollIntoView({behavior:'smooth', block:'start'}); }, 100);
@@ -1047,14 +1293,14 @@ function openM3() {
   goTo('module3');
 }
 function setM3Dots(step) {
-  for (var i=1;i<=3;i++) {
+  for (var i=1;i<=4;i++) {
     var d = document.getElementById('m3-dot' + i);
     if (!d) continue;
     d.classList.remove('active','done');
     if (i < step) d.classList.add('done');
     else if (i === step) d.classList.add('active');
   }
-  document.getElementById('m3-step-lbl').textContent = 'Step ' + step + ' of 3';
+  document.getElementById('m3-step-lbl').textContent = 'Step ' + step + ' of 4';
 }
 function m3Next1() {
   var r = document.querySelector('input[name="hadlm"]:checked');
@@ -1093,82 +1339,226 @@ function m3Next2() {
   client.m3 = client.m3 || {}; client.m3.choice = m3Choice; sbSave(client);
   document.getElementById('m3-s2').classList.remove('visible');
   var d = client.m3 || {};
+  function setv(id, v) { var el = document.getElementById(id); if (el && v) el.value = v; }
   if (m3Choice === 'new') {
     if (m3HadLm === 'yes') document.getElementById('why-not-existing-wrap').style.display = 'block';
     document.getElementById('m3-s3-new').classList.add('visible');
-    if (d.whyNotExisting) { var e1 = document.getElementById('f-why-not-existing'); if(e1) e1.value = d.whyNotExisting; }
-    if (d.lmTopic) { var e2 = document.getElementById('f-lm-topic'); if(e2) e2.value = d.lmTopic; }
-    if (d.lmTransformation) { var e3 = document.getElementById('f-lm-transformation'); if(e3) e3.value = d.lmTransformation; }
+    setv('f-why-not-existing', d.whyNotExisting);
+    setv('f-content-channels', d.contentChannels);
+    setv('f-best-content', d.bestContent);
+    setv('f-half-built', d.halfBuilt);
   } else if (m3Choice === 'use') {
     document.getElementById('m3-s3-existing').classList.add('visible');
-    if (d.existingName) { var e4 = document.getElementById('f-existing-name'); if(e4) e4.value = d.existingName; }
-    if (d.existingLink) { var e5 = document.getElementById('f-existing-link'); if(e5) e5.value = d.existingLink; }
-    if (d.existingWorking) { var e6 = document.getElementById('f-existing-working'); if(e6) e6.value = d.existingWorking; }
-    if (d.existingFreshen) { var e7 = document.getElementById('f-existing-freshen'); if(e7) e7.value = d.existingFreshen; }
+    setv('f-existing-name', d.existingName);
+    setv('f-existing-link', d.existingLink);
+    setv('f-existing-downloads', d.existingDownloads);
+    setv('f-existing-promoted', d.existingPromoted);
+    setv('f-existing-replies', d.existingReplies);
+    setv('f-existing-freshen', d.existingFreshen);
+    if (d.existingAfter) setRadio('existing-after', d.existingAfter);
     if (d.openToChanges) setRadio('opentochanges', d.openToChanges);
+    restoreUpload('existing');
   } else {
     document.getElementById('m3-s3-improve').classList.add('visible');
-    if (d.improveName) { var e8 = document.getElementById('f-improve-name'); if(e8) e8.value = d.improveName; }
-    if (d.improveLink) { var e9 = document.getElementById('f-improve-link'); if(e9) e9.value = d.improveLink; }
-    if (d.improveIssues) { var e10 = document.getElementById('f-improve-issues'); if(e10) e10.value = d.improveIssues; }
-    if (d.improveGoal) { var e11 = document.getElementById('f-improve-goal'); if(e11) e11.value = d.improveGoal; }
-    if (d.improveKeep) { var e12 = document.getElementById('f-improve-keep'); if(e12) e12.value = d.improveKeep; }
+    setv('f-improve-name', d.improveName);
+    setv('f-improve-link', d.improveLink);
+    setv('f-improve-downloads', d.improveDownloads);
+    setv('f-improve-promoted', d.improvePromoted);
+    setv('f-improve-replies', d.improveReplies);
+    setv('f-improve-goal', d.improveGoal);
+    setv('f-improve-keep', d.improveKeep);
+    if (d.improveAfter) setRadio('improve-after', d.improveAfter);
     if (d.openToChanges2) setRadio('opentochanges2', d.openToChanges2);
+    restoreUpload('improve');
   }
+  setM3Dots(3); window.scrollTo(0,0);
+}
+
+// Step 4 — Thank You page, shown after every branch
+function m3ShowStep4() {
+  document.querySelectorAll('.m3-step').forEach(function(s){ s.classList.remove('visible'); });
+  document.getElementById('m3-s4').classList.add('visible');
+  var d = client.m3 || {};
+  if (d.typage) {
+    setRadio('typage', d.typage);
+    if (d.typage === 'A low-ticket product') document.getElementById('ty-offer-wrap').style.display = 'block';
+  }
+  if (d.tyoffer) { var el = document.getElementById('f-ty-offer'); if (el) el.value = d.tyoffer; }
+  setM3Dots(4); goTo('module3'); window.scrollTo(0,0);
+}
+function m3BackToBranch() {
+  document.querySelectorAll('.m3-step').forEach(function(s){ s.classList.remove('visible'); });
+  if (m3Choice === 'new') { document.getElementById('m3-s3-new').classList.add('visible'); }
+  else if (m3Choice === 'use') { document.getElementById('m3-s3-existing').classList.add('visible'); }
+  else { document.getElementById('m3-s3-improve').classList.add('visible'); }
   setM3Dots(3); window.scrollTo(0,0);
 }
 function m3Back1() { document.getElementById('m3-s2').classList.remove('visible'); document.getElementById('m3-s1').classList.add('visible'); setM3Dots(1); window.scrollTo(0,0); }
 function m3Back2() { document.querySelectorAll('.m3-step').forEach(function(s){ if (s.id !== 'm3-s1' && s.id !== 'm3-s2') s.classList.remove('visible'); }); document.getElementById('m3-s2').classList.add('visible'); setM3Dots(2); window.scrollTo(0,0); }
 function naIfBlank(val) { return val && val.trim() ? val.trim() : 'N/A'; }
-function saveM3New() {
-  var errors = [];
-  if (!getf('f-lm-topic').trim()) errors.push('Lead magnet topic (or type N/A if unsure)');
-  if (!getf('f-lm-transformation').trim()) errors.push('What they should feel/do after (or type N/A if unsure)');
-  if (errors.length) { alert('Please complete or type N/A for:\n\n• ' + errors.join('\n• ')); return; }
-  var d = client.m3 || {};
-  d.lmPath = 'create'; d.whyNotExisting = naIfBlank(getf('f-why-not-existing'));
-  d.lmTopic = naIfBlank(getf('f-lm-topic')); d.lmTransformation = naIfBlank(getf('f-lm-transformation'));
-  if (pdfUploads['new']) d.pdfUpload = pdfUploads['new'];
-  client.m3 = d; client.mods.m3 = 'done'; client.mods.m4 = 'todo';
-  sbSave(client); showToast('toast-m3');
-  setTimeout(function(){ renderDashboard(); goTo('dashboard'); }, 1600);
-}
+
 function saveM3Existing() {
   var errors = [];
   if (!getf('f-existing-name').trim()) errors.push('Lead magnet name');
-  if (!getf('f-existing-link').trim() && !pdfUploads['existing']) errors.push('Canva link, URL, or PDF upload');
-  if (!getf('f-existing-working').trim()) errors.push("What's working (or type N/A)");
+  if (!getf('f-existing-link').trim() && !fileUploads['existing']) errors.push('Canva link, URL, or PDF upload');
+  if (!getf('f-existing-downloads').trim()) errors.push('Roughly how many downloads');
+  if (!getRadio('existing-after')) errors.push('What happens after someone downloads it');
   if (!getRadio('opentochanges')) errors.push('Whether you\'re open to content changes');
   if (errors.length) { alert('Please complete or type N/A for:\n\n• ' + errors.join('\n• ')); return; }
   var d = client.m3 || {};
   d.lmPath = 'existing'; d.existingName = getf('f-existing-name');
-  d.existingLink = naIfBlank(getf('f-existing-link')); d.existingWorking = naIfBlank(getf('f-existing-working'));
-  d.existingFreshen = naIfBlank(getf('f-existing-freshen')); d.openToChanges = getRadio('opentochanges');
-  if (pdfUploads['existing']) d.pdfUpload = pdfUploads['existing'];
-  client.m3 = d; client.mods.m3 = 'done'; client.mods.m4 = 'todo';
-  sbSave(client); showToast('toast-m3');
-  setTimeout(function(){ renderDashboard(); goTo('dashboard'); }, 1600);
+  d.existingLink = naIfBlank(getf('f-existing-link'));
+  d.existingDownloads = getf('f-existing-downloads');
+  d.existingPromoted = naIfBlank(getf('f-existing-promoted'));
+  d.existingReplies = naIfBlank(getf('f-existing-replies'));
+  d.existingAfter = getRadio('existing-after');
+  d.existingFreshen = naIfBlank(getf('f-existing-freshen'));
+  d.openToChanges = getRadio('opentochanges');
+  if (fileUploads['existing']) d.pdfUpload = fileUploads['existing'];
+  client.m3 = d; sbSave(client);
+  m3ShowStep4();
 }
+
 function saveM3Improve() {
   var errors = [];
   if (!getf('f-improve-name').trim()) errors.push('Which lead magnet you want to improve');
-  if (!getf('f-improve-issues').trim()) errors.push("What's not working (or type N/A)");
+  if (!getf('f-improve-downloads').trim()) errors.push('Roughly how many downloads');
+  if (!getRadio('improve-after')) errors.push('What happens after someone downloads it');
   if (!getf('f-improve-goal').trim()) errors.push('New goal for the lead magnet (or type N/A)');
   if (!getRadio('opentochanges2')) errors.push('Whether you\'re open to content changes');
   if (errors.length) { alert('Please complete or type N/A for:\n\n• ' + errors.join('\n• ')); return; }
   var d = client.m3 || {};
   d.lmPath = 'improve'; d.improveName = getf('f-improve-name');
-  d.improveLink = naIfBlank(getf('f-improve-link')); d.improveIssues = naIfBlank(getf('f-improve-issues'));
-  d.improveGoal = naIfBlank(getf('f-improve-goal')); d.improveKeep = naIfBlank(getf('f-improve-keep'));
+  d.improveLink = naIfBlank(getf('f-improve-link'));
+  d.improveDownloads = getf('f-improve-downloads');
+  d.improvePromoted = naIfBlank(getf('f-improve-promoted'));
+  d.improveReplies = naIfBlank(getf('f-improve-replies'));
+  d.improveAfter = getRadio('improve-after');
+  d.improveGoal = naIfBlank(getf('f-improve-goal'));
+  d.improveKeep = naIfBlank(getf('f-improve-keep'));
   d.openToChanges2 = getRadio('opentochanges2');
-  if (pdfUploads['improve']) d.pdfUpload = pdfUploads['improve'];
+  if (fileUploads['improve']) d.pdfUpload = fileUploads['improve'];
+  client.m3 = d; sbSave(client);
+  m3ShowStep4();
+}
+
+// ── Module 3 — lead magnet conversation (the "create new" branch) ──
+var M3_SYSTEM = 'You are Sam, a warm and knowledgeable onboarding guide for Whitney Bateson Digital Strategy — a done-for-you lead gen funnel service for health and wellness professionals.\n\nYour job here is to gather the RAW MATERIAL our team needs to design this person\'s lead magnet. You are NOT asking them to come up with the idea — they hired us for that, and most of them have no idea what would work. Never ask "what topic do you want?" or "what should your lead magnet be about?" Never make them do the strategy.\n\nAsk ONE question at a time. Be warm and specific. Use their name if you know it. Their first answers will be vague — that is normal and expected. Follow up to get to the concrete detail. If they say "they ask me about meal planning," push gently: what specifically about it? What do they say? What do you tell them? The specifics are the whole point.\n\nAsk these FOUR questions, in this order, following up on each before moving on:\n\n1. "What is the first thing you have a new client do?" — the first step of their paid process is very often the best lead magnet, so dig into this one. What does it look like, why that first, and what shifts for the client when they do it?\n\n2. "What do clients and followers ask you about most often?" — push past the general topic to the actual question people ask, in their words.\n\n3. "What question comes up in almost every discovery call — and what do you tell them?" — the answer to the second half is often the resource itself.\n\n4. "What does someone need to understand or believe before they\'re ready to work with you?" — this tells us what job the lead magnet has to do, not just what it is about.\n\nYou may ask brief follow-ups within each of the four, but do not add new topics. Aim for 8-12 total exchanges.\n\nWhen you have all four covered, output EXACTLY:\n\n---LM_SUMMARY_START---\nPerfect — this is exactly what we needed. Our team will take everything you shared here and come back to you with a lead magnet concept built around it. You don\'t need to figure out the idea; that part is on us.\n---LM_SUMMARY_END---\n\nIf the user\'s message contains WRAP_UP_NOW, output that block immediately with whatever you have.';
+
+function startM3Chat() {
+  var d = client.m3 || {};
+  d.lmPath = 'create';
+  d.whyNotExisting = naIfBlank(getf('f-why-not-existing'));
+  d.contentChannels = naIfBlank(getf('f-content-channels'));
+  d.bestContent = naIfBlank(getf('f-best-content'));
+  d.halfBuilt = naIfBlank(getf('f-half-built'));
+  client.m3 = d; sbSave(client);
+  openM3Chat();
+}
+
+async function openM3Chat() {
+  m3Summary = (client.m3 && client.m3.lmSummary) ? client.m3.lmSummary : '';
+  m3History = [];
+  var loaded = false;
+  try {
+    var r = await fetch(
+      SB_URL + '/rest/v1/messages?email=eq.' + encodeURIComponent(email) + '&module=eq.m3&order=created_at.asc&limit=1000',
+      { headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY } }
+    );
+    var msgs = r.ok ? await r.json() : null;
+    if (Array.isArray(msgs)) {
+      m3History = msgs.map(function(m) { return { role: m.role, content: m.content }; });
+      loaded = true;
+    }
+  } catch(ex) { console.warn('Could not load m3 messages:', ex); }
+
+  var feed = document.getElementById('m3-feed');
+  feed.innerHTML = '<div class="typing-indicator" id="m3-typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+  m3History.filter(isVisibleMsg).forEach(function(m) { addBubble('m3-feed', m.role, m.content); });
+
+  if (m3Summary) { showM3Summary(m3Summary); document.getElementById('m3-input-area').style.display = 'none'; }
+  goTo('module3chat');
+  // Only start a fresh conversation if we know for certain there isn't one already
+  if (m3History.length === 0 && loaded) startM3Convo();
+  else if (m3History.length === 0) addBubble('m3-feed', 'assistant', "I couldn't load our conversation just now — please refresh the page and try again so we don't lose anything you've already told me.");
+}
+
+function startM3Convo() {
+  var n = client.m1 && client.m1.firstname;
+  var p = (client.m1 && client.m1.practype) || 'health professional';
+  var o = client.m1 && client.m1.offer;
+  var ica = client.m2 && client.m2.summary;
+  var m3 = client.m3 || {};
+  var ctx = "The client's name is " + (n||'unknown') + ". They are a " + p + "." +
+    (o ? " Their offer: " + o + "." : "") +
+    (ica ? " Their ideal client: " + ica : "") +
+    (m3.contentChannels && m3.contentChannels !== 'N/A' ? " Their content lives at: " + m3.contentChannels + "." : "") +
+    (m3.bestContent && m3.bestContent !== 'N/A' ? " Content that performed well for them: " + m3.bestContent + "." : "") +
+    (m3.halfBuilt && m3.halfBuilt !== 'N/A' ? " They already have half-built: " + m3.halfBuilt + "." : "") +
+    " Start warmly, reassure them they don't need to have the idea, then ask your first question.";
+  m3History = [{ role:'user', content: ctx }];
+  sendM3(null);
+}
+
+async function sendM3(userText) {
+  if (m3Busy) return;
+  if (userText !== null) {
+    m3History.push({ role:'user', content:userText });
+    addBubble('m3-feed', 'user', userText);
+    await saveMessage('m3', 'user', userText);
+  }
+  m3Busy = true; setTyping('m3-typing', true);
+  try {
+    var reply = await callAI(M3_SYSTEM, m3History);
+    m3History.push({ role:'assistant', content:reply });
+    setTyping('m3-typing', false);
+    await saveMessage('m3', 'assistant', reply);
+    if (reply.indexOf('---LM_SUMMARY_START---') > -1) {
+      var pre = reply.split('---LM_SUMMARY_START---')[0].trim();
+      if (pre) addBubble('m3-feed', 'assistant', pre);
+      var match = reply.match(/---LM_SUMMARY_START---([\s\S]*?)---LM_SUMMARY_END---/);
+      if (match) { m3Summary = match[1].trim(); showM3Summary(m3Summary); saveM3Chat(); }
+    } else { addBubble('m3-feed', 'assistant', reply); }
+  } catch(ex) { setTyping('m3-typing', false); addBubble('m3-feed', 'assistant', 'Something went wrong connecting to Sam. Please check your connection and try again. (' + ex.message + ')'); }
+  m3Busy = false;
+}
+
+function saveM3Chat() {
+  client.m3 = client.m3 || {};
+  client.m3.lmSummary = m3Summary;
+  sbSave(client);
+}
+
+function showM3Summary(text) {
+  document.getElementById('m3-summary-content').innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+  document.getElementById('m3-summary-section').style.display = 'block';
+  document.getElementById('m3-input-area').style.display = 'none';
+  setTimeout(function(){ document.getElementById('m3-summary-section').scrollIntoView({behavior:'smooth', block:'start'}); }, 100);
+}
+
+function toggleM3Chat() {
+  var layout = document.getElementById('m3-chat-layout');
+  var btn = document.getElementById('m3-toggle-btn');
+  if (layout.style.display === 'none') { layout.style.display = 'flex'; btn.textContent = 'Hide conversation'; layout.scrollIntoView({behavior:'smooth'}); }
+  else { layout.style.display = 'none'; btn.textContent = 'View conversation'; }
+}
+
+function m3ChatDone() { saveM3Chat(); m3ShowStep4(); }
+
+// Final step for every branch — Thank You page, then Module 3 is done
+function saveM3Final() {
+  if (!getRadio('typage')) { alert('Please choose what your Thank You page should direct people to.'); return; }
+  if (getRadio('typage') === 'A low-ticket product' && !getf('f-ty-offer').trim()) { alert('Please add the name, price, and link for your low-ticket offer.'); return; }
+  var d = client.m3 || {};
+  d.typage = getRadio('typage');
+  d.tyoffer = naIfBlank(getf('f-ty-offer'));
   client.m3 = d; client.mods.m3 = 'done'; client.mods.m4 = 'todo';
   sbSave(client); showToast('toast-m3');
   setTimeout(function(){ renderDashboard(); goTo('dashboard'); }, 1600);
 }
 
 // ── Module 4 ──
-var M4_SYSTEM = 'You are Sam, a warm and knowledgeable onboarding guide for Whitney Bateson Digital Strategy — a done-for-you lead gen funnel service for health and wellness professionals.\n\nHave a natural, conversational flow of 8-10 questions to get everything needed to write the client\'s 4-email welcome sequence in their voice. Ask ONE question at a time. Be warm, encouraging, specific. Use their name if you know it.\n\nIMPORTANT FRAMING: Remind people at relevant moments that they can copy and paste content directly from their website or blog if it\'s easier than typing it out from scratch.\n\nHere is the structure of the 4 emails we will be writing for them:\n**Email #1: The Lead Magnet Delivery Email**\n**Email #2: The What You\'re About Email**\n**Email #3: The Valuable Add-On Content Email**\n**Email #4: The How You Help Email**\n\nTOPICS to cover:\n1. VOICE AND TONE\n2. THEIR STORY\n3. THEIR PHILOSOPHY\n4. EXISTING RESOURCES (with links)\n5. COMMON ROADBLOCK + QUICK WIN\n6. THE TRANSFORMATION\n7. SOCIAL PROOF\n8. OFFER DETAILS\n9. WRITING SAMPLE\n\nAfter 8-10 questions, output EXACTLY:\n\n---VOICE_SUMMARY_START---\nWe have everything we need! Thank you so much for sharing all of this — it\'s going to make your welcome sequence sound exactly like you. Whitney\'s team will use everything you\'ve shared here to craft your emails.\n---VOICE_SUMMARY_END---';
+var M4_SYSTEM = 'You are Sam, a warm and knowledgeable onboarding guide for Whitney Bateson Digital Strategy — a done-for-you lead gen funnel service for health and wellness professionals.\n\nYour job is to gather everything needed to write this client\'s 5-email welcome sequence in their own voice. Ask ONE question at a time. Be warm, encouraging and specific, and use their name if you know it.\n\nThis is the LAST module, so acknowledge that warmly at the start.\n\nIMPORTANT: they have already uploaded their writing samples, testimonials and resource links in a separate form, so do NOT ask for those. Focus entirely on the five conversational areas below.\n\nHere is the 5-email sequence we will write for them:\n**Email #1: The Lead Magnet Delivery Email**\n**Email #2: The What You\'re About Email**\n**Email #3: The Valuable Add-On Content Email**\n**Email #4: The How You Help Email**\n**Email #5: The Offer Email**\n\nCover exactly these FIVE areas, one per email, in this order. Ask a real follow-up on each before moving to the next — the follow-ups are where the good material comes from. Aim for 10-14 total exchanges.\n\n1. VOICE AND TONE — how they actually sound. Are they warm and chatty, direct and no-nonsense, funny, gentle? What words or phrases do they use constantly? Is there anything they would never say?\n\n2. THEIR STORY — why they do this work. What brought them to it. If they have a personal story their clients connect with, draw it out gently.\n\n3. THEIR PHILOSOPHY AND WHAT MAKES THEM DIFFERENT — what they believe that others in their field don\'t. Then ask directly: "Who else does what you do, and why do people pick you over them?" Push past modesty; this one matters and people tend to undersell themselves.\n\n4. THE TRANSFORMATION AND THE ROADBLOCK — what actually changes for someone who works with them, and the single most common thing that gets in the way first.\n\n5. THE OFFER — what is included, how it works, what it costs, and what holds people back from saying yes. Ask about price naturally and conversationally: it helps us pitch at the right level. If they would rather not share it, that is completely fine — move on without pressing.\n\nAfter all five areas are covered, output EXACTLY:\n\n---VOICE_SUMMARY_START---\nWe have everything we need! Thank you so much for sharing all of this — it\'s going to make your welcome sequence sound exactly like you. Whitney\'s team will use everything you\'ve shared here to craft your emails.\n---VOICE_SUMMARY_END---\n\nIf the user\'s message contains WRAP_UP_NOW, output that block immediately with whatever you have.';
 
 // ── CHANGE 7: openM4 — loads history from messages table ──
 async function openM4() {
@@ -1177,46 +1567,45 @@ async function openM4() {
 
   m4Summary = (client.m4 && client.m4.summary) ? client.m4.summary : '';
   m4History = [];
+  var loaded = false;
 
   try {
     var r = await fetch(
       SB_URL + '/rest/v1/messages?email=eq.' + encodeURIComponent(email) + '&module=eq.m4&order=created_at.asc&limit=1000',
       { headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY } }
     );
-    var msgs = await r.json();
+    var msgs = r.ok ? await r.json() : null;
     if (Array.isArray(msgs)) {
       m4History = msgs.map(function(m) { return { role: m.role, content: m.content }; });
+      loaded = true;
     }
   } catch(ex) {
-    m4History = (client.m4 && client.m4.history) ? client.m4.history : [];
-    console.warn('Could not load messages from table, using blob fallback:', ex);
+    console.warn('Could not load m4 messages:', ex);
   }
+  if (!loaded && client.m4 && client.m4.history) { m4History = client.m4.history; loaded = true; }
 
   var feed = document.getElementById('m4-feed');
   feed.innerHTML = '<div class="typing-indicator" id="m4-typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
 
-  m4History.filter(function(m) {
-    return !(m.role === 'user' && (
-      m.content.indexOf("client's name is") > -1 ||
-      m.content.indexOf('REFINE_MODE') > -1 ||
-      m.content.indexOf('WRAP_UP_NOW') > -1
-    ));
-  }).forEach(function(m) { addBubble('m4-feed', m.role, m.content); });
+  m4History.filter(isVisibleMsg).forEach(function(m) { addBubble('m4-feed', m.role, m.content); });
 
+  restoreM4Assets();
   if (m4Summary) { showM4Summary(m4Summary); document.getElementById('m4-input-area').style.display = 'none'; }
   goTo('module4');
-  if (m4History.length === 0) startM4();
+  if (m4History.length === 0 && loaded) startM4();
+  else if (m4History.length === 0) addBubble('m4-feed', 'assistant', "I couldn't load our conversation just now — please refresh the page and try again so we don't lose anything you've already told me.");
 }
 
 function startM4() {
   var n = client.m1 && client.m1.firstname;
-  var p = client.m1 && client.m1.practype || 'health professional';
+  var p = (client.m1 && client.m1.practype) || 'health professional';
   var o = client.m1 && client.m1.offer;
-  var lm = client.m3 && client.m3.lmTopic;
+  var m3 = client.m3 || {};
+  var lm = m3.existingName || m3.improveName || (m3.lmPath === 'create' ? 'a brand new lead magnet we are building for them' : '');
   var ica = client.m2 && client.m2.summary;
   var ctx = "The client's name is " + (n||'unknown') + ". They are a " + p + "." +
     (o ? " Their offer: " + o + "." : "") +
-    (lm ? " Lead magnet topic: " + lm + "." : "") +
+    (lm ? " Their lead magnet: " + lm + "." : "") +
     (ica ? " ICA summary: " + ica : "") +
     " Start warmly, acknowledge this is the last module, and ask your first question about their voice and communication style.";
   m4History = [{ role:'user', content: ctx }];
@@ -1229,30 +1618,39 @@ async function sendM4(userText) {
   if (userText !== null) {
     m4History.push({ role:'user', content:userText });
     addBubble('m4-feed', 'user', userText);
-    saveMessage('m4', 'user', userText);
-    saveM4();
+    await saveMessage('m4', 'user', userText);
   }
   m4Busy = true; setTyping('m4-typing', true);
   try {
     var reply = await callAI(M4_SYSTEM, m4History);
     m4History.push({ role:'assistant', content:reply });
     setTyping('m4-typing', false);
-    saveMessage('m4', 'assistant', reply);
+    await saveMessage('m4', 'assistant', reply);
     if (reply.indexOf('---VOICE_SUMMARY_START---') > -1) {
       var pre = reply.split('---VOICE_SUMMARY_START---')[0].trim();
       if (pre) addBubble('m4-feed', 'assistant', pre);
       var match = reply.match(/---VOICE_SUMMARY_START---([\s\S]*?)---VOICE_SUMMARY_END---/);
-      if (match) { m4Summary = match[1].trim(); showM4Summary(m4Summary); }
+      if (match) { m4Summary = match[1].trim(); showM4Summary(m4Summary); saveM4(); }
     } else { addBubble('m4-feed', 'assistant', reply); }
-    saveM4();
   } catch(ex) { setTyping('m4-typing', false); addBubble('m4-feed', 'assistant', 'Something went wrong. Please check your connection and try again. (' + ex.message + ')'); }
   m4Busy = false;
 }
 
-// ── CHANGE 5: saveM4 — only stores summary, not history blob ──
+// Keeps the saved summary and the pasted assets — never blanks either
 function saveM4() {
-  client.m4 = { summary: m4Summary };
+  client.m4 = client.m4 || {};
+  if (m4Summary) client.m4.summary = m4Summary;
+  client.m4.writingSamples = naIfBlank(getf('f-writing-samples'));
+  client.m4.testimonials = naIfBlank(getf('f-testimonials'));
+  client.m4.resources = naIfBlank(getf('f-resources'));
   sbSave(client);
+}
+function restoreM4Assets() {
+  var d = client.m4 || {};
+  function setv(id, v) { var el = document.getElementById(id); if (el && v && v !== 'N/A') el.value = v; }
+  setv('f-writing-samples', d.writingSamples);
+  setv('f-testimonials', d.testimonials);
+  setv('f-resources', d.resources);
 }
 
 function showM4Summary(text) {
@@ -1264,7 +1662,7 @@ function showM4Summary(text) {
     refineBar = document.createElement('div');
     refineBar.id = 'm4-refine-bar';
     refineBar.style.cssText = 'padding:.5rem 0;text-align:center;flex-shrink:0';
-    refineBar.innerHTML = '<button onclick="openM4Refine()" style="background:none;border:1.5px solid var(--border);color:var(--text-mid);padding:.4rem 1rem;border-radius:20px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif">Want to add more detail? Continue the conversation ↑</button>';
+    refineBar.innerHTML = '<button onclick="openM4Refine()" style="background:none;border:1.5px solid var(--border);color:var(--text-mid);padding:.4rem 1rem;border-radius:20px;font-size:12px;cursor:pointer;font-family:var(--body)">Want to add more detail? Continue the conversation ↑</button>';
     document.getElementById('m4-chat-layout').appendChild(refineBar);
   } else { refineBar.style.display = 'block'; }
   setTimeout(function(){ document.getElementById('m4-summary-section').scrollIntoView({behavior:'smooth', block:'start'}); }, 100);
@@ -1284,6 +1682,11 @@ function toggleM4Chat() {
   else { layout.style.display = 'none'; btn.textContent = 'View conversation'; }
 }
 function saveM4ToDashboard() {
+  var errors = [];
+  if (!getf('f-writing-samples').trim()) errors.push('Two or three things you\'ve written (or type N/A)');
+  if (!getf('f-testimonials').trim()) errors.push('Testimonials or client wins (or type N/A)');
+  if (!getf('f-resources').trim()) errors.push('Resources worth linking to (or type N/A)');
+  if (errors.length) { alert('Just a couple more things before we finish:\n\n• ' + errors.join('\n• ')); return; }
   saveM4();
   client.mods.m4 = 'done';
   sbSave(client); showToast('toast-m4-saved');
@@ -1322,6 +1725,20 @@ document.querySelectorAll('.radio-option').forEach(function(opt) {
 document.querySelectorAll('input[name="hadlm"]').forEach(function(r) {
   r.addEventListener('change', function() {
     document.getElementById('past-lm-detail').style.display = r.value === 'yes' ? 'block' : 'none';
+  });
+});
+
+// ── licensed → states field ──
+document.querySelectorAll('input[name="licensed"]').forEach(function(r) {
+  r.addEventListener('change', function() {
+    document.getElementById('license-states-wrap').style.display = r.value === 'Yes' ? 'block' : 'none';
+  });
+});
+
+// ── Thank You page → low-ticket offer field ──
+document.querySelectorAll('input[name="typage"]').forEach(function(r) {
+  r.addEventListener('change', function() {
+    document.getElementById('ty-offer-wrap').style.display = r.value === 'A low-ticket product' ? 'block' : 'none';
   });
 });
 
