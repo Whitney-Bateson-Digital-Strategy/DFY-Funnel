@@ -1137,6 +1137,7 @@ function addBubble(feedId, role, text) {
   wrap.className = 'bubble-wrap ' + role;
   var b = document.createElement('div');
   b.className = 'bubble ' + role;
+  text = text.replace(/<!--TEAMQ:[\s\S]*?-->/g, '').trim(); // hide team-question tags from the client
   b.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
   wrap.appendChild(b);
   feed.appendChild(wrap);
@@ -1147,11 +1148,59 @@ function setTyping(id, show) {
   if (el) el.style.display = show ? 'flex' : 'none';
   if (el) setTimeout(function(){ el.parentNode.scrollTop = el.parentNode.scrollHeight; }, 50);
 }
-async function callAI(system, messages) {
+// ── GUARDRAILS: keep Sam in scope and stop runaway conversations ──
+// Appended to every module's system prompt in callAI().
+var SAM_GUARDRAILS = '\n\n=== GUARDRAILS (these override everything above) ===\n' +
+  'This is a DONE-FOR-YOU service. Whitney Bateson and Priscilla build everything: the strategy, the lead magnet, the landing and thank you pages, the email sequence, the automations, the tech setup and the ads. The client\'s only job in this onboarding is to answer questions about their business, their clients and their voice. Your only job is to collect that information for THIS module and then wrap up.\n\n' +
+  'NEVER, in any module:\n' +
+  '- Advise on, compare, recommend or plan software, platforms, plans or pricing tiers (Kit/ConvertKit, Wix, WordPress, Kajabi, GoHighLevel, Mailchimp, scheduling tools, EMRs, etc.).\n' +
+  '- Lay out options for how the funnel, pages, forms, integrations or automations could be built, or ask the client to choose between build options.\n' +
+  '- Draft, outline or plan emails, page copy, lead magnet content, ad copy or a funnel map. Never refer to "your email series" or anything else as something the client will create.\n' +
+  '- Produce recaps of "decisions", "infrastructure", "next steps", "action items" or checklists. The only summary you ever produce is this module\'s exact summary block.\n' +
+  '- Make commitments for the team about timelines, deliverables, tools, prices or how something will be built.\n' +
+  '- Ask about anything outside this module\'s listed topics, even if it seems helpful.\n\n' +
+  'IF THE CLIENT ASKS ABOUT ANY OF THOSE THINGS or starts making build decisions: do not answer it. In ONE or two warm sentences, say it is a great question, that you have noted it for Priscilla and Whitney who will handle it with them directly, and that they do not need to figure it out. Then go straight back to your next question for this module. On its own line at the very end of that reply, add exactly: <!--TEAMQ: [their question in under 20 words]--> (the client will not see this line).\n\n' +
+  'IF THE CLIENT SHARES TECHNICAL OR SETUP DETAILS unprompted (which platform they use, a booking link, etc.): thank them in one short sentence, say the team will take it from there, and return to this module\'s questions. Do not expand on it. Also tag it with <!--TEAMQ: ...--> as above.\n\n' +
+  'LENGTH: keep each reply under about 120 words, with no headings, tables or long bullet lists. Ask ONE question per reply. Do not re-ask things they have already answered in this conversation.\n\n' +
+  'If you ever see TURN_LIMIT_NEAR in the client\'s message, ask at most one more question and then produce the summary. If you see WRAP_UP_NOW, produce the summary block immediately with whatever you have.';
+
+// Per-module turn limits (counted in client replies). Tracey's Module 2 ran to 36.
+var SAM_TURN_LIMITS = {
+  m2: { near: 11, max: 14 },
+  m3: { near: 11, max: 14 },
+  m4: { near: 14, max: 17 },
+  refine: { near: 3, max: 4 }
+};
+var SAM_SCOPE = {
+  m2: 'THIS MODULE IS ONLY ABOUT THE IDEAL CLIENT: who they are, what they want, what is in their way, what they have tried, what makes it urgent, how they decide, and their words.',
+  m3: 'THIS MODULE IS ONLY ABOUT RAW MATERIAL FOR THE LEAD MAGNET: the client\'s first step with new clients, the questions people ask most, what comes up in discovery calls, and what someone must believe before working with them.',
+  m4: 'THIS MODULE IS ONLY ABOUT THEIR VOICE AND MESSAGE: voice and tone, their story, their philosophy and difference, the transformation and roadblock, and their offer. You are gathering material; the team writes the emails.'
+};
+
+// Adds TURN_LIMIT_NEAR / WRAP_UP_NOW to the copy of the history sent to the AI.
+// The saved transcript and what the client sees are untouched.
+function applyTurnLimit(messages, moduleKey) {
+  var start = 0;
+  for (var i = messages.length - 1; i >= 0; i--) {
+    if (messages[i].role === 'user' && messages[i].content.indexOf('REFINE_MODE') > -1) { start = i + 1; break; }
+  }
+  var limits = start > 0 ? SAM_TURN_LIMITS.refine : SAM_TURN_LIMITS[moduleKey];
+  if (!limits) return messages;
+  var turns = messages.slice(start).filter(function(m){ return m.role === 'user' && isVisibleMsg(m); }).length;
+  var out = messages.map(function(m){ return { role: m.role, content: m.content }; });
+  var last = out[out.length - 1];
+  if (!last || last.role !== 'user') return out;
+  if (turns >= limits.max) last.content += '\n\nWRAP_UP_NOW';
+  else if (turns >= limits.near) last.content += '\n\nTURN_LIMIT_NEAR';
+  return out;
+}
+
+async function callAI(system, messages, moduleKey) {
+  var fullSystem = system + (SAM_SCOPE[moduleKey] ? '\n\n' + SAM_SCOPE[moduleKey] : '') + SAM_GUARDRAILS;
   var r = await fetch(EDGE, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + SB_KEY },
-    body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 1000, system: system, messages: messages })
+    body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 1000, system: fullSystem, messages: applyTurnLimit(messages, moduleKey) })
   });
   var d = await r.json();
   if (d.content && d.content[0]) return d.content[0].text;
@@ -1219,7 +1268,7 @@ async function sendM2(userText) {
   }
   m2Busy = true; setTyping('m2-typing', true);
   try {
-    var reply = await callAI(M2_SYSTEM, m2History);
+    var reply = await callAI(M2_SYSTEM, m2History, 'm2');
     m2History.push({ role:'assistant', content:reply });
     setTyping('m2-typing', false);
     await saveMessage('m2', 'assistant', reply);
@@ -1501,7 +1550,7 @@ async function sendM3(userText) {
   }
   m3Busy = true; setTyping('m3-typing', true);
   try {
-    var reply = await callAI(M3_SYSTEM, m3History);
+    var reply = await callAI(M3_SYSTEM, m3History, 'm3');
     m3History.push({ role:'assistant', content:reply });
     setTyping('m3-typing', false);
     await saveMessage('m3', 'assistant', reply);
@@ -1614,7 +1663,7 @@ async function sendM4(userText) {
   }
   m4Busy = true; setTyping('m4-typing', true);
   try {
-    var reply = await callAI(M4_SYSTEM, m4History);
+    var reply = await callAI(M4_SYSTEM, m4History, 'm4');
     m4History.push({ role:'assistant', content:reply });
     setTyping('m4-typing', false);
     await saveMessage('m4', 'assistant', reply);
